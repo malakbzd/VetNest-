@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 });
 
 mongoose.connect("mongodb://localhost:27017/taskmanager")
-  .then(() => console.log("MongoDB connected"))
+  .then(() => console.log("MongoDB connected data base"))
   .catch(err => console.log(err));
 
 app.listen(5000, () => {
