@@ -9,5 +9,5 @@ const {
 router.get("/", getPatients);
 router.post("/", createPatient);
 router.delete("/:id", deletePatient);
-
+console.log("ROUTES WORKING");
 module.exports = router;
