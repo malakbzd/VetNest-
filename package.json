@@ -19,11 +19,15 @@
   },
   "homepage": "https://github.com/malakbzd/VetNest-#readme",
   "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
     "axios": "^1.13.6",
     "express": "^5.2.1",
     "mongoose": "^9.3.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "autoprefixer": "^10.4.27",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2"
   }
 }
