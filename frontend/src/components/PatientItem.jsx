@@ -1,5 +1,5 @@
 import React from "react";
-import { deletePatient, updatePatient } from "../api";
+import { deletePatient } from "../api";
 
 function PatientItem({ patient, fetchPatients }) {
   const handleDelete = async () => {
@@ -7,23 +7,11 @@ function PatientItem({ patient, fetchPatients }) {
     fetchPatients();
   };
 
-  const toggleComplete = async () => {
-    await updatePatient(patient._id, {
-      ...patient,
-      completed: !patient.completed
-    });
-    fetchPatients();
-  };
-
   return (
     <div style={{ border: "1px solid gray", margin: "10px", padding: "10px" }}>
-      <h3>{patient.title}</h3>
-      <p>{patient.description}</p>
-      <p>Status: {patient.completed ? "Treated" : "Pending"}</p>
-
-      <button onClick={toggleComplete}>
-        Mark as Treated
-      </button>
+      <h3>{patient.name}</h3>
+      <p>Species: {patient.species}</p>
+      <p>Owner: {patient.owner}</p>
 
       <button onClick={handleDelete}>
         Delete
