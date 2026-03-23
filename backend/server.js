@@ -13,8 +13,7 @@ app.use(express.json());
 connectDB();
 
 // routes
-app.use("/api/tasks", require("./routes/taskRoutes"));
-
+app.use("/api/patients", require("./routes/patientRoutes"));
 app.get("/", (req, res) => {
   res.send("API running...");
 });
