@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const API = "http://localhost:5000/api/tasks";
+const API = "http://localhost:5000/api/patients";
 
 // GET
-export const getTasks = () => axios.get(API);
+export const getPatients = () => axios.get(API);
 
 // CREATE
-export const addTask = (data) => axios.post(API, data);
+export const addPatient = (data) => axios.post(API, data);
 
 // UPDATE
-export const updateTask = (id, data) => axios.put(`${API}/${id}`, data);
+export const updatePatient = (id, data) => axios.put(`${API}/${id}`, data);
 
 // DELETE
-export const deleteTask = (id) => axios.delete(`${API}/${id}`);
+export const deletePatient = (id) => axios.delete(`${API}/${id}`);
