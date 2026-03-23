@@ -16,6 +16,14 @@ function App() {
     </>
   );
 }
-
+const fetchPatients = async () => {
+  try {
+    const res = await getPatients();
+    console.log("DATA:", res.data); 
+    setPatients(res.data);
+  } catch (error) {
+    console.error("ERROR:", error);
+  }
+};
 export default App;
 
