@@ -1,20 +1,28 @@
+require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const connectDB = require("./config/db");
 
 const app = express();
 
+// middlewares
 app.use(cors());
 app.use(express.json());
 
+// connect DB
+connectDB();
+
+// routes
+app.use("/api/patients", require("./routes/Routes"));
+
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("API running...");
 });
 
-mongoose.connect("mongodb://localhost:27017/taskmanager")
-  .then(() => console.log("MongoDB connected data base"))
-  .catch(err => console.log(err));
+// PORT من .env (مش ثابت)
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+// server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

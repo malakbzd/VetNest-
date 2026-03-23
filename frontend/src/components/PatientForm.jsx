@@ -3,14 +3,19 @@ import { addPatient } from "../../../frontend/src/api";
 
 function PatientForm({ fetchPatients }) {
   const [form, setForm] = useState({
-    title: "",
-    description: ""
+    name: "",
+    species: "",
+    owner: ""
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addPatient({ ...form, completed: false });
-    setForm({ title: "", description: "" });
+
+    if (!form.name) return;
+
+    await addPatient(form);
+
+    setForm({ name: "", species: "", owner: "" });
     fetchPatients();
   };
 
@@ -18,18 +23,28 @@ function PatientForm({ fetchPatients }) {
     <form onSubmit={handleSubmit}>
       <input
         placeholder="Animal Name"
-        value={form.title}
+        value={form.name}
         onChange={(e) =>
-          setForm({ ...form, title: e.target.value })
+          setForm({ ...form, name: e.target.value })
         }
       />
+
       <input
-        placeholder="Description"
-        value={form.description}
+        placeholder="Species (Dog, Cat...)"
+        value={form.species}
         onChange={(e) =>
-          setForm({ ...form, description: e.target.value })
+          setForm({ ...form, species: e.target.value })
         }
       />
+
+      <input
+        placeholder="Owner Name"
+        value={form.owner}
+        onChange={(e) =>
+          setForm({ ...form, owner: e.target.value })
+        }
+      />
+
       <button type="submit">Add Patient</button>
     </form>
   );
