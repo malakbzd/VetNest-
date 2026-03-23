@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from "react";
-import Navbar from "../../frontend/src/components/Navbar";
-import Hero from "../../frontend/src/components/Hero";
-import Services from "../../frontend/src/components/Services";
-import WhyChooseUs from "../../frontend/src/components/WhyChooseUs";
-import AboutUs from "../../frontend/src/components/AboutUs";
-import Testimonials from "../../frontend/src/components/Testimonials";
-import FAQs from "../../frontend/src/components/FAQs";
-import Footer from "../../frontend/src/components/Footer";
-import Loader from "../../frontend/src/components/Loader";
+import Navbar from "./Navbar";
+import Hero from "./Hero";
+import Services from "./Services";
+import WhyChooseUs from "./WhyChooseUs";
+import AboutUs from "./AboutUs";
+import Testimonials from "./Testimonials";
+import FAQs from "./FAQs";
+import Footer from "./Footer";
+import Loader from "./Loader";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
