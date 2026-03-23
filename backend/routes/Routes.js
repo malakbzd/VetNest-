@@ -4,7 +4,7 @@ const {
   getPatients,
   createPatient,
   deletePatient,
-} = require("../controllers/patientController");
+} = require("../controllers/Controller");
 
 router.get("/", getPatients);
 router.post("/", createPatient);

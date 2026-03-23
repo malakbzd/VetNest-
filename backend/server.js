@@ -9,16 +9,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// DB
+// connect DB
 connectDB();
 
 // routes
-app.use("/api/patients", require("./routes/patientRoutes"));
+app.use("/api/patients", require("./routes/Routes"));
+
 app.get("/", (req, res) => {
   res.send("API running...");
 });
 
+// PORT من .env (مش ثابت)
+const PORT = process.env.PORT || 5000;
+
 // server
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
