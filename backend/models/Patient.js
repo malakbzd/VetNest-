@@ -5,12 +5,8 @@ const patientSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  species: String,     // cat, dog...
-  owner: String,       // صاحب الحيوان
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  }
+  species: String,
+  owner: String,
 });
 
 module.exports = mongoose.model("Patient", patientSchema);

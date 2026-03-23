@@ -2,20 +2,28 @@ import React, { useState } from "react";
 import { addPatient } from "../api";
 
 function PatientForm({ fetchPatients }) {
-  const [form, setForm] = useState({
-    name: "",
-    species: "",
-    owner: ""
-  });
+  const [name, setName] = useState("");
+  const [species, setSpecies] = useState("");
+  const [owner, setOwner] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name) return;
+    if (!name) {
+      alert("Name is required");
+      return;
+    }
 
-    await addPatient(form);
+    await addPatient({
+      name,
+      species,
+      owner
+    });
 
-    setForm({ name: "", species: "", owner: "" });
+    setName("");
+    setSpecies("");
+    setOwner("");
+
     fetchPatients();
   };
 
@@ -23,29 +31,23 @@ function PatientForm({ fetchPatients }) {
     <form onSubmit={handleSubmit}>
       <input
         placeholder="Animal Name"
-        value={form.name}
-        onChange={(e) =>
-          setForm({ ...form, name: e.target.value })
-        }
+        value={name}
+        onChange={(e) => setName(e.target.value)}
       />
 
       <input
-        placeholder="Species (Dog, Cat...)"
-        value={form.species}
-        onChange={(e) =>
-          setForm({ ...form, species: e.target.value })
-        }
+        placeholder="Species"
+        value={species}
+        onChange={(e) => setSpecies(e.target.value)}
       />
 
       <input
-        placeholder="Owner Name"
-        value={form.owner}
-        onChange={(e) =>
-          setForm({ ...form, owner: e.target.value })
-        }
+        placeholder="Owner"
+        value={owner}
+        onChange={(e) => setOwner(e.target.value)}
       />
 
-      <button type="submit">Add Patient</button>
+      <button>Add Patient</button>
     </form>
   );
 }
