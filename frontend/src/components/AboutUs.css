@@ -1,5 +1,5 @@
 .about-section {
-  background-color: #64e5be;
+  background-color: #f3b6d8;
   padding-top: 80px;
   padding-bottom: 80px;
   padding-left: 24px;
@@ -49,7 +49,7 @@
 .about-image {
   width: 100%;
   border-radius: 16px;
-  border: 1px solid #35ddbe;
+  border: 1px solid#f3b6d8;
   background-color: white;
 }
 

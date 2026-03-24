@@ -3,7 +3,7 @@ import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX } from "react-ico
 import { FaPaw } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import "./Navbar.css";
-import LogoImg from "../assets/logo.jpg";
+import LogoImg from "../assets/logooo.jpg";
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
