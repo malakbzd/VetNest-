@@ -1,5 +1,5 @@
 import React from "react";
-//import Navbar from "./components/Navbar";
+import Navbar from "./components/Navbar";
 //import Hero from "./components/Hero";
 import AboutUs from "./components/AboutUs";
 import PatientList from './components/PatientList';
@@ -11,7 +11,7 @@ import PatientItem from './components/PatientItem';
 function App() {
   return (
     <>
-
+       <Navbar />
       <AboutUs />
   
     </>
