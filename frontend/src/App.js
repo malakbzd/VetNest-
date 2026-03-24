@@ -6,7 +6,7 @@ import PatientList from './components/PatientList';
 import PatientForm from './components/PatientForm';
 import PatientItem from './components/PatientItem';
 //import FAQsAccordion from "./components/FAQs";
-//import Footer from "./components/Footer";
+import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +24,7 @@ const App = () => {
         <>
           <Navbar />
           <AboutUs />
-        
+          <Footer />
         </>
       )}
     </>
