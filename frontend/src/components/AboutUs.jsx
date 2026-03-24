@@ -8,10 +8,10 @@ const AboutUs = () => {
       <div className="about-container">
 
         <div className="about-text">
-          <h2 className="about-title">About Scooby</h2>
+          <h2 className="about-title">About VetNest</h2>
 
           <p className="about-paragraph-main">
-            At <span className="about-highlight">Scooby</span>, we believe that
+            At <span className="about-highlight">VetNest</span>, we believe that
             pets aren't just animals — they're family. That's why we built a
             platform that delivers trusted, loving, and professional pet care
             services to your doorstep.

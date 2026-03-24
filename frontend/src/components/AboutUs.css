@@ -1,5 +1,5 @@
 .about-section {
-  background-color: #fdf7f2;
+  background-color: #64e5be;
   padding-top: 80px;
   padding-bottom: 80px;
   padding-left: 24px;
@@ -22,12 +22,12 @@
 .about-title {
   font-size: 36px;
   font-weight: bold;
-  color: #5A3B1F;
+  color: #192d6e;
   margin-bottom: 24px;
 }
 
 .about-paragraph-main {
-  color: #6b4a2e;
+  color:  #192d6e;;
   font-size: 18px;
   line-height: 1.6;
   margin-bottom: 16px;
@@ -38,7 +38,7 @@
 }
 
 .about-paragraph {
-  color: #7d5b40;
+  color: #192d6e;;
   font-size: 16px;
 }
 
@@ -49,7 +49,7 @@
 .about-image {
   width: 100%;
   border-radius: 16px;
-  border: 1px solid #e8d7c8;
+  border: 1px solid #35ddbe;
   background-color: white;
 }
 
