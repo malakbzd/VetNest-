@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+
 import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
-import Login from "./pages/Login"; // ✅ زيد هذا
+
+import Login from "./pages/Login";
+import Register from "./pages/Register"; // ✅ زيدناها
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -16,7 +20,7 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
-  // ✅ check auth
+  // 🔐 check auth
   const isAuth = () => !!localStorage.getItem("token");
 
   if (loading) return <Loader />;
@@ -24,23 +28,25 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <Routes>
-        <Route path="/" element={<AboutUs />} />
 
-        {/* ✅ protected routes */}
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<AboutUs />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+
+        {/* Protected */}
         <Route
           path="/patients"
-          element={isAuth() ? <PatientDashboard /> : <Login />}
+          element={isAuth() ? <PatientDashboard /> : <Navigate to="/login" />}
         />
 
         <Route
           path="/doctors"
-          element={isAuth() ? <DoctorDashboard /> : <Login />}
+          element={isAuth() ? <DoctorDashboard /> : <Navigate to="/login" />}
         />
-
-        {/* ✅ login route */}
-        <Route path="/login" element={<Login />} />
       </Routes>
+
       <Footer />
     </Router>
   );
