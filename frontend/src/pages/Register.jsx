@@ -6,21 +6,17 @@ function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [role, setRole] = useState("user"); // 🔥 مهم
 
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    if (!name || !email || !password) {
-      alert("Fill all fields");
-      return;
-    }
-
     try {
-      await registerUser({ name, email, password });
+      await registerUser({ name, email, password, role });
 
-      alert("Account created ✅");
+      alert("Account created");
       navigate("/login");
 
     } catch (err) {
@@ -30,71 +26,22 @@ function Register() {
   };
 
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleRegister} style={styles.form}>
-        <h2>📝 Register</h2>
+    <div style={{ padding: "2rem" }}>
+      <h2>Register</h2>
 
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          style={styles.input}
-        />
+      <input placeholder="Name" onChange={(e) => setName(e.target.value)} />
+      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <input type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
-        />
+      {/* 🔥 ROLE SELECT */}
+      <select onChange={(e) => setRole(e.target.value)}>
+        <option value="user">Patient Owner</option>
+        <option value="doctor">Doctor</option>
+      </select>
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-        />
-
-        <button type="submit" style={styles.button}>
-          Register
-        </button>
-      </form>
+      <button onClick={handleRegister}>Register</button>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "80vh",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-    padding: "2rem",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    minWidth: "300px",
-    backgroundColor: "#fff",
-  },
-  input: {
-    padding: "0.5rem",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-  },
-  button: {
-    padding: "0.6rem",
-    backgroundColor: "#2ecc71",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-};
 
 export default Register;
