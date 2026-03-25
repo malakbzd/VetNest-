@@ -16,7 +16,12 @@ const Hero = () => {
       window.location.href = "/patients"; // or your reservation page
     }
   };
-
+  const scrollToAbout = () => {
+  const section = document.getElementById("about-section");
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  }
+};
   return (
     <section className="hero">
       <div className="hero-content">
@@ -25,12 +30,12 @@ const Hero = () => {
           Your <span>Pet</span> Deserves <br /> The Best Family.
         </h1>
         <div className="hero-buttons">
-          <button className="btn-primary" onClick={handleReservation}>
-            Make a Reservation
-          </button>
-            <button className="btn-primary">
-            About More
-          </button>
+           <button className="btn-primary" onClick={handleReservation}>
+    Make a Reservation
+  </button>
+           <button className="btn-primary" onClick={scrollToAbout}>
+  About More
+</button>
         </div>
       </div>
       <div className="hero-image">
