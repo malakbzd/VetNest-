@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
-import FAQs from "./components/FAQsAccordion";
+
 import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
 
@@ -16,7 +16,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1500);
+    setTimeout(() => setLoading(false), 1000);
   }, []);
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -28,6 +28,7 @@ const App = () => {
       <Navbar />
 
       <Routes>
+        {/* Public */}
         <Route path="/" element={<AboutUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -52,7 +53,7 @@ const App = () => {
           }
         />
       </Routes>
-      <FAQs />
+
       <Footer />
     </Router>
   );
