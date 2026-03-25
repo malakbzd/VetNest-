@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { addPatient } from "../../../frontend/src/api";
+import { addPatient } from "../api";   // <-- corrected import
 
 function PatientForm({ fetchPatients }) {
   const [name, setName] = useState("");

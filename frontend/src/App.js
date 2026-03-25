@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-//import Hero from "./components/Hero";
 import AboutUs from "./components/AboutUs";
-import PatientList from './components/PatientList';
-import PatientForm from './components/PatientForm';
-import PatientItem from './components/PatientItem';
-//import FAQsAccordion from "./components/FAQs";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
+import PatientDashboard from "./components/PatientDashboard";
+import DoctorDashboard from "./components/DoctorDashboard";
+
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -16,18 +15,18 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  if (loading) return <Loader />;
+
   return (
-    <>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <Navbar />
-          <AboutUs />
-          <Footer />
-        </>
-      )}
-    </>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<AboutUs />} />
+        <Route path="/patients" element={<PatientDashboard />} />
+        <Route path="/doctors" element={<DoctorDashboard />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 };
 

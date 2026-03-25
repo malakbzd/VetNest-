@@ -15,6 +15,9 @@ connectDB();
 // routes
 app.use("/api/patients", require("./routes/Routes"));
 
+// add doctor routes
+app.use("/api/doctors", require("./routes/doctorRoutes"));
+
 app.get("/", (req, res) => {
   res.send("API running...");
 });
