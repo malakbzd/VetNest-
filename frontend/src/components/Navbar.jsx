@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -9,10 +9,22 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [menu, setMenu] = useState(false);
 
+  const navigate = useNavigate();
+
+  // 🔐 check auth
+  const isAuth = !!localStorage.getItem("token");
+
+  // 🚪 logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <header className="header">
       <div className="flex-between">
-        {/* Logo – clickable to home */}
+        
+        {/* Logo */}
         <div className="logo">
           <Link to="/">
             <img src={LogoImg} alt="VetNest Logo" className="logo-img" />
@@ -22,31 +34,21 @@ const Navbar = () => {
         {/* Desktop Menu */}
         <nav className="nav-desktop">
           <Link to="/">Home</Link>
-          <Link to="/patients">Patients</Link>
-          <Link to="/doctors">Doctors</Link>
+
+          {isAuth && <Link to="/patients">Patients</Link>}
+          {isAuth && <Link to="/doctors">Doctors</Link>}
 
           <div
-            className="relative"
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
+            style={{ position: "relative" }}
           >
             <span style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.25rem" }}>
               Services <IoMdArrowDropdown size={20} />
             </span>
+
             {showDropdown && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "1.5rem",
-                  left: 0,
-                  backgroundColor: "#fff",
-                  boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
-                  padding: "0.5rem",
-                  borderRadius: "0.25rem",
-                  zIndex: 10,
-                  width: "10rem",
-                }}
-              >
+              <div style={dropdownStyle}>
                 <a href="/grooming">Grooming</a>
                 <a href="/training">Training</a>
                 <a href="/pet-sitting">Pet Sitting</a>
@@ -54,53 +56,82 @@ const Navbar = () => {
             )}
           </div>
 
-          <a href="/about">About</a>
-          <a href="/shop">Shop</a>
-          <a href="/blog">Blog</a>
-          <a href="/contact">Contact</a>
+          <Link to="/about">About</Link>
+
+          {/* 🔐 Auth Buttons */}
+          {!isAuth ? (
+            <Link to="/login">Login</Link>
+          ) : (
+            <span onClick={handleLogout} style={{ cursor: "pointer", color: "red" }}>
+              Logout
+            </span>
+          )}
         </nav>
 
         {/* Icons */}
         <div className="icons-desktop">
-          {[FiSearch, FiHeart, FiShoppingBag, FiUser].map((Icon, idx) => (
+          {[FiSearch, FiHeart, FiShoppingBag].map((Icon, idx) => (
             <span key={idx} className="icon"><Icon /></span>
           ))}
+
+          {/* 👤 user / logout */}
+          {!isAuth ? (
+            <span className="icon" onClick={() => navigate("/login")}>
+              <FiUser />
+            </span>
+          ) : (
+            <span className="icon" onClick={handleLogout}>
+              <FiUser />
+            </span>
+          )}
         </div>
 
-        {/* Hamburger */}
+        {/* Mobile Menu */}
         <div className="menu-toggle" onClick={() => setMenu(!menu)}>
           {menu ? <FiX size={25} /> : <FiMenu size={25} />}
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile */}
       <div className={`nav-mobile ${menu ? "show" : ""}`}>
         <Link to="/">Home</Link>
 
+        {isAuth && <Link to="/patients">Patients</Link>}
+        {isAuth && <Link to="/doctors">Doctors</Link>}
+
         <details>
-          <summary style={{ cursor: "pointer" }}>Services</summary>
-          <div style={{ paddingLeft: "1rem", marginTop: "0.25rem", display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <summary>Services</summary>
+          <div style={{ paddingLeft: "1rem" }}>
             <a href="/grooming">Grooming</a>
             <a href="/training">Training</a>
-            <a href="/pet-sitting">Pet Sitting</a>
           </div>
         </details>
 
-        <Link to="/patients">Patients</Link>
-        <Link to="/doctors">Doctors</Link>
-        <a href="/about">About</a>
-        <a href="/shop">Shop</a>
-        <a href="/blog">Blog</a>
-        <a href="/contact">Contact</a>
-
-        <div className="mobile-icons">
-          {[FiSearch, FiHeart, FiShoppingBag, FiUser].map((Icon, idx) => (
-            <span key={idx} className="icon"><Icon /></span>
-          ))}
-        </div>
+        {!isAuth ? (
+          <Link to="/login">Login</Link>
+        ) : (
+          <span onClick={handleLogout} style={{ color: "red", cursor: "pointer" }}>
+            Logout
+          </span>
+        )}
       </div>
     </header>
   );
+};
+
+const dropdownStyle = {
+  position: "absolute",
+  top: "1.5rem",
+  left: 0,
+  backgroundColor: "#fff",
+  boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
+  padding: "0.5rem",
+  borderRadius: "0.25rem",
+  zIndex: 10,
+  width: "10rem",
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.5rem"
 };
 
 export default Navbar;
