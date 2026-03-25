@@ -5,27 +5,14 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-// middlewares
 app.use(cors());
 app.use(express.json());
 
-// connect DB
 connectDB();
 
 // routes
-app.use("/api/patients", require("./routes/Routes"));
-
-// add doctor routes
+app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/doctors", require("./routes/doctorRoutes"));
+app.use("/api/patients", require("./routes/patientRoutes"));
 
-app.get("/", (req, res) => {
-  res.send("API running...");
-});
-
-// PORT من .env (مش ثابت)
-const PORT = process.env.PORT || 5000;
-
-// server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(5000, () => console.log("🔥 Server running on port 5000"));
