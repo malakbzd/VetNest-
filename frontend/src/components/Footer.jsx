@@ -47,9 +47,9 @@ const Footer = () => {
           <h3>Contact Us</h3>
           <ul>
             <li>Email: support@vetnest.com</li>
-            <li>Phone: +91 98765 43210</li>
+            <li>Phone: +213 52345679</li>
             <li>Hours: Mon - Sat, 9AM - 7PM</li>
-            <li>Location: Navi Mumbai, India</li>
+            <li>Location: Algeria</li>
           </ul>
         </div>
       </div>

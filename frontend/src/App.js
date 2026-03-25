@@ -5,7 +5,7 @@ import Navbar from "./components/Navbar";
 import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
-
+import FAQs from "./components/FAQsAccordion";
 import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
 
@@ -46,7 +46,7 @@ const App = () => {
           element={isAuth() ? <DoctorDashboard /> : <Navigate to="/login" />}
         />
       </Routes>
-
+      <FAQs />
       <Footer />
     </Router>
   );
