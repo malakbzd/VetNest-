@@ -6,6 +6,7 @@ import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
+import Login from "./pages/Login"; // ✅ زيد هذا
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -15,6 +16,9 @@ const App = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  // ✅ check auth
+  const isAuth = () => !!localStorage.getItem("token");
+
   if (loading) return <Loader />;
 
   return (
@@ -22,8 +26,20 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<AboutUs />} />
-        <Route path="/patients" element={<PatientDashboard />} />
-        <Route path="/doctors" element={<DoctorDashboard />} />
+
+        {/* ✅ protected routes */}
+        <Route
+          path="/patients"
+          element={isAuth() ? <PatientDashboard /> : <Login />}
+        />
+
+        <Route
+          path="/doctors"
+          element={isAuth() ? <DoctorDashboard /> : <Login />}
+        />
+
+        {/* ✅ login route */}
+        <Route path="/login" element={<Login />} />
       </Routes>
       <Footer />
     </Router>
