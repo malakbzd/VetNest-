@@ -9,6 +9,7 @@ import Loader from "./components/Loader";
 import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
 import Hero from "./components/Hero";
+import Services from "./components/Services";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 
@@ -27,6 +28,7 @@ const App = () => {
     <Router>
     <Navbar />
     <Hero />
+       <Services />
       <Routes>
         {/* Public */}
         <Route path="/" element={<AboutUs />} />

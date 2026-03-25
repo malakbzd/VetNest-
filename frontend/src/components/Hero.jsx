@@ -28,6 +28,9 @@ const Hero = () => {
           <button className="btn-primary" onClick={handleReservation}>
             Make a Reservation
           </button>
+            <button className="btn-primary">
+            About More
+          </button>
         </div>
       </div>
       <div className="hero-image">

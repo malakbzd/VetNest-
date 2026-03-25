@@ -1,6 +1,6 @@
 /* Hero section */
 .hero {
-  background-color: #fff9f6;
+  background-color:  #f2cce1;
   padding: 64px 24px;
   display: flex;
   flex-direction: column-reverse;
@@ -24,10 +24,10 @@
 
 .hero-tag {
   font-size: 14px;
-  color: #d1733d;
+  color: #192d6e;
   font-weight: 500;
   margin-bottom: 10px;
-  border-left: 4px solid #d1733d;
+  border-left: 4px solid #192d6e;
   padding-left: 8px;
 }
 
@@ -39,7 +39,7 @@
 }
 
 .hero-title span {
-  color: #ff7d4e;
+  color: #192d6e;
 }
 
 /* Buttons */
@@ -50,7 +50,7 @@
 }
 
 .btn-primary {
-  background-color: #ff7d4e;
+  background-color:  #192d6e;
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
