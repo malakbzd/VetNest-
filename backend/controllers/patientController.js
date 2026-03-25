@@ -1,21 +1,58 @@
 const Patient = require("../models/Patient");
 
+// GET
 exports.getPatients = async (req, res) => {
-  const data = await Patient.find();
-  res.json(data);
+  try {
+    const data =
+      req.user.role === "admin"
+        ? await Patient.find()
+        : await Patient.find({ user: req.user._id });
+
+    res.json(data);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
+// ADD
 exports.addPatient = async (req, res) => {
-  const p = await Patient.create(req.body);
-  res.json(p);
+  try {
+    const p = await Patient.create({
+      ...req.body,
+      user: req.user._id
+    });
+
+    res.json(p);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
+// UPDATE
 exports.updatePatient = async (req, res) => {
-  const p = await Patient.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(p);
+  try {
+    const p = await Patient.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
+      req.body,
+      { new: true }
+    );
+
+    res.json(p);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
 
+// DELETE
 exports.deletePatient = async (req, res) => {
-  await Patient.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted" });
+  try {
+    await Patient.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id
+    });
+
+    res.json({ message: "Deleted" });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 };
