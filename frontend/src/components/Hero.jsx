@@ -2,6 +2,7 @@
 import React from "react";
 import heroImg from "../assets/hero.jpg";
 import "./Hero.css";
+import catImg from "../assets/cat.jpg";
 
 const Hero = () => {
   const handleReservation = () => {
@@ -39,7 +40,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="hero-image">
-        <img src={heroImg} alt="Dog" />
+        <img src={catImg} alt="Dog" />
       </div>
     </section>
   );

@@ -12,6 +12,7 @@ import Hero from "./components/Hero";
 import Services from "./components/Services";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import FAQsAccordion from "./components/FAQsAccordion";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ const App = () => {
               : <Navigate to="/" />
           }
         />
-
+   
         {/* Doctors */}
         <Route
           path="/doctors"
@@ -55,7 +56,7 @@ const App = () => {
           }
         />
       </Routes>
-
+ <FAQsAccordion/>
       <Footer />
     </Router>
   );
