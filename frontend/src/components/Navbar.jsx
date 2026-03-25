@@ -23,7 +23,7 @@ const Navbar = () => {
   return (
     <header className="header">
       <div className="flex-between">
-        
+
         {/* Logo */}
         <div className="logo">
           <Link to="/">
@@ -38,6 +38,7 @@ const Navbar = () => {
           {isAuth && <Link to="/patients">Patients</Link>}
           {isAuth && <Link to="/doctors">Doctors</Link>}
 
+          {/* Services */}
           <div
             onMouseEnter={() => setShowDropdown(true)}
             onMouseLeave={() => setShowDropdown(false)}
@@ -58,9 +59,15 @@ const Navbar = () => {
 
           <Link to="/about">About</Link>
 
-          {/* 🔐 Auth Buttons */}
+          {/* ✅ Shop */}
+          <Link to="/shop">Shop</Link>
+
+          {/* 🔐 Auth */}
           {!isAuth ? (
-            <Link to="/login">Login</Link>
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
           ) : (
             <span onClick={handleLogout} style={{ cursor: "pointer", color: "red" }}>
               Logout
@@ -74,11 +81,16 @@ const Navbar = () => {
             <span key={idx} className="icon"><Icon /></span>
           ))}
 
-          {/* 👤 user / logout */}
           {!isAuth ? (
-            <span className="icon" onClick={() => navigate("/login")}>
-              <FiUser />
-            </span>
+            <>
+              <span className="icon" onClick={() => navigate("/login")}>
+                <FiUser />
+              </span>
+
+              <span className="icon" onClick={() => navigate("/register")}>
+                📝
+              </span>
+            </>
           ) : (
             <span className="icon" onClick={handleLogout}>
               <FiUser />
@@ -86,13 +98,13 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Toggle */}
         <div className="menu-toggle" onClick={() => setMenu(!menu)}>
           {menu ? <FiX size={25} /> : <FiMenu size={25} />}
         </div>
       </div>
 
-      {/* Mobile */}
+      {/* Mobile Menu */}
       <div className={`nav-mobile ${menu ? "show" : ""}`}>
         <Link to="/">Home</Link>
 
@@ -104,11 +116,17 @@ const Navbar = () => {
           <div style={{ paddingLeft: "1rem" }}>
             <a href="/grooming">Grooming</a>
             <a href="/training">Training</a>
+            <a href="/pet-sitting">Pet Sitting</a>
           </div>
         </details>
 
+        <Link to="/shop">Shop</Link>
+
         {!isAuth ? (
-          <Link to="/login">Login</Link>
+          <>
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </>
         ) : (
           <span onClick={handleLogout} style={{ color: "red", cursor: "pointer" }}>
             Logout
