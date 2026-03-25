@@ -58,15 +58,24 @@ const Navbar = () => {
           </div>
 
           <Link to="/about">About</Link>
-
-          {/* ✅ Shop */}
           <Link to="/shop">Shop</Link>
 
           {/* 🔐 Auth */}
           {!isAuth ? (
             <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
+              <span
+                onClick={() => navigate("/login")}
+                style={{ cursor: "pointer" }}
+              >
+                Login
+              </span>
+
+              <span
+                onClick={() => navigate("/register")}
+                style={{ cursor: "pointer" }}
+              >
+                Register
+              </span>
             </>
           ) : (
             <span onClick={handleLogout} style={{ cursor: "pointer", color: "red" }}>
@@ -124,8 +133,8 @@ const Navbar = () => {
 
         {!isAuth ? (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <span onClick={() => navigate("/login")}>Login</span>
+            <span onClick={() => navigate("/register")}>Register</span>
           </>
         ) : (
           <span onClick={handleLogout} style={{ color: "red", cursor: "pointer" }}>

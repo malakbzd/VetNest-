@@ -9,6 +9,7 @@ function Register() {
 
   const navigate = useNavigate();
 
+  // ✅ declare function before using it
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -19,10 +20,8 @@ function Register() {
 
     try {
       await registerUser({ name, email, password });
-
       alert("Account created ✅");
       navigate("/login");
-
     } catch (err) {
       console.log(err.response?.data || err.message);
       alert("Register failed");
@@ -30,7 +29,7 @@ function Register() {
   };
 
   return (
-    <div style={styles.container}>
+    <div id="register-section" style={styles.container}>
       <form onSubmit={handleRegister} style={styles.form}>
         <h2>📝 Register</h2>
 

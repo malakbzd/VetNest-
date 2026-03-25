@@ -8,7 +8,7 @@ import Loader from "./components/Loader";
 import FAQs from "./components/FAQsAccordion";
 import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
-
+import Hero from "./components/Hero";
 import Login from "./pages/Login";
 import Register from "./pages/Register"; // ✅ زيدناها
 
@@ -27,8 +27,8 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar />
-
+    <Navbar />
+    <Hero />
       <Routes>
         {/* Public */}
         <Route path="/" element={<AboutUs />} />
