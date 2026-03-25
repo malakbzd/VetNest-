@@ -10,18 +10,16 @@ import PatientDashboard from "./components/PatientDashboard";
 import DoctorDashboard from "./components/DoctorDashboard";
 
 import Login from "./pages/Login";
-import Register from "./pages/Register"; // ✅ زيدناها
+import Register from "./pages/Register";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 1500);
-    return () => clearTimeout(timer);
+    setTimeout(() => setLoading(false), 1500);
   }, []);
 
-  // 🔐 check auth
-  const isAuth = () => !!localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   if (loading) return <Loader />;
 
@@ -30,20 +28,28 @@ const App = () => {
       <Navbar />
 
       <Routes>
-        {/* Public */}
         <Route path="/" element={<AboutUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Protected */}
+        {/* Patients */}
         <Route
           path="/patients"
-          element={isAuth() ? <PatientDashboard /> : <Navigate to="/login" />}
+          element={
+            user?.role === "user" || user?.role === "admin"
+              ? <PatientDashboard />
+              : <Navigate to="/" />
+          }
         />
 
+        {/* Doctors */}
         <Route
           path="/doctors"
-          element={isAuth() ? <DoctorDashboard /> : <Navigate to="/login" />}
+          element={
+            user?.role === "doctor" || user?.role === "admin"
+              ? <DoctorDashboard />
+              : <Navigate to="/" />
+          }
         />
       </Routes>
 

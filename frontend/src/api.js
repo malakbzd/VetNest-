@@ -2,28 +2,24 @@ import axios from "axios";
 
 const API_BASE = "http://127.0.0.1:5000/api";
 
-// ⚡ دالة تجيب token
 const getAuthHeader = () => {
   const token = localStorage.getItem("token");
+
   return {
     headers: {
-      Authorization: token
+      Authorization: token || ""
     }
   };
 };
 
-// =====================
-// 🔐 AUTH
-// =====================
+// AUTH
 export const registerUser = (data) =>
   axios.post(`${API_BASE}/auth/register`, data);
 
 export const loginUser = (data) =>
   axios.post(`${API_BASE}/auth/login`, data);
 
-// =====================
-// 🐕 PATIENTS
-// =====================
+// PATIENTS
 export const getPatients = () =>
   axios.get(`${API_BASE}/patients`, getAuthHeader());
 
@@ -36,9 +32,7 @@ export const deletePatient = (id) =>
 export const updatePatient = (id, data) =>
   axios.put(`${API_BASE}/patients/${id}`, data, getAuthHeader());
 
-// =====================
-// 👨‍⚕️ DOCTORS
-// =====================
+// DOCTORS
 export const getDoctors = () =>
   axios.get(`${API_BASE}/doctors`, getAuthHeader());
 

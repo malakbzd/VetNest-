@@ -1,19 +1,24 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   const handleLogin = async () => {
     try {
       const res = await loginUser({ email, password });
-      localStorage.setItem("token", res.data.token);
 
-      window.location.href = "/doctors"; // redirect
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      navigate("/"); // يرجع home
     } catch (err) {
       console.log(err.response?.data || err.message);
-alert("Login failed");
+      alert("Login failed");
     }
   };
 
