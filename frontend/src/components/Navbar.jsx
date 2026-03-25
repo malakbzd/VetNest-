@@ -11,12 +11,11 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
-  // 🔐 check auth
-  const isAuth = !!localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user"));
 
-  // 🚪 logout
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
@@ -35,35 +34,24 @@ const Navbar = () => {
         <nav className="nav-desktop">
           <Link to="/">Home</Link>
 
-          {isAuth && <Link to="/patients">Patients</Link>}
-          {isAuth && <Link to="/doctors">Doctors</Link>}
+          {/* 🔥 SEPARATION */}
+          {user?.role === "user" && <Link to="/patients">Patients</Link>}
 
-          {/* Services */}
-          <div
-            onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
-            style={{ position: "relative" }}
-          >
-            <span style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.25rem" }}>
-              Services <IoMdArrowDropdown size={20} />
-            </span>
+          {user?.role === "doctor" && <Link to="/doctors">Doctors</Link>}
 
-            {showDropdown && (
-              <div style={dropdownStyle}>
-                <a href="/grooming">Grooming</a>
-                <a href="/training">Training</a>
-                <a href="/pet-sitting">Pet Sitting</a>
-              </div>
-            )}
-          </div>
+          {user?.role === "admin" && (
+            <>
+              <Link to="/patients">Patients</Link>
+              <Link to="/doctors">Doctors</Link>
+            </>
+          )}
 
           <Link to="/about">About</Link>
 
-          {/* ✅ Shop */}
           <Link to="/shop">Shop</Link>
 
-          {/* 🔐 Auth */}
-          {!isAuth ? (
+          {/* Auth */}
+          {!user ? (
             <>
               <Link to="/login">Login</Link>
               <Link to="/register">Register</Link>
@@ -81,12 +69,11 @@ const Navbar = () => {
             <span key={idx} className="icon"><Icon /></span>
           ))}
 
-          {!isAuth ? (
+          {!user ? (
             <>
               <span className="icon" onClick={() => navigate("/login")}>
                 <FiUser />
               </span>
-
               <span className="icon" onClick={() => navigate("/register")}>
                 📝
               </span>
@@ -98,7 +85,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile */}
         <div className="menu-toggle" onClick={() => setMenu(!menu)}>
           {menu ? <FiX size={25} /> : <FiMenu size={25} />}
         </div>
@@ -108,48 +95,30 @@ const Navbar = () => {
       <div className={`nav-mobile ${menu ? "show" : ""}`}>
         <Link to="/">Home</Link>
 
-        {isAuth && <Link to="/patients">Patients</Link>}
-        {isAuth && <Link to="/doctors">Doctors</Link>}
-
-        <details>
-          <summary>Services</summary>
-          <div style={{ paddingLeft: "1rem" }}>
-            <a href="/grooming">Grooming</a>
-            <a href="/training">Training</a>
-            <a href="/pet-sitting">Pet Sitting</a>
-          </div>
-        </details>
+        {user?.role === "user" && <Link to="/patients">Patients</Link>}
+        {user?.role === "doctor" && <Link to="/doctors">Doctors</Link>}
+        {user?.role === "admin" && (
+          <>
+            <Link to="/patients">Patients</Link>
+            <Link to="/doctors">Doctors</Link>
+          </>
+        )}
 
         <Link to="/shop">Shop</Link>
 
-        {!isAuth ? (
+        {!user ? (
           <>
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
           </>
         ) : (
-          <span onClick={handleLogout} style={{ color: "red", cursor: "pointer" }}>
+          <span onClick={handleLogout} style={{ color: "red" }}>
             Logout
           </span>
         )}
       </div>
     </header>
   );
-};
-
-const dropdownStyle = {
-  position: "absolute",
-  top: "1.5rem",
-  left: 0,
-  backgroundColor: "#fff",
-  boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
-  padding: "0.5rem",
-  borderRadius: "0.25rem",
-  zIndex: 10,
-  width: "10rem",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.5rem"
 };
 
 export default Navbar;
