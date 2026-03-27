@@ -6,9 +6,11 @@ const {
   deleteAppointment,
 } = require("../controllers/appointmentController");
 
-router.post("/", createAppointment);
-router.get("/", getAppointments);
-router.put("/:id", updateAppointment);
-router.delete("/:id", deleteAppointment);
+const auth = require("../middleware/authMiddleware");
+
+router.post("/", auth, createAppointment);
+router.get("/", auth, getAppointments);
+router.put("/:id", auth, updateAppointment);
+router.delete("/:id", auth, deleteAppointment);
 
 module.exports = router;
