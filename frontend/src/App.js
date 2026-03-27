@@ -18,45 +18,58 @@ const App = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => setLoading(false), 800);
   }, []);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user") || "null");
 
   if (loading) return <Loader />;
 
   return (
     <Router>
-    <Navbar />
-    <Hero />
-       <Services />
+      <Navbar />
+
       <Routes>
-        {/* Public */}
-        <Route path="/" element={<AboutUs />} />
+
+        {/* ✅ Home page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <Hero />
+              <Services />
+              <AboutUs />
+              <FAQsAccordion />
+            </>
+          }
+        />
+
+        {/* ✅ Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Patients */}
+        {/* ✅ Patients */}
         <Route
           path="/patients"
           element={
-            user?.role === "user" || user?.role === "admin"
+            user && (user.role === "user" || user.role === "admin")
               ? <PatientDashboard />
-              : <Navigate to="/" />
+              : <Navigate to="/login" />
           }
         />
-   
-        {/* Doctors */}
+
+        {/* ✅ Doctors */}
         <Route
           path="/doctors"
           element={
-            user?.role === "doctor" || user?.role === "admin"
+            user && (user.role === "doctor" || user.role === "admin")
               ? <DoctorDashboard />
-              : <Navigate to="/" />
+              : <Navigate to="/login" />
           }
         />
+
       </Routes>
- <FAQsAccordion/>
+
       <Footer />
     </Router>
   );

@@ -1,46 +1,29 @@
 import axios from "axios";
 
-const API_BASE = "http://127.0.0.1:5000/api";
+const API = "http://127.0.0.1:5000/api";
 
-const getAuthHeader = () => {
+const authHeader = () => {
   const token = localStorage.getItem("token");
-
   return {
     headers: {
-      Authorization: token || ""
-    }
+      Authorization: `Bearer ${token}`, // 🔥 FIX
+    },
   };
 };
 
 // AUTH
-export const registerUser = (data) =>
-  axios.post(`${API_BASE}/auth/register`, data);
-
 export const loginUser = (data) =>
-  axios.post(`${API_BASE}/auth/login`, data);
+  axios.post(`${API}/auth/login`, data);
 
-// PATIENTS
-export const getPatients = () =>
-  axios.get(`${API_BASE}/patients`, getAuthHeader());
-
-export const addPatient = (data) =>
-  axios.post(`${API_BASE}/patients`, data, getAuthHeader());
-
-export const deletePatient = (id) =>
-  axios.delete(`${API_BASE}/patients/${id}`, getAuthHeader());
-
-export const updatePatient = (id, data) =>
-  axios.put(`${API_BASE}/patients/${id}`, data, getAuthHeader());
+export const registerUser = (data) =>
+  axios.post(`${API}/auth/register`, data);
 
 // DOCTORS
 export const getDoctors = () =>
-  axios.get(`${API_BASE}/doctors`, getAuthHeader());
+  axios.get(`${API}/doctors`, authHeader());
 
 export const addDoctor = (data) =>
-  axios.post(`${API_BASE}/doctors`, data, getAuthHeader());
-
-export const updateDoctor = (id, data) =>
-  axios.put(`${API_BASE}/doctors/${id}`, data, getAuthHeader());
+  axios.post(`${API}/doctors`, data, authHeader());
 
 export const deleteDoctor = (id) =>
-  axios.delete(`${API_BASE}/doctors/${id}`, getAuthHeader());
+  axios.delete(`${API}/doctors/${id}`, authHeader());

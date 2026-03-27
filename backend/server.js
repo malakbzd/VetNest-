@@ -5,14 +5,16 @@ const connectDB = require("./config/db");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
+
 app.use(express.json());
 
 connectDB();
 
-// routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/doctors", require("./routes/doctorRoutes"));
 app.use("/api/patients", require("./routes/patientRoutes"));
 
-app.listen(5000, () => console.log("🔥 Server running on port 5000"));
+app.listen(5000, () => console.log("Server running 🚀"));
