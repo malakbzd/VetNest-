@@ -13,5 +13,8 @@ app.use(express.json());
 app.use("/api/pets", require("./routes/petRoutes"));
 app.use("/api/appointments", require("./routes/appointmentRoutes"));
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/products", require("./routes/productRoutes"));
+app.use("/api/articles", require("./routes/articleRoutes"));
+app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 
 app.listen(5000, () => console.log("Server running"));
