@@ -5,14 +5,16 @@ import Navbar from "./components/Navbar";
 import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
-
-import PatientDashboard from "./components/PatientDashboard";
-import DoctorDashboard from "./components/DoctorDashboard";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
+import FAQsAccordion from "./components/FAQsAccordion";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import FAQsAccordion from "./components/FAQsAccordion";
+import ShopPage from "./pages/ShopPage";
+import ArticlesPage from "./pages/ArticlesPage";
+import Appointments from "./pages/Appointments";
+import PetDashboard from "./components/PetDashboard";
+import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,16 @@ const App = () => {
     setTimeout(() => setLoading(false), 800);
   }, []);
 
-  const user = JSON.parse(localStorage.getItem("user") || "null");
+  const user = (() => {
+  try {
+    const raw = localStorage.getItem("user");
+    return raw ? JSON.parse(raw) : null;
+  } catch (error) {
+    console.error("Failed to parse user:", error);
+    localStorage.removeItem("user");
+    return null;
+  }
+})();
 
   if (loading) return <Loader />;
 
@@ -30,8 +41,7 @@ const App = () => {
       <Navbar />
 
       <Routes>
-
-        {/* ✅ Home page */}
+        {/* Public home page */}
         <Route
           path="/"
           element={
@@ -44,30 +54,27 @@ const App = () => {
           }
         />
 
-        {/* ✅ Auth */}
+        {/* Auth */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* ✅ Patients */}
-        <Route
-          path="/patients"
-          element={
-            user && (user.role === "user" || user.role === "admin")
-              ? <PatientDashboard />
-              : <Navigate to="/login" />
-          }
-        />
+        {/* Public pages */}
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/articles" element={<ArticlesPage />} />
 
-        {/* ✅ Doctors */}
+        {/* Protected routes */}
         <Route
-          path="/doctors"
-          element={
-            user && (user.role === "doctor" || user.role === "admin")
-              ? <DoctorDashboard />
-              : <Navigate to="/login" />
-          }
+          path="/dashboard"
+          element={user ? <Dashboard /> : <Navigate to="/login" />}
         />
-
+        <Route
+          path="/appointments"
+          element={user ? <Appointments /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/pets"
+          element={user ? <PetDashboard /> : <Navigate to="/login" />}
+        />
       </Routes>
 
       <Footer />

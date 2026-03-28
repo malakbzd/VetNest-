@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addAppointment } from "../../services/appointmentService";
+import { getAppointments, addAppointment, updateAppointment, deleteAppointment } from "../../api";
 
 export default function AppointmentForm({ refresh }) {
   const [form, setForm] = useState({

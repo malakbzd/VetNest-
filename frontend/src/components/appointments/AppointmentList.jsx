@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAppointments, deleteAppointment } from "../../services/appointmentService";
+import { getAppointments, addAppointment, updateAppointment, deleteAppointment } from "../../api";
 
 export default function AppointmentList() {
   const [data, setData] = useState([]);

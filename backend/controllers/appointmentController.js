@@ -1,22 +1,41 @@
 const Appointment = require("../models/Appointment");
 
 exports.createAppointment = async (req, res) => {
-  const app = await Appointment.create(req.body);
-  res.json(app);
+  try {
+    const app = await Appointment.create({ ...req.body, user: req.user.id });
+    res.status(201).json(app);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 exports.getAppointments = async (req, res) => {
-  const status = req.query.status;
-  const apps = await Appointment.find(status ? { status } : {}).populate("pet");
-  res.json(apps);
+  try {
+    const apps = await Appointment.find({ user: req.user.id }).populate("pet");
+    res.json(apps);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
 
 exports.updateAppointment = async (req, res) => {
-  const app = await Appointment.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  res.json(app);
+  try {
+    const app = await Appointment.findOneAndUpdate(
+      { _id: req.params.id, user: req.user.id },
+      req.body,
+      { new: true }
+    );
+    res.json(app);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 exports.deleteAppointment = async (req, res) => {
-  await Appointment.findByIdAndDelete(req.params.id);
-  res.json({ message: "Deleted" });
+  try {
+    await Appointment.findOneAndDelete({ _id: req.params.id, user: req.user.id });
+    res.json({ message: "Deleted" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
