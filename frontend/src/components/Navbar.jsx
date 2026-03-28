@@ -1,14 +1,18 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import { FiSearch, FiHeart, FiShoppingBag, FiUser, FiMenu, FiX } from "react-icons/fi";
-import { IoMdArrowDropdown } from "react-icons/io";
+import {
+  FiSearch,
+  FiHeart,
+  FiShoppingBag,
+  FiUser,
+  FiMenu,
+  FiX,
+} from "react-icons/fi";
 import "./Navbar.css";
 import LogoImg from "../assets/logooo.jpg";
 
 const Navbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
   const [menu, setMenu] = useState(false);
-
   const navigate = useNavigate();
 
   // 🔐 check auth
@@ -27,58 +31,32 @@ const Navbar = () => {
         {/* Logo */}
         <div className="logo">
           <Link to="/">
-            <img src={LogoImg} alt="VetNest Logo" className="logo-img" />
+            <img src={LogoImg} alt="logo" className="logo-img" />
           </Link>
         </div>
 
         {/* Desktop Menu */}
         <nav className="nav-desktop">
           <Link to="/">Home</Link>
-
-          {isAuth && <Link to="/patients">Patients</Link>}
-          {isAuth && <Link to="/doctors">Doctors</Link>}
-
-          {/* Services */}
-          <div
-            onMouseEnter={() => setShowDropdown(true)}
-            onMouseLeave={() => setShowDropdown(false)}
-            style={{ position: "relative" }}
-          >
-            <span style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "0.25rem" }}>
-              Services <IoMdArrowDropdown size={20} />
-            </span>
-
-            {showDropdown && (
-              <div style={dropdownStyle}>
-                <a href="/grooming">Grooming</a>
-                <a href="/training">Training</a>
-                <a href="/pet-sitting">Pet Sitting</a>
-              </div>
-            )}
-          </div>
-
-          <Link to="/about">About</Link>
           <Link to="/shop">Shop</Link>
+          <Link to="/articles">Articles</Link>
 
-          {/* 🔐 Auth */}
+          {/* 🔐 يظهر فقط بعد login */}
+          {isAuth && <Link to="/pets">Pets</Link>}
+          {isAuth && <Link to="/appointments">Appointments</Link>}
+
+          {/* Auth */}
           {!isAuth ? (
             <>
-              <span
-                onClick={() => navigate("/login")}
-                style={{ cursor: "pointer" }}
-              >
+              <span onClick={() => navigate("/login")} className="link-btn">
                 Login
               </span>
-
-              <span
-                onClick={() => navigate("/register")}
-                style={{ cursor: "pointer" }}
-              >
+              <span onClick={() => navigate("/register")} className="link-btn">
                 Register
               </span>
             </>
           ) : (
-            <span onClick={handleLogout} style={{ cursor: "pointer", color: "red" }}>
+            <span onClick={handleLogout} className="logout">
               Logout
             </span>
           )}
@@ -86,24 +64,35 @@ const Navbar = () => {
 
         {/* Icons */}
         <div className="icons-desktop">
-          {[FiSearch, FiHeart, FiShoppingBag].map((Icon, idx) => (
-            <span key={idx} className="icon"><Icon /></span>
-          ))}
 
+          <span className="icon"><FiSearch /></span>
+          <span className="icon"><FiHeart /></span>
+          <span className="icon"><FiShoppingBag /></span>
+
+          {/* 🔐 قبل login */}
           {!isAuth ? (
             <>
               <span className="icon" onClick={() => navigate("/login")}>
                 <FiUser />
               </span>
-
-              <span className="icon" onClick={() => navigate("/register")}>
-                📝
-              </span>
             </>
           ) : (
-            <span className="icon" onClick={handleLogout}>
-              <FiUser />
-            </span>
+            <>
+              {/* 🐶 pets */}
+              <span className="icon" onClick={() => navigate("/pets")}>
+                🐶
+              </span>
+
+              {/* 📅 appointments */}
+              <span className="icon" onClick={() => navigate("/appointments")}>
+                📅
+              </span>
+
+              {/* logout */}
+              <span className="icon" onClick={handleLogout}>
+                <FiUser />
+              </span>
+            </>
           )}
         </div>
 
@@ -116,20 +105,11 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div className={`nav-mobile ${menu ? "show" : ""}`}>
         <Link to="/">Home</Link>
-
-        {isAuth && <Link to="/patients">Patients</Link>}
-        {isAuth && <Link to="/doctors">Doctors</Link>}
-
-        <details>
-          <summary>Services</summary>
-          <div style={{ paddingLeft: "1rem" }}>
-            <a href="/grooming">Grooming</a>
-            <a href="/training">Training</a>
-            <a href="/pet-sitting">Pet Sitting</a>
-          </div>
-        </details>
-
         <Link to="/shop">Shop</Link>
+        <Link to="/articles">Articles</Link>
+
+        {isAuth && <Link to="/pets">Pets</Link>}
+        {isAuth && <Link to="/appointments">Appointments</Link>}
 
         {!isAuth ? (
           <>
@@ -137,28 +117,13 @@ const Navbar = () => {
             <span onClick={() => navigate("/register")}>Register</span>
           </>
         ) : (
-          <span onClick={handleLogout} style={{ color: "red", cursor: "pointer" }}>
+          <span onClick={handleLogout} className="logout">
             Logout
           </span>
         )}
       </div>
     </header>
   );
-};
-
-const dropdownStyle = {
-  position: "absolute",
-  top: "1.5rem",
-  left: 0,
-  backgroundColor: "#fff",
-  boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
-  padding: "0.5rem",
-  borderRadius: "0.25rem",
-  zIndex: 10,
-  width: "10rem",
-  display: "flex",
-  flexDirection: "column",
-  gap: "0.5rem"
 };
 
 export default Navbar;
