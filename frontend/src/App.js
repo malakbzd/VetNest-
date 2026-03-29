@@ -2,19 +2,25 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import AboutUs from "./components/AboutUs";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
+import AboutUs from "./components/AboutUs";
 import FAQsAccordion from "./components/FAQsAccordion";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ShopPage from "./pages/ShopPage";
-import ArticlesPage from "./pages/ArticlesPage";
+import Pets from "./pages/Pets";
 import Appointments from "./pages/Appointments";
-import PetDashboard from "./components/PetDashboard";
+import Shop from "./pages/Shop";
+import Articles from "./pages/Articles";
 import Dashboard from "./pages/Dashboard";
+
+// Protected route wrapper (checks token only)
+const Protected = ({ children }) => {
+  const token = localStorage.getItem("token");
+  return token ? children : <Navigate to="/login" />;
+};
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -23,17 +29,6 @@ const App = () => {
     setTimeout(() => setLoading(false), 800);
   }, []);
 
-  const user = (() => {
-  try {
-    const raw = localStorage.getItem("user");
-    return raw ? JSON.parse(raw) : null;
-  } catch (error) {
-    console.error("Failed to parse user:", error);
-    localStorage.removeItem("user");
-    return null;
-  }
-})();
-
   if (loading) return <Loader />;
 
   return (
@@ -41,7 +36,7 @@ const App = () => {
       <Navbar />
 
       <Routes>
-        {/* Public home page */}
+        {/* Home page */}
         <Route
           path="/"
           element={
@@ -58,23 +53,14 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        {/* Public pages */}
-        <Route path="/shop" element={<ShopPage />} />
-        <Route path="/articles" element={<ArticlesPage />} />
+        {/* Protected pages */}
+        <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
+        <Route path="/pets" element={<Protected><Pets /></Protected>} />
+        <Route path="/appointments" element={<Protected><Appointments /></Protected>} />
 
-        {/* Protected routes */}
-        <Route
-          path="/dashboard"
-          element={user ? <Dashboard /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/appointments"
-          element={user ? <Appointments /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="/pets"
-          element={user ? <PetDashboard /> : <Navigate to="/login" />}
-        />
+        {/* Public pages */}
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/articles" element={<Articles />} />
       </Routes>
 
       <Footer />
