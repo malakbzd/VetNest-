@@ -1,0 +1,80 @@
+/* Footer.css */
+
+.footer {
+  background-color:  #192d6e;
+  color: white;
+  padding: 3.5rem 1.5rem 1.5rem 1.5rem; /* pt-14 pb-6 px-6 */
+}
+
+.footer-container {
+  max-width: 1280px; /* equivalent to max-w-7xl */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem; /* gap-10 */
+}
+
+@media (min-width: 768px) {
+  .footer-container {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    padding: 0 5rem; /* md:px-20 */
+  }
+}
+
+/* Logo + Tagline */
+.footer-logo h2 {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: bold;
+  margin-bottom: 0.75rem; /* mb-3 */
+}
+
+.footer-logo p {
+  font-size: 0.875rem; /* text-sm */
+  color: #e6d9cd;
+}
+
+.footer-logo .social-icons {
+  display: flex;
+  gap: 1rem; /* gap-4 */
+  margin-top: 1rem; /* mt-4 */
+}
+
+.footer-logo .social-icons svg {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.footer-logo .social-icons svg:hover {
+  color: #f9b87e;
+}
+
+/* Headings */
+.footer h3 {
+  font-size: 1.25rem; /* text-xl */
+  font-weight: 600;
+  margin-bottom: 1rem; /* mb-4 */
+}
+
+/* Lists */
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer ul li {
+  font-size: 0.875rem; /* text-sm */
+  color: #e6d9cd;
+  margin-bottom: 0.5rem; /* space-y-2 */
+}
+
+/* Bottom Bar */
+.footer-bottom {
+  border-top: 1px solid #8572d5;
+  margin-top: 3rem; /* mt-12 */
+  padding-top: 1rem; /* pt-4 */
+  text-align: center;
+  color: #d5c1b3;
+  font-size: 0.875rem; /* text-sm */
+}
