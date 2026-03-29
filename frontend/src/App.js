@@ -12,8 +12,8 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Pets from "./pages/Pets";
 import Appointments from "./pages/Appointments";
-import Shop from "./pages/Shop";
-import Articles from "./pages/Articles";
+import Shop from "./pages/ShopPage";
+import Articles from "./pages/ArticlesPage";
 import Dashboard from "./pages/Dashboard";
 
 // Protected route wrapper (checks token only)
