@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { getPets, deletePet } from "../../services/petService";
-
 export default function PetList() {
   const [pets, setPets] = useState([]);
 

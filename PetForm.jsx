@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { addPet } from "../../services/petService";
 
 export default function PetForm({ refresh }) {
   const [form, setForm] = useState({
