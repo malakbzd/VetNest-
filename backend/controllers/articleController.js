@@ -1,6 +1,6 @@
 const Article = require("../models/Article");
 
-// GET (public or protected — your choice)
+// GET
 exports.getArticles = async (req, res) => {
   try {
     const articles = await Article.find();

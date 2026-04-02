@@ -1,15 +1,19 @@
 const express = require("express");
 const router = express.Router();
 
-const auth = require("../middleware/authMiddleware");
 const {
   getArticles,
   createArticle,
   updateArticle,
-  deleteArticle,
+  deleteArticle
 } = require("../controllers/articleController");
 
+const auth = require("../middleware/authMiddleware");
+
+// Public
 router.get("/", getArticles);
+
+// Protected (ADMIN)
 router.post("/", auth, createArticle);
 router.put("/:id", auth, updateArticle);
 router.delete("/:id", auth, deleteArticle);
