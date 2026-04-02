@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-
+import AdminDashboard from "./pages/AdminDashboard";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Loader from "./components/Loader";
@@ -21,7 +21,11 @@ const Protected = ({ children }) => {
   const token = localStorage.getItem("token");
   return token ? children : <Navigate to="/login" />;
 };
+const AdminProtected = ({ children }) => {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
 
+  return user.role === "admin" ? children : <Navigate to="/dashboard" />;
+};
 const App = () => {
   const [loading, setLoading] = useState(true);
 
@@ -35,35 +39,49 @@ const App = () => {
     <Router>
       <Navbar />
 
-      <Routes>
-        {/* Home page */}
-        <Route
-          path="/"
-          element={
-            <>
-              <Hero />
-              <Services />
-              <AboutUs />
-              <FAQsAccordion />
-            </>
-          }
-        />
+    <Routes>
+  {/* Home page */}
+  <Route
+    path="/"
+    element={
+      <>
+        <Hero />
+        <Services />
+        <AboutUs />
+        <FAQsAccordion />
+      </>
+    }
+  />
 
-        {/* Auth */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+  {/* Auth */}
+  <Route path="/login" element={<Login />} />
+  <Route path="/register" element={<Register />} />
 
-        {/* Protected pages */}
-        <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
-        <Route path="/pets" element={<Protected><Pets /></Protected>} />
-        <Route path="/appointments" element={<Protected><Appointments /></Protected>} />
+  {/* Protected pages */}
+  <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
+  <Route path="/pets" element={<Protected><Pets /></Protected>} />
+  <Route path="/appointments" element={<Protected><Appointments /></Protected>} />
 
-        {/* Public pages */}
-        <Route path="/shop" element={<Shop />} />
-        <Route path="/articles" element={<Articles />} />
-      </Routes>
+  {/* Admin route */}
+  <Route
+    path="/admin"
+    element={
+      <Protected>
+        <AdminProtected>
+          <AdminDashboard />
+        </AdminProtected>
+      </Protected>
+    }
+  />
+
+  {/* Public pages */}
+  <Route path="/shop" element={<Shop />} />
+  <Route path="/articles" element={<Articles />} />
+</Routes>
 
       <Footer />
+
+      
     </Router>
   );
 };

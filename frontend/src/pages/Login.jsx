@@ -8,19 +8,28 @@ function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-    try {
-      const res = await loginUser({ identifier, password });
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      navigate("/dashboard");
-    } catch (err) {
-      setError("Invalid email/name or password");
-    }
-  };
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  setError("");
 
+  try {
+    const res = await loginUser({ identifier, password });
+
+    const user = res.data.user;
+
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    if (user.role === "admin") {
+      navigate("/admin");
+    } else {
+      navigate("/dashboard");
+    }
+
+  } catch (err) {
+    setError("Invalid email/name or password");
+  }
+};
   return (
     <div style={styles.container}>
       <div style={styles.card}>
