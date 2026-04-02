@@ -1,12 +1,5 @@
-import PetForm from "../components/pets/PetForm";
-import PetList from "../components/pets/PetList";
+import PetDashboard from "../components/PetDashboard";
 
 export default function Pets() {
-  return (
-    <div>
-      <h2>Pets</h2>
-      <PetForm refresh={() => window.location.reload()} />
-      <PetList />
-    </div>
-  );
+  return <PetDashboard />;
 }
