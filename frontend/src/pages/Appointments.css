@@ -1,0 +1,86 @@
+/* Container */
+.appointments-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Title */
+.appointments-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+/* Form */
+.appointment-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.appointment-form input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  flex: 1;
+}
+
+.appointment-form button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.appointment-form button:hover {
+  background-color: #219150;
+}
+
+/* List */
+.appointment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Card */
+.appointment-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  border-left: 5px solid #27ae60;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Text */
+.appointment-info p {
+  margin: 3px 0;
+  color: #333;
+}
+
+/* Delete button */
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}

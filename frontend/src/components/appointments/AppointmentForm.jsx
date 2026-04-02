@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { getAppointments, addAppointment, updateAppointment, deleteAppointment } from "../../api";
+import { addAppointment } from "../../api";
+import "../../pages/Appointments.css";
 
 export default function AppointmentForm({ refresh }) {
   const [form, setForm] = useState({
@@ -14,14 +15,24 @@ export default function AppointmentForm({ refresh }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="date"
-        onChange={(e) => setForm({...form, date: e.target.value})} />
+    <form onSubmit={handleSubmit} className="appointment-form">
+      <input
+        type="date"
+        value={form.date}
+        onChange={(e) =>
+          setForm({ ...form, date: e.target.value })
+        }
+      />
 
-      <input placeholder="Reason"
-        onChange={(e) => setForm({...form, reason: e.target.value})} />
+      <input
+        placeholder="Reason"
+        value={form.reason}
+        onChange={(e) =>
+          setForm({ ...form, reason: e.target.value })
+        }
+      />
 
-      <button>Add</button>
+      <button type="submit">Add</button>
     </form>
   );
 }
