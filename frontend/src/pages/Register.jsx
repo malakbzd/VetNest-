@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api";
-
+import "./Register.css";
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,16 +28,19 @@ function Register() {
     }
   };
 
-  return (
-    <div id="register-section" style={styles.container}>
-      <form onSubmit={handleRegister} style={styles.form}>
-        <h2>📝 Register</h2>
+ return (
+  <div className="register-container">
+    <div className="register-card">
+      <h2 className="register-title">📝 Create Account</h2>
+      <p className="register-subtitle">Join VetNest and care for your pets 🐶</p>
 
+      <form onSubmit={handleRegister} className="register-form">
         <input
-          placeholder="Name"
+          type="text"
+          placeholder="Full Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          style={styles.input}
+          className="register-input"
         />
 
         <input
@@ -45,7 +48,7 @@ function Register() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
+          className="register-input"
         />
 
         <input
@@ -53,47 +56,20 @@ function Register() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
+          className="register-input"
         />
 
-        <button type="submit" style={styles.button}>
-          Register
+        <button type="submit" className="register-button">
+          Register 
         </button>
       </form>
-    </div>
-  );
-}
 
-const styles = {
-  container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "80vh",
-  },
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "1rem",
-    padding: "2rem",
-    border: "1px solid #ccc",
-    borderRadius: "8px",
-    minWidth: "300px",
-    backgroundColor: "#fff",
-  },
-  input: {
-    padding: "0.5rem",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-  },
-  button: {
-    padding: "0.6rem",
-    backgroundColor: "#2ecc71",
-    color: "#fff",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
+      <p className="register-link">
+        Already have an account? <span onClick={() => navigate("/login")}>Login</span>
+      </p>
+    </div>
+  </div>
+);
 };
 
 export default Register;
