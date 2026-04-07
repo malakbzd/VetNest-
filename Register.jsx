@@ -31,7 +31,7 @@ function Register() {
   return (
     <div id="register-section" style={styles.container}>
       <form onSubmit={handleRegister} style={styles.form}>
-        <h2>📝 Register</h2>
+        <h2>Register</h2>
 
         <input
           placeholder="Name"
