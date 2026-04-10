@@ -20,7 +20,7 @@ function Register() {
 
     try {
       await registerUser({ name, email, password });
-      alert("Account created ✅");
+      alert("Account created ");
       navigate("/login");
     } catch (err) {
       console.log(err.response?.data || err.message);
