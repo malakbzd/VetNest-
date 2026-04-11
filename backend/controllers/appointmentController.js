@@ -1,24 +1,28 @@
 const Appointment = require("../models/Appointment");
 
+// CREATE
 exports.createAppointment = async (req, res) => {
   try {
-    const app = await Appointment.create({ ...req.body, user: req.user.id });
+    const app = await Appointment.create({
+      ...req.body,
+      user: req.user._id, // ✅ التصحيح هنا
+    });
+
     res.status(201).json(app);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
+// GET
 exports.getAppointments = async (req, res) => {
   try {
     let apps;
 
     if (req.user.role === "admin") {
-      // Admin sees ALL appointments
       apps = await Appointment.find().populate("pet user");
     } else {
-      // Normal user sees only their own
-      apps = await Appointment.find({ user: req.user.id }).populate("pet");
+      apps = await Appointment.find({ user: req.user._id }).populate("pet");
     }
 
     res.json(apps);
@@ -27,16 +31,15 @@ exports.getAppointments = async (req, res) => {
   }
 };
 
+// UPDATE
 exports.updateAppointment = async (req, res) => {
   try {
     let filter;
 
     if (req.user.role === "admin") {
-      // Admin can update any appointment
       filter = { _id: req.params.id };
     } else {
-      // User can only update their own
-      filter = { _id: req.params.id, user: req.user.id };
+      filter = { _id: req.params.id, user: req.user._id };
     }
 
     const app = await Appointment.findOneAndUpdate(filter, req.body, {
@@ -49,16 +52,15 @@ exports.updateAppointment = async (req, res) => {
   }
 };
 
+// DELETE
 exports.deleteAppointment = async (req, res) => {
   try {
     let filter;
 
     if (req.user.role === "admin") {
-      // Admin can delete any appointment
       filter = { _id: req.params.id };
     } else {
-      // User can only delete their own
-      filter = { _id: req.params.id, user: req.user.id };
+      filter = { _id: req.params.id, user: req.user._id };
     }
 
     await Appointment.findOneAndDelete(filter);
