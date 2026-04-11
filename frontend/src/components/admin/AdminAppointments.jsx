@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { FaCalendarAlt } from "react-icons/fa";
 function AdminAppointments() {
   const [appointments, setAppointments] = useState([]);
 
@@ -36,7 +36,7 @@ function AdminAppointments() {
 
   return (
     <div>
-      <h2>Manage Appointments</h2>
+      <h2>  <FaCalendarAlt /> Appointments</h2>
 
       {appointments.map((a) => (
         <div key={a._id} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>

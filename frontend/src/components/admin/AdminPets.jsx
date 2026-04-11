@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPets } from "../../api";
+import { FaPaw } from "react-icons/fa";
 
 export default function AdminPets() {
   const [pets, setPets] = useState([]);
@@ -15,7 +16,8 @@ export default function AdminPets() {
 
   return (
     <div>
-      <h2>🐾 Pets</h2>
+      <h2> 
+      <FaPaw /> Pets</h2>
 
       {pets.map((p) => (
         <div key={p._id}>
