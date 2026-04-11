@@ -1,34 +1,61 @@
+/* ===== LAYOUT ===== */
 .admin-container {
   display: flex;
   min-height: 100vh;
-  background: #f4f6f9;
 }
 
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 220px;
-  background: #2c3e50;
+  background: #212529;
   color: white;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
-.sidebar button {
+.sidebar-title {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+/* buttons */
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   padding: 10px;
+  margin-bottom: 10px;
+
+  background: transparent;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #34495e;
   color: white;
-  transition: 0.3s;
+  text-align: left;
+
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.2s;
 }
 
-.sidebar button:hover {
-  background: #1abc9c;
+/* hover */
+.sidebar-btn:hover {
+  background: #343a40;
 }
 
+/* active */
+.sidebar-btn.active {
+  background: #0d6efd;
+}
+
+/* icon */
+.sidebar-icon {
+  font-size: 16px;
+}
+
+/* ===== CONTENT ===== */
 .content {
   flex: 1;
   padding: 20px;
+  background: #f8f9fa;
 }
