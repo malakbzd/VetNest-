@@ -11,7 +11,7 @@ export default function Appointments() {
 
   return (
     <div className="appointments-container">
-      {/* TITLE مع أيقونة React Icons */}
+    
       <h1 className="appointments-title">
         <BsCalendar className="title-icon" />  My Appointments
       </h1>
