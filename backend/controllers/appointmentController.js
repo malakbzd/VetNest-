@@ -5,7 +5,7 @@ exports.createAppointment = async (req, res) => {
   try {
     const app = await Appointment.create({
       ...req.body,
-      user: req.user._id, // ✅ التصحيح هنا
+     user: req.body.user || req.user._id
     });
 
     res.status(201).json(app);
