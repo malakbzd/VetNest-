@@ -36,15 +36,32 @@
 
 /* ===== TITLE ===== */
 .appointments-title {
-  text-align: center;
-  margin-bottom: 32px;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--primary-pink), var(--primary-navy));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--primary-navy);
+  margin-bottom: 32px;
+  text-align: center;
   letter-spacing: -0.5px;
+  position: relative;
+  padding-bottom: 16px;
+}
+
+.appointments-title i {
+  margin-right: 12px;
+  color: var(--primary-pink);
+  font-size: 2.2rem;
+}
+
+.appointments-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-pink), var(--primary-navy));
+  border-radius: 4px;
 }
 
 /* ===== FORM ===== */
