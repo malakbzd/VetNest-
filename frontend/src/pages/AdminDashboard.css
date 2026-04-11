@@ -1,61 +1,84 @@
-/* ===== LAYOUT ===== */
+/* ========================================
+   PROFESSIONAL VET CLINIC STYLE - Admin Dashboard
+   ======================================== */
+
+:root {
+  --primary-pink: #f5a3c7;
+  --primary-pink-dark: #e88bb3;
+  --primary-navy: #1a2a4f;
+  --primary-navy-dark: #0f1a33;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-800: #343a40;
+  --white: #ffffff;
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --radius-lg: 16px;
+}
+
 .admin-container {
   display: flex;
   min-height: 100vh;
+  background: var(--gray-100);
 }
 
-/* ===== SIDEBAR ===== */
 .sidebar {
-  width: 220px;
-  background: #212529;
-  color: white;
-  padding: 20px;
+  width: 280px;
+  background: linear-gradient(180deg, var(--primary-navy) 0%, var(--primary-navy-dark) 100%);
+  color: var(--white);
+  padding: 32px 20px;
   display: flex;
   flex-direction: column;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.08);
 }
 
 .sidebar-title {
-  margin-bottom: 20px;
-  font-size: 20px;
+  margin-bottom: 40px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--primary-pink), var(--white));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-/* buttons */
 .sidebar-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
-
-  padding: 10px;
+  gap: 14px;
+  padding: 14px 18px;
   margin-bottom: 10px;
-
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   border: none;
-  color: white;
+  color: var(--gray-200);
   text-align: left;
-
   cursor: pointer;
-  border-radius: 6px;
-  transition: 0.2s;
+  border-radius: var(--radius-lg);
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  font-weight: 500;
+  backdrop-filter: blur(4px);
 }
 
-/* hover */
 .sidebar-btn:hover {
-  background: #343a40;
+  background: rgba(245, 163, 199, 0.2);
+  color: var(--primary-pink);
+  transform: translateX(6px);
 }
 
-/* active */
 .sidebar-btn.active {
-  background: #0d6efd;
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
+  color: var(--primary-navy);
+  box-shadow: 0 4px 14px rgba(245, 163, 199, 0.35);
 }
 
-/* icon */
 .sidebar-icon {
-  font-size: 16px;
+  font-size: 1.2rem;
 }
 
-/* ===== CONTENT ===== */
 .content {
   flex: 1;
-  padding: 20px;
-  background: #f8f9fa;
+  padding: 32px;
+  background: var(--gray-100);
 }
