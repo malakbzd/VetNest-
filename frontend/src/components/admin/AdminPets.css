@@ -42,6 +42,9 @@
 
 /* ===== ACTIONS ===== */
 .pet-actions {
+  display: flex;
+  flex-direction: row; /* جنب بعض */
+  gap: 8px;
   margin-top: 10px;
 }
 
@@ -84,4 +87,14 @@
   border: none;
   outline: none;
   width: 100%;
+}
+.age-group {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-select {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
 }

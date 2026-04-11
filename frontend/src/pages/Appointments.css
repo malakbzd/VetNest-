@@ -1,86 +1,174 @@
-/* Container */
+/* ===== CONTAINER ===== */
 .appointments-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 1.5rem;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
   font-family: "Segoe UI", sans-serif;
 }
 
-/* Title */
+/* ===== TITLE ===== */
 .appointments-title {
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 24px;
+  color: #212529;
 }
 
-/* Form */
+/* ===== FORM ===== */
 .appointment-form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+
+  margin-bottom: 30px;
+}
+
+/* FORM GROUP */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full {
+  grid-column: span 2;
+}
+
+/* LABEL */
+.form-group label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* INPUT */
+.form-input {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 2px rgba(13,110,253,0.15);
+}
+
+/* ===== BUTTONS ===== */
+.form-actions {
+  grid-column: span 2;
   display: flex;
   gap: 10px;
-  margin-bottom: 1.5rem;
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.appointment-form input {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.form-btn,
+.cancel-btn {
   flex: 1;
-}
-
-.appointment-form button {
-  background-color: #27ae60;
-  color: white;
+  height: 40px;
   border: none;
-  padding: 8px 14px;
   border-radius: 6px;
+  color: white;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
-.appointment-form button:hover {
-  background-color: #219150;
+.form-btn {
+  background: #0d6efd;
 }
 
-/* List */
+.form-btn:hover {
+  background: #0b5ed7;
+}
+
+.cancel-btn {
+  background: #6c757d;
+}
+
+.cancel-btn:hover {
+  background: #5c636a;
+}
+
+/* ===== LIST ===== */
 .appointment-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 15px;
 }
 
-/* Card */
+/* ===== CARD ===== */
 .appointment-card {
-  background: white;
-  padding: 1rem;
+  background: #fff;
+  padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-  border-left: 5px solid #27ae60;
+  border: 1px solid #dee2e6;
+  transition: all 0.2s ease;
+}
+
+.appointment-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transform: translateY(-3px);
+}
+
+/* TEXT */
+.appointment-card p {
+  margin: 5px 0;
+  color: #555;
+}
+
+/* ===== ACTIONS ===== */
+.appointment-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 10px;
 }
 
-/* Text */
-.appointment-info p {
-  margin: 3px 0;
-  color: #333;
-}
-
-/* Delete button */
+/* BUTTON ICONS */
+.edit-btn,
 .delete-btn {
-  background-color: #e74c3c;
-  color: white;
+  width: 34px;
+  height: 34px;
   border: none;
-  padding: 6px 10px;
   border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s ease;
+}
+
+/* EDIT */
+.edit-btn {
+  background: #0d6efd;
+}
+
+.edit-btn:hover {
+  background: #0b5ed7;
+  transform: scale(1.05);
+}
+
+/* DELETE */
+.delete-btn {
+  background: #dc3545;
 }
 
 .delete-btn:hover {
-  background-color: #c0392b;
+  background: #bb2d3b;
+  transform: scale(1.05);
+}
+
+/* ===== STATES ===== */
+.loading,
+.no-data {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #6c757d;
 }

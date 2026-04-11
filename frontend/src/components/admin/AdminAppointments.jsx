@@ -7,7 +7,6 @@ function AdminAppointments() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // edit state
   const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
     userName: "",
@@ -21,6 +20,7 @@ function AdminAppointments() {
     },
   }), []);
 
+  // ===== FETCH + SORT + FILTER =====
   const fetchAppointments = useCallback(async () => {
     setLoading(true);
     try {
@@ -28,7 +28,16 @@ function AdminAppointments() {
         "http://localhost:5000/api/appointments",
         getAuthConfig()
       );
-      setAppointments(res.data);
+
+      const today = new Date();
+
+      const filtered = res.data
+        // ✅ غير المواعيد القادمة
+        .filter((a) => new Date(a.date) >= today)
+        // ✅ ترتيب حسب التاريخ
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      setAppointments(filtered);
     } catch (err) {
       console.error(err);
       setAppointments([]);
@@ -54,15 +63,12 @@ function AdminAppointments() {
   const deleteAppointment = async (id) => {
     if (!window.confirm("Delete this appointment?")) return;
 
-    try {
-      await axios.delete(
-        `http://localhost:5000/api/appointments/${id}`,
-        getAuthConfig()
-      );
-      fetchAppointments();
-    } catch (err) {
-      console.error(err);
-    }
+    await axios.delete(
+      `http://localhost:5000/api/appointments/${id}`,
+      getAuthConfig()
+    );
+
+    fetchAppointments();
   };
 
   // ===== EDIT =====
@@ -79,14 +85,24 @@ function AdminAppointments() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      await updateAppointment();
-      setEditingId(null);
-      setFormData({ userName: "", date: "", service: "" });
-      fetchAppointments();
-    } catch (err) {
-      console.error(err);
-    }
+    await updateAppointment();
+
+    setEditingId(null);
+    setFormData({ userName: "", date: "", service: "" });
+
+    fetchAppointments();
+  };
+
+  // ===== HELPER: CLASS حسب التاريخ =====
+  const getStatusClass = (date) => {
+    const today = new Date();
+    const d = new Date(date);
+
+    const diff = (d - today) / (1000 * 60 * 60 * 24);
+
+    if (diff < 1) return "today";       // اليوم
+    if (diff <= 3) return "soon";       // قريب
+    return "normal";
   };
 
   return (
@@ -96,7 +112,7 @@ function AdminAppointments() {
         Appointments
       </h2>
 
-      {/* ===== EDIT FORM ===== */}
+      {/* FORM */}
       {editingId && (
         <form onSubmit={handleSubmit} className="admin-form">
           <input
@@ -130,7 +146,6 @@ function AdminAppointments() {
 
           <div className="form-actions">
             <button className="admin-btn">Update</button>
-
             <button
               type="button"
               className="cancel-btn"
@@ -144,34 +159,30 @@ function AdminAppointments() {
 
       {/* حالات */}
       {loading && <p className="loading">Loading...</p>}
-
       {!loading && appointments.length === 0 && (
-        <p className="no-data">No appointments yet</p>
+        <p className="no-data">No upcoming appointments</p>
       )}
 
       {/* LIST */}
       <div className="appointments-list">
         {appointments.map((a) => (
-          <div key={a._id} className="appointment-card">
-            <p><strong>User:</strong> {a.userName || "N/A"}</p>
-            <p><strong>Date:</strong> {a.date || "N/A"}</p>
-            <p><strong>Service:</strong> {a.service || "N/A"}</p>
+          <div
+            key={a._id}
+            className={`appointment-card ${getStatusClass(a.date)}`}
+          >
+            <p><strong>User:</strong> {a.userName}</p>
+            <p><strong>Date:</strong> {a.date}</p>
+            <p><strong>Service:</strong> {a.service}</p>
 
-           <div className="appointment-actions">
-  <button
-    className="edit-btn"
-    onClick={() => handleEdit(a)}
-  >
-    <BsPencilSquare />
-  </button>
+            <div className="appointment-actions">
+              <button onClick={() => handleEdit(a)} className="edit-btn">
+                <BsPencilSquare />
+              </button>
 
-  <button
-    className="delete-btn"
-    onClick={() => deleteAppointment(a._id)}
-  >
-    <BsTrash />
-  </button>
-</div>
+              <button onClick={() => deleteAppointment(a._id)} className="delete-btn">
+                <BsTrash />
+              </button>
+            </div>
           </div>
         ))}
       </div>

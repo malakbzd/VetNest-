@@ -27,7 +27,7 @@ function ArticlesPage() {
   return (
     <div style={{ padding: "2rem", maxWidth: "1200px", margin: "0 auto" }}>
       <h1 style={{ fontSize: "2rem", color: "#2c3e50", marginBottom: "2rem" }}>
-        📚 Pet Care Articles
+      Pet Care Articles
       </h1>
       <div style={{
         display: "grid",

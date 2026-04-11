@@ -1,65 +1,126 @@
-import React, { useState } from "react";
-import { addPet } from "../api";
+import { useState } from "react";
+import axios from "axios";
+import "./pets.css";
 
-function PetForm({ refresh }) {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [age, setAge] = useState("");
-  const [ownerName, setOwnerName] = useState("");
+export default function PetForm({ refresh }) {
+  const [form, setForm] = useState({
+    name: "",
+    type: "",
+    age: "",
+    ageUnit: "years",
+    ownerName: ""
+  });
+
+  const getAuthConfig = () => ({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!name || !type || !age) {
-      alert("Name, type, and age are required");
-      return;
+
+    if (!form.name.trim()) return;
+
+    try {
+      await axios.post(
+        "http://localhost:5000/api/pets",
+        form,
+        getAuthConfig()
+      );
+
+      setForm({
+        name: "",
+        type: "",
+        age: "",
+        ageUnit: "years",
+        ownerName: ""
+      });
+
+      refresh();
+    } catch (err) {
+      console.error(err);
     }
-    await addPet({ name, type, age: parseInt(age), ownerName });
-    setName("");
-    setType("");
-    setAge("");
-    setOwnerName("");
-    refresh();
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
-      <input
-        type="text"
-        placeholder="Pet Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        style={styles.input}
-      />
-      <input
-        type="text"
-        placeholder="Type (Dog, Cat, Bird...)"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-        style={styles.input}
-      />
-      <input
-        type="number"
-        placeholder="Age (years)"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        style={styles.input}
-      />
-      <input
-        type="text"
-        placeholder="Owner Name (optional)"
-        value={ownerName}
-        onChange={(e) => setOwnerName(e.target.value)}
-        style={styles.input}
-      />
-      <button type="submit" style={styles.button}>Add Pet</button>
+    <form onSubmit={handleSubmit} className="admin-form">
+
+      {/* NAME */}
+      <div className="form-group">
+        <label>Pet Name</label>
+        <input
+          className="admin-input"
+          placeholder="Enter pet name"
+          value={form.name}
+          onChange={(e) =>
+            setForm({ ...form, name: e.target.value })
+          }
+        />
+      </div>
+
+      {/* TYPE */}
+      <div className="form-group">
+        <label>Type</label>
+        <input
+          className="admin-input"
+          placeholder="Dog, Cat..."
+          value={form.type}
+          onChange={(e) =>
+            setForm({ ...form, type: e.target.value })
+          }
+        />
+      </div>
+
+      {/* AGE */}
+      <div className="form-group">
+        <label>Age</label>
+
+        <div className="age-group">
+          <input
+            className="admin-input"
+            type="number"
+            placeholder="Age"
+            value={form.age}
+            onChange={(e) =>
+              setForm({ ...form, age: e.target.value })
+            }
+          />
+
+          <select
+            className="admin-select"
+            value={form.ageUnit}
+            onChange={(e) =>
+              setForm({ ...form, ageUnit: e.target.value })
+            }
+          >
+            <option value="days">Days</option>
+            <option value="months">Months</option>
+            <option value="years">Years</option>
+          </select>
+        </div>
+      </div>
+
+      {/* OWNER */}
+      <div className="form-group">
+        <label>Owner Name</label>
+        <input
+          className="admin-input"
+          placeholder="Owner name"
+          value={form.ownerName}
+          onChange={(e) =>
+            setForm({ ...form, ownerName: e.target.value })
+          }
+        />
+      </div>
+
+      {/* BUTTON */}
+      <div className="form-actions">
+        <button className="admin-btn">
+          Add Pet
+        </button>
+      </div>
+
     </form>
   );
 }
-
-const styles = {
-  form: { display: "flex", gap: "1rem", flexWrap: "wrap", marginBottom: "2rem" },
-  input: { padding: "0.5rem", border: "1px solid #ccc", borderRadius: "4px", flex: 1, minWidth: "150px" },
-  button: { padding: "0.5rem 1rem", backgroundColor: "#27ae60", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }
-};
-
-export default PetForm;

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { getPets } from "../api";
 import PetForm from "./PetForm";
 import PetList from "./PetList";
-import "./pets.css"; // 👈 import your CSS
+import { FaPaw } from "react-icons/fa"; // 👈 icon
+import "./pets.css";
 
 function PetDashboard() {
   const [pets, setPets] = useState([]);
@@ -21,7 +22,9 @@ function PetDashboard() {
 
   return (
     <div className="pets-container">
-      <h2 className="pets-title">🐾 My Pets</h2>
+      <h2 className="pets-title">
+        <FaPaw className="title-icon" /> My Pets
+      </h2>
 
       <div className="pets-card">
         <PetForm refresh={handleRefresh} />
