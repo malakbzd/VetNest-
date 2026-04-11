@@ -1,0 +1,135 @@
+.admin-appointments-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ===== TITLE ===== */
+.admin-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #212529;
+}
+
+.title-icon {
+  color: #212529;
+}
+
+/* ===== LIST ===== */
+.appointments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ===== CARD ===== */
+.appointment-card {
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  transition: 0.2s;
+}
+
+.appointment-card:hover {
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+
+/* ===== ACTIONS ===== */
+.appointment-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ===== BUTTONS ===== */
+.edit-btn,
+.delete-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.25s ease;
+}
+
+/* EDIT */
+.edit-btn {
+  background: #0d6efd;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #0b5ed7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(13,110,253,0.3);
+}
+
+/* DELETE */
+.delete-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #bb2d3b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(220,53,69,0.3);
+}
+
+/* ===== FORM ===== */
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  margin-bottom: 20px;
+}
+
+.admin-input {
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin-btn {
+  background: #0d6efd;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ===== STATES ===== */
+.loading,
+.no-data {
+  text-align: center;
+  color: #6c757d;
+}

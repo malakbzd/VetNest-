@@ -1,10 +1,9 @@
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
-import { MdOutlineArticle } from "react-icons/md";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { BsNewspaper, BsPencilSquare, BsTrash } from "react-icons/bs";
 import "./AdminArticles.css";
+
 function AdminArticles() {
-  // ========== STATE ==========
   const [articles, setArticles] = useState([]);
   const [formData, setFormData] = useState({
     title: "",
@@ -15,14 +14,12 @@ function AdminArticles() {
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ========== CONFIG ==========
   const getAuthConfig = useCallback(() => ({
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`
     }
   }), []);
 
-  // ========== RESET ==========
   const resetForm = () => {
     setFormData({
       title: "",
@@ -33,7 +30,6 @@ function AdminArticles() {
     setEditingId(null);
   };
 
-  // ========== FETCH ==========
   const fetchArticles = useCallback(async () => {
     setLoading(true);
     try {
@@ -43,13 +39,12 @@ function AdminArticles() {
       );
       setArticles(res.data);
     } catch (err) {
-      console.error("Error fetching articles:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   }, [getAuthConfig]);
 
-  // ========== CREATE ==========
   const createArticle = async () => {
     await axios.post(
       "http://localhost:5000/api/articles",
@@ -58,7 +53,6 @@ function AdminArticles() {
     );
   };
 
-  // ========== UPDATE ==========
   const updateArticle = async () => {
     await axios.put(
       `http://localhost:5000/api/articles/${editingId}`,
@@ -67,7 +61,6 @@ function AdminArticles() {
     );
   };
 
-  // ========== DELETE ==========
   const deleteArticle = async (id) => {
     await axios.delete(
       `http://localhost:5000/api/articles/${id}`,
@@ -75,29 +68,24 @@ function AdminArticles() {
     );
   };
 
-  // ========== SUBMIT ==========
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!formData.title.trim() || !formData.content.trim()) return;
 
     setLoading(true);
     try {
-      if (editingId) {
-        await updateArticle();
-      } else {
-        await createArticle();
-      }
+      if (editingId) await updateArticle();
+      else await createArticle();
+
       resetForm();
       fetchArticles();
     } catch (err) {
-      console.error("Error saving article:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // ========== EDIT ==========
   const handleEdit = (article) => {
     setFormData({
       title: article.title,
@@ -108,7 +96,6 @@ function AdminArticles() {
     setEditingId(article._id);
   };
 
-  // ========== DELETE ==========
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure?")) return;
 
@@ -117,86 +104,100 @@ function AdminArticles() {
       await deleteArticle(id);
       fetchArticles();
     } catch (err) {
-      console.error("Error deleting:", err);
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  // ========== LIFECYCLE ==========
   useEffect(() => {
     fetchArticles();
   }, [fetchArticles]);
 
-  // ========== RENDER ==========
   return (
     <div className="admin-articles-container">
       <h2 className="admin-title">
-        <MdOutlineArticle  /> Articles
+        <BsNewspaper className="title-icon" />
+        Articles
       </h2>
 
-      {/* ===== FORM ===== */}
+      {/* FORM */}
       <form onSubmit={handleSubmit} className="admin-form">
-        <input
-          type="text"
-          placeholder="Title..."
-          value={formData.title}
-          onChange={(e) =>
-            setFormData({ ...formData, title: e.target.value })
-          }
-          disabled={loading}
-        />
 
-        <textarea
-          placeholder="Content..."
-          value={formData.content}
-          onChange={(e) =>
-            setFormData({ ...formData, content: e.target.value })
-          }
-          disabled={loading}
-        />
+        <div className="form-group">
+          <label>Title</label>
+          <input
+            type="text"
+            className="admin-input"
+            placeholder="Enter title"
+            value={formData.title}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+          />
+        </div>
 
-        <input
-          type="text"
-          placeholder="Category..."
-          value={formData.category}
-          onChange={(e) =>
-            setFormData({ ...formData, category: e.target.value })
-          }
-          disabled={loading}
-        />
+        <div className="form-group">
+          <label>Category</label>
+          <input
+            type="text"
+            className="admin-input"
+            placeholder="Enter category"
+            value={formData.category}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          />
+        </div>
 
-        <input
-          type="text"
-          placeholder="Image URL..."
-          value={formData.image}
-          onChange={(e) =>
-            setFormData({ ...formData, image: e.target.value })
-          }
-          disabled={loading}
-        />
+        <div className="form-group full">
+          <label>Image URL</label>
+          <input
+            type="text"
+            className="admin-input"
+            placeholder="Paste image link"
+            value={formData.image}
+            onChange={(e) =>
+              setFormData({ ...formData, image: e.target.value })
+            }
+          />
+        </div>
 
-        <button type="submit" disabled={loading}>
-          {loading
-            ? "Processing..."
-            : editingId
-            ? "Update"
-            : "Add Article"}
-        </button>
+        <div className="form-group full">
+          <label>Content</label>
+          <textarea
+            className="admin-textarea"
+            placeholder="Write article..."
+            value={formData.content}
+            onChange={(e) =>
+              setFormData({ ...formData, content: e.target.value })
+            }
+          />
+        </div>
 
-        {editingId && (
-          <button type="button" onClick={resetForm}>
-            Cancel
+        <div className="form-actions">
+          <button className="admin-btn" type="submit">
+            {editingId ? "Update Article" : "Add Article"}
           </button>
-        )}
+
+          {editingId && (
+            <button
+              type="button"
+              className="cancel-btn"
+              onClick={resetForm}
+            >
+              Cancel
+            </button>
+          )}
+        </div>
       </form>
 
-      {/* ===== LIST ===== */}
+      {/* LIST */}
       <div className="admin-list">
-        {loading && <p>Loading...</p>}
+        {loading && <p className="loading">Loading...</p>}
 
         {!loading && articles.length === 0 && (
-          <p>No articles yet</p>
+          <p className="no-data">No articles yet</p>
         )}
 
         {articles.map((article) => (
@@ -204,25 +205,27 @@ function AdminArticles() {
             <h3>{article.title}</h3>
 
             {article.image && (
-              <img
-                src={article.image}
-                alt={article.title}
-                width="200"
-              />
+              <img src={article.image} alt={article.title} />
             )}
 
             <p>{article.content}</p>
             <small>{article.category}</small>
 
             <div className="admin-actions">
-  <button className="edit-btn" onClick={() => handleEdit(article)}>
-    <FaEdit />
-  </button>
+              <button
+                className="edit-btn"
+                onClick={() => handleEdit(article)}
+              >
+                <BsPencilSquare />
+              </button>
 
-  <button className="delete-btn" onClick={() => handleDelete(article._id)}>
-    <FaTrash />
-  </button>
-</div>
+              <button
+                className="delete-btn"
+                onClick={() => handleDelete(article._id)}
+              >
+                <BsTrash />
+              </button>
+            </div>
           </div>
         ))}
       </div>
