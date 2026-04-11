@@ -9,23 +9,26 @@ export default function AppointmentForm({ refresh }) {
     service: "",
   });
 
+  const getAuthConfig = () => ({
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.userName || !form.date || !form.service) {
-      alert("Fill all fields ❗");
-      return;
-    }
+    // نفس pets validation
+    if (!form.userName.trim()) return;
 
     try {
       await axios.post(
         "http://localhost:5000/api/appointments",
-        form
-        // 🟢 جرب بدون auth أولاً
+        form,
+        getAuthConfig()
       );
 
-      alert("Added ✅");
-
+      // reset
       setForm({
         userName: "",
         date: "",
@@ -34,18 +37,19 @@ export default function AppointmentForm({ refresh }) {
 
       refresh();
     } catch (err) {
-      console.error(err.response?.data || err.message);
-      alert("Error ❌");
+      console.error(err);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="appointment-form">
+    <form onSubmit={handleSubmit} className="admin-form">
 
+      {/* USER */}
       <div className="form-group">
         <label>User Name</label>
         <input
-          className="form-input"
+          className="admin-input"
+          placeholder="Enter user name"
           value={form.userName}
           onChange={(e) =>
             setForm({ ...form, userName: e.target.value })
@@ -53,11 +57,12 @@ export default function AppointmentForm({ refresh }) {
         />
       </div>
 
+      {/* DATE */}
       <div className="form-group">
         <label>Date</label>
         <input
           type="date"
-          className="form-input"
+          className="admin-input"
           value={form.date}
           onChange={(e) =>
             setForm({ ...form, date: e.target.value })
@@ -65,10 +70,12 @@ export default function AppointmentForm({ refresh }) {
         />
       </div>
 
+      {/* SERVICE */}
       <div className="form-group full">
         <label>Service</label>
         <input
-          className="form-input"
+          className="admin-input"
+          placeholder="Vaccination / Checkup..."
           value={form.service}
           onChange={(e) =>
             setForm({ ...form, service: e.target.value })
@@ -76,8 +83,9 @@ export default function AppointmentForm({ refresh }) {
         />
       </div>
 
+      {/* BUTTON */}
       <div className="form-actions">
-        <button className="form-btn">
+        <button className="admin-btn">
           Add Appointment
         </button>
       </div>
