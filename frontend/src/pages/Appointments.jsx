@@ -10,20 +10,18 @@ export default function Appointments() {
   const refresh = () => setRefreshFlag(!refreshFlag);
 
   return (
-    <div className="admin-appointments-container">
-
-      {/* TITLE (Admin Style) */}
-      <h2 className="admin-title">
+    <div className="appointments-container">
+      {/* TITLE مع أيقونة React Icons */}
+      <h1 className="appointments-title">
         <BsCalendar className="title-icon" />
-        Appointments
-      </h2>
+        My Appointments
+      </h1>
 
       {/* FORM */}
       <AppointmentForm refresh={refresh} />
 
       {/* LIST */}
       <AppointmentList refreshTrigger={refreshFlag} />
-
     </div>
   );
 }
