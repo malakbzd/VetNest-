@@ -7,15 +7,33 @@ const path = require("path");
 dotenv.config();
 connectDB();
 
-const app = express();
 
 // ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
 
 // ===== STATIC FILES (IMAGES) =====
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+const express = require("express");
+const multer = require("multer");
+const path = require("path");
+
+const app = express();
+
+// 👇 مهم باش الصور تبان
+app.use("/uploads", express.static("uploads"));
+
+// 👇 config multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "-" + file.originalname);
+  },
+});
+
+const upload = multer({ storage });
 // ===== ROUTES =====
 app.use("/api/pets", require("./routes/petRoutes"));
 app.use("/api/appointments", require("./routes/appointmentRoutes"));
