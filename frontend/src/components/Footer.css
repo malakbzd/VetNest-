@@ -78,3 +78,46 @@
   color: #d5c1b3;
   font-size: 0.875rem; /* text-sm */
 }
+
+.footer ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer ul li {
+  margin: 10px 0;
+}
+
+/* 🔥 Buttons */
+.footer ul li button {
+  background: transparent;
+  border: none;
+  color: #ddd;
+  font-size: 15px;
+  cursor: pointer;
+  position: relative;
+  padding: 5px 0;
+  transition: all 0.3s ease;
+}
+
+.footer ul li button:hover {
+  color: #ffffff;
+  transform: translateX(6px);
+}
+
+/* underline animation */
+.footer ul li button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: #4ade80;
+  transition: 0.3s ease;
+}
+
+.footer ul li button:hover::after {
+  width: 100%;
+}

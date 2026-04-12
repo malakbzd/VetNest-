@@ -28,7 +28,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="hero">
+    <section className="hero" id="hero">
       <div className="hero-content">
         <p className="hero-tag">Trusted Pet Care, Tailored With Love</p>
         <h1 className="hero-title">
