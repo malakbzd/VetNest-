@@ -15,6 +15,7 @@ import Appointments from "./pages/Appointments";
 import Shop from "./pages/ShopPage";
 import Articles from "./pages/ArticlesPage";
 import Dashboard from "./pages/Dashboard";
+import "./App.css";
 
 // Protected route wrapper (checks token only)
 const Protected = ({ children }) => {
@@ -41,18 +42,17 @@ const App = () => {
 
     <Routes>
   {/* Home page */}
-  <Route
-    path="/"
-    element={
-      <>
-        <Hero />
-        <Services />
-        <AboutUs />
-        <FAQsAccordion />
-      </>
-    }
-  />
-
+ <Route
+  path="/"
+  element={
+    <div className="home-container">
+      <Hero />
+      <Services />
+      <AboutUs />
+      <FAQsAccordion />
+    </div>
+  }
+/>
   {/* Auth */}
   <Route path="/login" element={<Login />} />
   <Route path="/register" element={<Register />} />

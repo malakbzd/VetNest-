@@ -1,5 +1,5 @@
 import React from "react";
-import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom"; // ✅ مهم
 import "./Footer.css";
 
@@ -38,9 +38,7 @@ const Footer = () => {
           </p>
           <div className="social-icons">
             <FaInstagram />
-            <FaFacebookF />
-            <FaTwitter />
-            <FaYoutube />
+            
           </div>
         </div>
 
