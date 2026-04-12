@@ -17,14 +17,14 @@ export default function AdminShop() {
     image: null,
   });
 
-  // ===== FETCH =====
+  // ================= FETCH =================
   const fetchProducts = async () => {
     try {
       const res = await axios.get("http://localhost:5000/api/products");
       setProducts(res.data);
     } catch (err) {
-      console.error(err);
-      toast.error("Error loading products ❌");
+      console.log(err);
+      toast.error("Error loading ❌");
     }
   };
 
@@ -32,13 +32,12 @@ export default function AdminShop() {
     fetchProducts();
   }, []);
 
-  // ===== SUBMIT =====
+  // ================= SUBMIT =================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.name.trim()) {
-      toast.error("Name required ❌");
-      return;
+      return toast.error("Name required ❌");
     }
 
     const data = new FormData();
@@ -62,8 +61,10 @@ export default function AdminShop() {
         toast.success("Added ✅");
       }
 
+      // refresh
       fetchProducts();
 
+      // reset
       setForm({
         name: "",
         description: "",
@@ -75,12 +76,12 @@ export default function AdminShop() {
       setEditingId(null);
 
     } catch (err) {
-      console.error(err);
+      console.log(err);
       toast.error("Error ❌");
     }
   };
 
-  // ===== DELETE =====
+  // ================= DELETE =================
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product?")) return;
 
@@ -93,7 +94,7 @@ export default function AdminShop() {
     }
   };
 
-  // ===== EDIT =====
+  // ================= EDIT =================
   const handleEdit = (p) => {
     setForm({
       name: p.name || "",
@@ -103,10 +104,16 @@ export default function AdminShop() {
     });
 
     setEditingId(p._id);
-    setPreview(`http://localhost:5000/uploads/${p.image}`);
+
+    // 🔥 preview الصورة القديمة
+    setPreview(
+      p.image
+        ? `http://localhost:5000/uploads/${p.image}`
+        : null
+    );
   };
 
-  // ===== SEARCH SAFE 🔥 =====
+  // ================= SEARCH =================
   const filtered = products.filter((p) =>
     (p?.name || "").toLowerCase().includes(search.toLowerCase())
   );
@@ -115,14 +122,13 @@ export default function AdminShop() {
     <div className="admin-shop-container">
 
       <h2 className="admin-title">
-        <FaShoppingCart className="title-icon" />
-        Shop
+        <FaShoppingCart /> Shop
       </h2>
 
       {/* SEARCH */}
       <input
         className="admin-input"
-        placeholder="Search product..."
+        placeholder="Search..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -141,8 +147,8 @@ export default function AdminShop() {
 
         <input
           className="admin-input"
-          placeholder="Price"
           type="number"
+          placeholder="Price"
           value={form.price}
           onChange={(e) =>
             setForm({ ...form, price: e.target.value })
@@ -163,8 +169,13 @@ export default function AdminShop() {
           }}
         />
 
+        {/* PREVIEW */}
         {preview && (
-          <img src={preview} className="preview-img" alt="preview" />
+          <img
+            src={preview}
+            className="preview-img"
+            alt="preview"
+          />
         )}
 
         <input
@@ -176,24 +187,27 @@ export default function AdminShop() {
           }
         />
 
-        <div className="form-actions">
-          <button className="admin-btn">
-            {editingId ? "Update" : "Add Product"}
-          </button>
-        </div>
+        <button className="admin-btn">
+          {editingId ? "Update" : "Add Product"}
+        </button>
 
       </form>
 
       {/* PRODUCTS */}
       <div className="shop-grid">
         {filtered.length === 0 ? (
-          <p className="no-data">No products found</p>
+          <p className="no-data">No products</p>
         ) : (
           filtered.map((p) => (
             <div key={p._id} className="product-card">
 
+              {/* 🔥 الصورة (المشكلة كانت هنا) */}
               <img
-                src={`http://localhost:5000/uploads/${p.image}`}
+                src={
+                  p.image
+                    ? `http://localhost:5000/uploads/${p.image}`
+                    : "https://via.placeholder.com/150"
+                }
                 alt={p.name}
               />
 
@@ -203,17 +217,11 @@ export default function AdminShop() {
                 <span className="price">${p.price}</span>
 
                 <div className="product-actions">
-                  <button
-                    className="edit-btn"
-                    onClick={() => handleEdit(p)}
-                  >
+                  <button onClick={() => handleEdit(p)}>
                     <FaEdit />
                   </button>
 
-                  <button
-                    className="delete-btn"
-                    onClick={() => handleDelete(p._id)}
-                  >
+                  <button onClick={() => handleDelete(p._id)}>
                     <FaTrash />
                   </button>
                 </div>

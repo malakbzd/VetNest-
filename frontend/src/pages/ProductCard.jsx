@@ -3,37 +3,62 @@ import React from "react";
 function ProductCard({ product }) {
 
   const getImage = (img) => {
-    if (!img) return "https://via.placeholder.com/300";
+    // ❌ إذا ماكانش img
+    if (!img || typeof img !== "string") {
+      return "https://via.placeholder.com/300";
+    }
 
-    // إذا الصورة URL مباشرة (preview من PC)
-    if (img.startsWith("blob:") || img.startsWith("http")) {
+    // ✅ preview (upload من الجهاز)
+    if (img.startsWith("blob:")) {
       return img;
     }
 
-    // إذا جاية من backend
+    // ✅ إذا URL جاهز
+    if (img.startsWith("http")) {
+      return img;
+    }
+
+    // ⚠️ إذا فيها uploads/ من قبل
+    if (img.includes("uploads/")) {
+      return `http://localhost:5000/${img}`;
+    }
+
+    // ✅ الحالة العادية (اسم الصورة فقط)
     return `http://localhost:5000/uploads/${img}`;
   };
 
   return (
     <div style={styles.card}>
+
+      {/* 🖼️ IMAGE */}
       <img
-        src={getImage(product.image)}
-        alt={product.name}
+        src={getImage(product?.image)}
+        alt={product?.name || "product"}
         style={styles.image}
         onError={(e) => {
           e.target.src = "https://via.placeholder.com/300";
         }}
       />
 
+      {/* 📦 CONTENT */}
       <div style={styles.content}>
-        <h3 style={styles.title}>{product.name}</h3>
-        <p style={styles.description}>{product.description}</p>
-        <p style={styles.price}>${product.price}</p>
+        <h3 style={styles.title}>
+          {product?.name || "No name"}
+        </h3>
+
+        <p style={styles.description}>
+          {product?.description || "No description"}
+        </p>
+
+        <p style={styles.price}>
+          ${product?.price || 0}
+        </p>
 
         <button style={styles.button}>
           Add to Cart
         </button>
       </div>
+
     </div>
   );
 }
@@ -55,6 +80,7 @@ const styles = {
   },
   title: {
     fontSize: "1.2rem",
+    marginBottom: "0.5rem",
   },
   description: {
     color: "#666",
@@ -67,7 +93,7 @@ const styles = {
   },
   button: {
     marginTop: "1rem",
-    padding: "0.5rem",
+    padding: "0.6rem",
     background: "#3498db",
     color: "white",
     border: "none",
