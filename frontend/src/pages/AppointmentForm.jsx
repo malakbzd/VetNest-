@@ -1,83 +1,83 @@
 import React, { useState, useEffect } from "react";
-import { addAppointment, getPets } from "../api";
+import { addAppointment } from "../api";
+import { getPets } from "../api";
 export default function AppointmentForm({ refresh }) {
-const [pets, setPets] = useState([]);
-const [form, setForm] = useState({
-pet: "",
-date: "",
-reason: "",
-});
+  const [pets, setPets] = useState([]);
+  const [form, setForm] = useState({ pet: "", date: "", reason: "" });
 
-useEffect(() => {
-const fetchPets = async () => {
-try {
-const res = await getPets();
-setPets(res.data);
-} catch (err) {
-console.error(err);
-}
-};
-fetchPets();
-}, []);
+  useEffect(() => {
+    const fetchPets = async () => {
+      try {
+        const res = await getPets();
+        setPets(res.data);
+      } catch (err) {
+        console.error("Failed to fetch pets:", err);
+      }
+    };
+    fetchPets();
+  }, []);
 
-const handleSubmit = async (e) => {
-e.preventDefault();
-
-
-if (!form.pet || !form.date || !form.reason.trim()) {
-  alert("Fill all fields");
-  return;
-}
-
-try {
-  await addAppointment({
-    pet: form.pet,
-    date: new Date(form.date).toISOString(),
-    reason: form.reason.trim(),
-  });
-
-  setForm({ pet: "", date: "", reason: "" });
-  refresh();
-} catch (err) {
-  console.error(err.response?.data || err.message);
-  alert("Add failed ❌");
-}
-
-
-};
-
-return ( <form onSubmit={handleSubmit}>
-<select
-value={form.pet}
-onChange={(e) =>
-setForm({ ...form, pet: e.target.value })
-}
-> <option value="">Select pet</option>
-{pets.map((p) => ( <option key={p._id} value={p._id}>
-{p.name} </option>
-))} </select>
-
-
-  <input
-    type="datetime-local"
-    value={form.date}
-    onChange={(e) =>
-      setForm({ ...form, date: e.target.value })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.pet || !form.date || !form.reason) {
+      alert("Please fill all fields");
+      return;
     }
-  />
-
-  <input
-    type="text"
-    placeholder="Reason"
-    value={form.reason}
-    onChange={(e) =>
-      setForm({ ...form, reason: e.target.value })
+    try {
+      await addAppointment(form);
+      setForm({ pet: "", date: "", reason: "" });
+      refresh();
+    } catch (err) {
+      alert("Failed to book appointment");
     }
-  />
+  };
 
-  <button type="submit">Add Appointment</button>
-</form>
+  return (
+    <form onSubmit={handleSubmit} className="appointment-form">
+      <div className="form-group">
+        <label>Select Pet</label>
+        <select
+          className="form-select"
+          value={form.pet}
+          onChange={(e) => setForm({ ...form, pet: e.target.value })}
+          required
+        >
+          <option value="">Choose a pet</option>
+          {pets.map((pet) => (
+            <option key={pet._id} value={pet._id}>
+              {pet.name} ({pet.type})
+            </option>
+          ))}
+        </select>
+      </div>
 
+      <div className="form-group">
+        <label>Date & Time</label>
+        <input
+          type="datetime-local"
+          className="form-input"
+          value={form.date}
+          onChange={(e) => setForm({ ...form, date: e.target.value })}
+          required
+        />
+      </div>
 
-);
+      <div className="form-group full">
+        <label>Reason</label>
+        <textarea
+          className="form-textarea"
+          placeholder="Describe the reason for visit"
+          value={form.reason}
+          onChange={(e) => setForm({ ...form, reason: e.target.value })}
+          required
+        />
+      </div>
+
+      <div className="form-actions">
+        <button type="submit" className="submit-btn">
+          Book Appointment
+        </button>
+      </div>
+    </form>
+  );
 }
