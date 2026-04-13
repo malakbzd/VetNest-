@@ -3,27 +3,21 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const path = require("path");
+const multer = require("multer");
 
 dotenv.config();
 connectDB();
 
+const app = express(); // 👈 لازم تجي قبل app.use
 
 // ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
 
-// ===== STATIC FILES (IMAGES) =====
-
-const express = require("express");
-const multer = require("multer");
-const path = require("path");
-
-const app = express();
-
-// 👇 مهم باش الصور تبان
+// ===== STATIC FILES =====
 app.use("/uploads", express.static("uploads"));
 
-// 👇 config multer
+// ===== MULTER CONFIG =====
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/");
@@ -34,6 +28,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
 // ===== ROUTES =====
 app.use("/api/pets", require("./routes/petRoutes"));
 app.use("/api/appointments", require("./routes/appointmentRoutes"));
