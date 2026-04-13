@@ -1,0 +1,102 @@
+.favorites-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+.favorites-container h1 {
+  font-size: 2rem;
+  color: #1a2a4f;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.favorites-container h1::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #f5a3c7, #1a2a4f);
+  margin: 0.5rem auto 0;
+  border-radius: 4px;
+}
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+.favorite-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.favorite-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+.favorite-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.favorite-card h3 {
+  font-size: 1.2rem;
+  margin: 0.75rem 0 0.5rem;
+  padding: 0 1rem;
+  color: #1a2a4f;
+}
+.favorite-card p {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #e67e22;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+.favorite-actions {
+  display: flex;
+  gap: 0.8rem;
+  padding: 0 1rem 1rem;
+}
+.favorite-actions button {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.favorite-actions button:first-child {
+  background: #1a2a4f;
+  color: white;
+}
+.favorite-actions button:first-child:hover {
+  background: #2a3d6e;
+}
+.favorite-actions button:last-child {
+  background: #e74c3c;
+  color: white;
+}
+.favorite-actions button:last-child:hover {
+  background: #c0392b;
+}
+.empty-favorites {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: 24px;
+}
+.empty-favorites p {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+}
+.empty-favorites a {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  background: #1a2a4f;
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+}
