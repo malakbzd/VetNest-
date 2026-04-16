@@ -67,10 +67,15 @@ function ArticlesPage() {
                   <i className="fas fa-user"></i>
                   {article.author?.name || "Admin"}
                 </p>
-                <button className="article-btn">
-                  Read More
-                  <i className="fas fa-arrow-right"></i>
-                </button>
+                <a
+  href={article.link || "#"}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="article-btn"
+>
+  Read More
+  <i className="fas fa-arrow-right"></i>
+</a>
               </div>
             </div>
           ))}
