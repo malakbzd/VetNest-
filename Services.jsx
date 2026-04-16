@@ -38,7 +38,7 @@ const petServices = [
 
 const Services = () => {
   return (
-    <section className="services-section">
+    <section className="services-section" id="services-section">
       <h2 className="services-title">Our Pet Services</h2>
       <p className="services-desc">
         We care for your pets like family. Explore our range of trusted pet care services designed for their happiness & your peace of mind.
