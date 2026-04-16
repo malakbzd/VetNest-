@@ -32,7 +32,7 @@ const Navbar = () => {
           <Link to="/">Home</Link>
           <Link to="/shop">Shop</Link>
           <Link to="/articles">Articles</Link>
-
+          
           {isAuth && <Link to="/pets">Pets</Link>}
           {isAuth && <Link to="/appointments">Appointments</Link>}
 

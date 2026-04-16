@@ -164,3 +164,123 @@
     font-size: 1.5rem;
   }
 }
+/* Shop Page Container */
+.shop-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Header with title and icons */
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #f5a3c7;
+  padding-bottom: 1rem;
+}
+
+.shop-title {
+  font-size: 2rem;
+  color: #1a2a4f;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.shop-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.shop-cart-icon, .shop-fav-icon {
+  position: relative;
+  font-size: 1.6rem;
+  text-decoration: none;
+  color: #1a2a4f;
+  transition: transform 0.2s;
+}
+
+.shop-cart-icon:hover, .shop-fav-icon:hover {
+  transform: scale(1.05);
+}
+
+.cart-badge, .fav-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: #e74c3c;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 20px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Product grid – responsive */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* Loading & error states */
+.shop-loading, .shop-error, .shop-empty {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+.shop-error {
+  color: #e74c3c;
+}/* Shop header with inline links */
+.shop-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f5a3c7;
+}
+
+.shop-title {
+  font-size: 2rem;
+  color: #1a2a4f;
+  margin: 0;
+}
+
+.shop-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.shop-link {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1a2a4f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 30px;
+  transition: all 0.2s;
+}
+
+.shop-link:hover {
+  background-color: #f5a3c7;
+  color: white;
+}
+
+.badge {
+  background-color: #e74c3c;
+  color: white;
+  border-radius: 20px;
+  padding: 0.1rem 0.5rem;
+  font-size: 0.75rem;
+  margin-left: 0.3rem;
+}

@@ -65,3 +65,19 @@ export const deleteArticle = (id) =>
 // ================= DASHBOARD =================
 export const getDashboard = () =>
   axios.get(`${API}/dashboard`, authHeader());
+// ================= CART =================
+export const getCart = () => axios.get(`${API}/cart`, authHeader());
+export const addToCart = (productId, quantity = 1) => axios.post(`${API}/cart/add`, { productId, quantity }, authHeader());
+export const updateCartItem = (productId, quantity) => axios.put(`${API}/cart/update`, { productId, quantity }, authHeader());
+export const removeFromCart = (productId) => axios.delete(`${API}/cart/remove/${productId}`, authHeader());
+export const clearCart = () => axios.delete(`${API}/cart/clear`, authHeader());
+
+// ================= FAVORITES =================
+export const getFavorites = () => axios.get(`${API}/favorites`, authHeader());
+export const addFavorite = (productId) => axios.post(`${API}/favorites/add`, { productId }, authHeader());
+export const removeFavorite = (productId) => axios.delete(`${API}/favorites/remove/${productId}`, authHeader());
+
+// ================= ORDERS =================
+export const createOrder = (orderData) => axios.post(`${API}/orders`, orderData, authHeader());
+export const getOrders = () => axios.get(`${API}/orders`, authHeader());
+export const getOrderById = (id) => axios.get(`${API}/orders/${id}`, authHeader());

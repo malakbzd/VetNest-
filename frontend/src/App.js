@@ -12,10 +12,14 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Pets from "./pages/Pets";
 import Appointments from "./pages/Appointments";
-import Shop from "./pages/ShopPage";
+import ShopPage from "./pages/ShopPage";
 import Articles from "./pages/ArticlesPage";
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
+import CartPage from "./pages/CartPage";
+import FavoritesPage from "./pages/FavoritesPage";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
+import CheckoutPage from "./pages/CheckoutPage";
 
 // Protected route wrapper (checks token only)
 const Protected = ({ children }) => {
@@ -56,12 +60,17 @@ const App = () => {
   {/* Auth */}
   <Route path="/login" element={<Login />} />
   <Route path="/register" element={<Register />} />
-
+  
   {/* Protected pages */}
   <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
   <Route path="/pets" element={<Protected><Pets /></Protected>} />
   <Route path="/appointments" element={<Protected><Appointments /></Protected>} />
-
+  
+   // Inside Routes:
+  <Route path="/cart" element={<Protected><CartPage /></Protected>} />
+  <Route path="/favorites" element={<Protected><FavoritesPage /></Protected>} />
+  <Route path="/orders" element={<Protected><OrderHistoryPage /></Protected>} />
+  <Route path="/checkout" element={<Protected><CheckoutPage /></Protected>} />
   {/* Admin route */}
   <Route
     path="/admin"
@@ -75,7 +84,7 @@ const App = () => {
   />
 
   {/* Public pages */}
-  <Route path="/shop" element={<Shop />} />
+  <Route path="/shop" element={<ShopPage />} />
   <Route path="/articles" element={<Articles />} />
 </Routes>
 

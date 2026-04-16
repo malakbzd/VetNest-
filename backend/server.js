@@ -36,7 +36,9 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/articles", require("./routes/articleRoutes"));
 app.use("/api/dashboard", require("./routes/dashboardRoutes"));
-
+app.use('/api/cart', require('./routes/cartRoutes'));
+app.use('/api/favorites', require('./routes/favoriteRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));
 // ===== TEST ROUTE =====
 app.get("/", (req, res) => {
   res.send("API is running 🚀");
