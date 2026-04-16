@@ -43,7 +43,7 @@ const FAQsAccordion = () => {
   };
 
   return (
-    <section className="faq-section">
+    <section className="faq-section" id="faq">
       <h2 className="faq-title">Frequently Asked Questions</h2>
       <p className="faq-subtitle">
         Got pawsitive doubts? Let's clear them out!

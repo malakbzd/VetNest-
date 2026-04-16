@@ -1,12 +1,36 @@
 import React from "react";
-import { FaInstagram, FaFacebookF, FaTwitter, FaYoutube } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ مهم
 import "./Footer.css";
 
 const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // ✅ scroll function
+  const scrollToSection = (id) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+
+      setTimeout(() => {
+        const section = document.getElementById(id);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Logo + tagline */}
+
+        {/* Logo */}
         <div className="footer-logo">
           <h2>VetNest</h2>
           <p>
@@ -14,20 +38,18 @@ const Footer = () => {
           </p>
           <div className="social-icons">
             <FaInstagram />
-            <FaFacebookF />
-            <FaTwitter />
-            <FaYoutube />
+            
           </div>
         </div>
 
-        {/* Quick Links */}
+        {/* ✅ Quick Links FIXED */}
         <div>
           <h3>Quick Links</h3>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/">Services</a></li>
-            <li><a href="/">About Us</a></li>
-            <li><a href="/">Contact</a></li>
+            <li><button onClick={() => scrollToSection("hero")}>Home</button></li>
+            <li><button onClick={() => scrollToSection("services-section")}>Services</button></li>
+            <li><button onClick={() => scrollToSection("about-section")}>About Us</button></li>
+            <li><button onClick={() => scrollToSection("faq")}>FAQ</button></li>
           </ul>
         </div>
 
@@ -52,14 +74,15 @@ const Footer = () => {
             <li>Location: Algeria</li>
           </ul>
         </div>
+
       </div>
 
-      {/* Bottom Bar */}
       <div className="footer-bottom">
         &copy; 2026 developed by champion programmers | All rights reserved
       </div>
     </footer>
   );
 };
+
 
 export default Footer;
