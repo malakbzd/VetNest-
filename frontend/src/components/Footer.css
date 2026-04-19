@@ -71,7 +71,7 @@
 
 /* Bottom Bar */
 .footer-bottom {
-  border-top: 1px solid #8572d5;
+  border-top: 1px solid #bcb4da;
   margin-top: 3rem; /* mt-12 */
   padding-top: 1rem; /* pt-4 */
   text-align: center;
@@ -120,4 +120,12 @@
 
 .footer ul li button:hover::after {
   width: 100%;
+}
+
+.social-icons a {
+  color: #fff; /* or whatever your footer color is */
+}
+
+.social-icons a:hover {
+  color: #E1306C; /* Instagram pink */
 }

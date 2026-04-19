@@ -37,9 +37,12 @@ const Footer = () => {
             Your pet's second-best friend (after you!). We provide top-notch care, grooming, food & more.
           </p>
           <div className="social-icons">
-            <FaInstagram />
-            
-          </div>
+  <a 
+    href="https://www.instagram.com/vetnest_/" 
+  >
+    <FaInstagram />
+  </a>
+</div>
         </div>
 
         {/* ✅ Quick Links FIXED */}
