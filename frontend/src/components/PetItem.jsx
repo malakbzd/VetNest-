@@ -25,16 +25,14 @@ export default function PetItem({ pet, refresh, onEdit }) {
 
   // 👇 format age
   const formatAge = (age, unit) => {
-  if (age === undefined || age === null || age === "" || !unit) {
-    return "N/A";
-  }
+    if (!age || !unit) return "N/A";
 
-  if (Number(age) === 1) {
-    return `${age} ${unit.slice(0, -1)}`;
-  }
+    if (age === 1) {
+      return `${age} ${unit.slice(0, -1)}`; // 1 year
+    }
 
-  return `${age} ${unit}`;
-};
+    return `${age} ${unit}`;
+  };
 
   return (
     <div className="pet-card">
