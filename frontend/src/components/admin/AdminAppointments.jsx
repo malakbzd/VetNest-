@@ -8,11 +8,11 @@ function AdminAppointments() {
   const [loading, setLoading] = useState(false);
 
   const [editingId, setEditingId] = useState(null);
-  const [formData, setFormData] = useState({
-    userName: "",
-    date: "",
-    service: "",
-  });
+ const [formData, setFormData] = useState({
+  date: "",
+  reason: "",
+  status: "pending",
+});
 
   const getAuthConfig = useCallback(() => ({
     headers: {
@@ -72,14 +72,14 @@ function AdminAppointments() {
   };
 
   // ===== EDIT =====
-  const handleEdit = (a) => {
-    setFormData({
-      userName: a.userName || "",
-      date: a.date || "",
-      service: a.service || "",
-    });
-    setEditingId(a._id);
-  };
+const handleEdit = (a) => {
+  setFormData({
+    date: a.date?.slice(0, 10), // important for input type="date"
+    reason: a.reason || "",
+    status: a.status || "pending",
+  });
+  setEditingId(a._id);
+};
 
   // ===== SUBMIT =====
   const handleSubmit = async (e) => {
@@ -152,7 +152,33 @@ function AdminAppointments() {
               onClick={() => setEditingId(null)}
             >
               Cancel
-            </button>
+        <input
+  type="date"
+  value={formData.date}
+  onChange={(e) =>
+    setFormData({ ...formData, date: e.target.value })
+  }
+/>
+
+<input
+  type="text"
+  placeholder="Reason"
+  value={formData.reason}
+  onChange={(e) =>
+    setFormData({ ...formData, reason: e.target.value })
+  }
+/>
+
+<select
+  value={formData.status}
+  onChange={(e) =>
+    setFormData({ ...formData, status: e.target.value })
+  }
+>
+  <option value="pending">Pending</option>
+  <option value="confirmed">Confirmed</option>
+  <option value="cancelled">Cancelled</option>
+</select>    </button>
           </div>
         </form>
       )}
@@ -170,9 +196,11 @@ function AdminAppointments() {
             key={a._id}
             className={`appointment-card ${getStatusClass(a.date)}`}
           >
-            <p><strong>User:</strong> {a.userName}</p>
-            <p><strong>Date:</strong> {a.date}</p>
-            <p><strong>Service:</strong> {a.service}</p>
+           <p><strong>User:</strong> {a.user?.name}</p>
+<p><strong>Pet:</strong> {a.pet?.name}</p>
+<p><strong>Date:</strong> {new Date(a.date).toLocaleDateString()}</p>
+<p><strong>Reason:</strong> {a.reason}</p>
+<p><strong>Status:</strong> {a.status}</p>
 
             <div className="appointment-actions">
               <button onClick={() => handleEdit(a)} className="edit-btn">
