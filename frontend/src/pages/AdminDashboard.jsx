@@ -30,7 +30,7 @@ export default function AdminDashboard() {
           onClick={() => setSection("appointments")}
         >
           <FaCalendarAlt />
-          Appointments
+          Appointments & Pets
         </button>
 
         <button
