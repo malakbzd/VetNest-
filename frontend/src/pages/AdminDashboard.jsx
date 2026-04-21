@@ -14,7 +14,7 @@ import {
 import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
-  const [section, setSection] = useState("pets");
+  const [section, setSection] = useState("appointments");
 
   return (
     <div className="admin-container">
