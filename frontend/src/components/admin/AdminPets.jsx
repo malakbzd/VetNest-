@@ -88,7 +88,9 @@ export default function AdminPets() {
             <h3>{p.name}</h3>
             <p><strong>Type:</strong> {p.type}</p>
             <p><strong>Age:</strong> {p.age} {p.ageUnit}</p>
-            <p><strong>Owner:</strong> {p.owner}</p>
+           <p>
+  <strong>Owner:</strong> {p.owner?.name} ({p.owner?.email})
+</p>
 
             <div className="pet-actions">
               <button className="edit-btn">

@@ -11,13 +11,21 @@ exports.createPet = async (req, res) => {
 
 exports.getPets = async (req, res) => {
   try {
-    const pets = await Pet.find({ owner: req.user.id });
+    let pets;
+
+    if (req.user.role === "admin") {
+      // ✅ Admin sees ALL pets + owner info
+      pets = await Pet.find().populate("owner", "name email");
+    } else {
+      // ✅ Normal user sees only their pets
+      pets = await Pet.find({ owner: req.user.id });
+    }
+
     res.json(pets);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
 exports.updatePet = async (req, res) => {
   try {
     const pet = await Pet.findOneAndUpdate(
