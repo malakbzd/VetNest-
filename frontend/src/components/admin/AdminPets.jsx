@@ -92,18 +92,17 @@ export default function AdminPets() {
   <strong>Owner:</strong> {p.owner?.name} ({p.owner?.email})
 </p>
 
-            <div className="pet-actions">
-              <button className="edit-btn">
-                <FaEdit />
-              </button>
+           <div className="pet-actions">
 
-              <button
-                onClick={() => deletePet(p._id)}
-                className="delete-btn"
-              >
-                <FaTrash />
-              </button>
-            </div>
+  <button className="action-btn edit">
+    <FaEdit />
+  </button>
+
+  <button className="action-btn delete" onClick={() => deletePet(p._id)}>
+    <FaTrash />
+  </button>
+
+</div>
           </div>
         ))}
       </div>
