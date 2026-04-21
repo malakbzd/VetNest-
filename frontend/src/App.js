@@ -12,11 +12,14 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Pets from "./pages/Pets";
 import Appointments from "./pages/Appointments";
+import PetAppointmentPage from "./pages/PetAppointmentPage";
+
 import ShopPage from "./pages/ShopPage";
 import Articles from "./pages/ArticlesPage";
 import Dashboard from "./pages/Dashboard";
 import "./App.css";
 import CartPage from "./pages/CartPage";
+
 import FavoritesPage from "./pages/FavoritesPage";
 import OrderHistoryPage from "./pages/OrderHistoryPage";
 import CheckoutPage from "./pages/CheckoutPage";
@@ -63,8 +66,7 @@ const App = () => {
   
   {/* Protected pages */}
   <Route path="/dashboard" element={<Protected><Dashboard /></Protected>} />
-  <Route path="/pets" element={<Protected><Pets /></Protected>} />
-  <Route path="/appointments" element={<Protected><Appointments /></Protected>} />
+  <Route path="/pets" element={<Protected><PetAppointmentPage /></Protected>} />
   
    // Inside Routes:
   <Route path="/cart" element={<Protected><CartPage /></Protected>} />

@@ -1,41 +1,55 @@
 /* ========================================
-   PROFESSIONAL VET CLINIC STYLE - Appointments
+   PROFESSIONAL VET CLINIC STYLE - Pets
+   Wide list like Appointments + No pink background
+   Colors: Soft Pink (#f5a3c7) + Navy Blue (#1a2a4f)
    ======================================== */
 
 :root {
   --primary-pink: #f5a3c7;
   --primary-pink-dark: #e88bb3;
+  --primary-pink-light: #fce4ef;
   --primary-pink-glow: rgba(245, 163, 199, 0.3);
+  
   --primary-navy: #1a2a4f;
   --primary-navy-dark: #0f1a33;
+  --primary-navy-light: #2a3d6e;
+  
   --gray-100: #f8f9fa;
   --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #ced4da;
   --gray-500: #adb5bd;
   --gray-600: #6c757d;
-  --white: #e34b4b;
+  --gray-700: #495057;
+  --gray-800: #343a40;
+  --gray-900: #212529;
+  
+  --white: #ffffff;
   --danger: #e74c3c;
   --danger-dark: #c0392b;
   --success: #2ecc71;
   --warning: #f39c12;
+  
   --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 12px 36px rgba(0, 0, 0, 0.12);
+  
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
 }
 
-/* ===== CONTAINER ===== */
-.appointments-container {
+/* ===== CONTAINER - Wide like appointments (1000px) ===== */
+.pets-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 24px;
 }
 
-/* ===== TITLE - مطور مثل Pets و Shop ===== */
-.appointments-title {
+/* ===== TITLE ===== */
+.pets-title {
   font-size: 2.5rem;
   font-weight: 800;
   color: var(--primary-navy);
@@ -46,13 +60,13 @@
   padding-bottom: 16px;
 }
 
-.appointments-title i {
+.pets-title i {
   margin-right: 12px;
   color: var(--primary-pink);
   font-size: 2.2rem;
 }
 
-.appointments-title::after {
+.pets-title::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -65,7 +79,7 @@
 }
 
 /* ===== FORM ===== */
-.appointment-form {
+.pets-form {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -78,7 +92,7 @@
   box-shadow: var(--shadow-lg);
 }
 
-/* FORM GROUP */
+/* ===== FORM GROUP ===== */
 .form-group {
   display: flex;
   flex-direction: column;
@@ -89,20 +103,20 @@
   grid-column: span 2;
 }
 
-/* LABEL */
+/* ===== LABEL ===== */
 .form-group label {
   font-size: 0.75rem;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
   font-weight: 800;
-  letter-spacing: 0.5px;
   color: var(--primary-navy);
 }
 
-/* INPUT */
+/* ===== INPUT + SELECT ===== */
 .form-input,
-.form-select,
-.form-textarea {
-  padding: 12px 14px;
+.form-select {
+  height: 46px;
+  padding: 0 14px;
   border: 2px solid var(--gray-200);
   border-radius: var(--radius-md);
   transition: all 0.25s ease;
@@ -111,20 +125,24 @@
 }
 
 .form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
+.form-select:focus {
   outline: none;
   border-color: var(--primary-pink);
   box-shadow: 0 0 0 4px var(--primary-pink-glow);
 }
 
-.form-textarea {
-  resize: vertical;
-  min-height: 80px;
-  font-family: inherit;
+/* ===== AGE GROUP ===== */
+.age-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
-/* ===== BUTTONS ===== */
+.age-group .form-input {
+  flex: 1;
+}
+
+/* ===== BUTTON ACTIONS ===== */
 .form-actions {
   grid-column: span 2;
   display: flex;
@@ -165,15 +183,46 @@
   transform: translateY(-2px);
 }
 
-/* ===== LIST ===== */
-.appointment-list {
+/* ===== SEARCH BOX ===== */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 2px solid var(--gray-200);
+  padding: 12px 16px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  background: var(--white);
+  transition: all 0.25s ease;
+}
+
+.search-box:focus-within {
+  border-color: var(--primary-pink);
+  box-shadow: 0 0 0 4px var(--primary-pink-glow);
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 0.9rem;
+  background: transparent;
+}
+
+.search-box i {
+  color: var(--gray-500);
+  font-size: 1rem;
+}
+
+/* ===== LIST - Same as appointment list (vertical/flex) ===== */
+.pets-list {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-/* ===== CARD ===== */
-.appointment-card {
+/* ===== CARD - Same as appointment card (wide/horizontal) ===== */
+.pet-card {
   background: var(--white);
   padding: 20px;
   border-radius: var(--radius-lg);
@@ -183,7 +232,7 @@
   overflow: hidden;
 }
 
-.appointment-card::before {
+.pet-card::before {
   content: '';
   position: absolute;
   top: 0;
@@ -193,27 +242,34 @@
   background: linear-gradient(180deg, var(--primary-pink), var(--primary-navy));
 }
 
-.appointment-card:hover {
+.pet-card:hover {
   transform: translateX(6px);
   box-shadow: var(--shadow-lg);
   border-color: transparent;
 }
 
-/* TEXT */
-.appointment-card p {
+/* ===== TEXT ===== */
+.pet-card h3 {
+  margin-bottom: 12px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-navy);
+  letter-spacing: -0.3px;
+  padding-left: 12px;
+}
+
+.pet-card p {
   margin: 8px 0;
   color: var(--gray-600);
   font-size: 0.875rem;
   padding-left: 12px;
-}
-
-.appointment-card strong {
-  color: var(--primary-navy);
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* ===== ACTIONS ===== */
-.appointment-actions {
+.pet-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -222,7 +278,7 @@
   border-top: 1px solid var(--gray-200);
 }
 
-/* BUTTON ICONS */
+/* ===== BUTTONS ===== */
 .edit-btn,
 .delete-btn {
   width: 36px;
@@ -257,33 +313,7 @@
   box-shadow: 0 6px 14px rgba(231, 76, 60, 0.4);
 }
 
-/* ===== STATUS BADGES ===== */
-.status-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  margin-left: 12px;
-}
-
-.status-pending {
-  background: var(--warning);
-  color: var(--white);
-}
-
-.status-confirmed {
-  background: var(--success);
-  color: var(--white);
-}
-
-.status-cancelled {
-  background: var(--danger);
-  color: var(--white);
-}
-
-/* ===== STATES ===== */
-.loading,
+/* ===== EMPTY ===== */
 .no-data {
   text-align: center;
   color: var(--gray-500);
@@ -291,4 +321,12 @@
   font-size: 1rem;
   background: var(--gray-100);
   border-radius: var(--radius-lg);
+}
+
+/* ===== LOADING ===== */
+.loading {
+  text-align: center;
+  color: var(--gray-500);
+  padding: 48px;
+  font-size: 1rem;
 }

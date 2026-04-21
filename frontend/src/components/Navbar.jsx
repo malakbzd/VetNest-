@@ -33,8 +33,7 @@ const Navbar = () => {
           <Link to="/shop">Shop</Link>
           <Link to="/articles">Articles</Link>
           
-          {isAuth && <Link to="/pets">Pets</Link>}
-          {isAuth && <Link to="/appointments">Appointments</Link>}
+          {isAuth && <Link to="/pets">My Pets & Appointments</Link>}
 
           {/* ADMIN BUTTON */}
           {user?.role === "admin" && (
