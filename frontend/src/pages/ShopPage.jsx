@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getProducts, getCart, getFavorites } from "../api";
-import ProductCard from "../components/shop/ProductCard";
+import ProductCard from "./ProductCard";
 import "./Shop.css";
+import "./ProductCard.css";
 
 export default function ShopPage() {
   const [products, setProducts] = useState([]);
