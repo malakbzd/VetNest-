@@ -51,23 +51,21 @@ export default function AdminDashboard() {
       </div>
 
       {/* ===== CONTENT ===== */}
-      <div className="content">
+     <div className="content">
 
-        {/* Pets + Appointments together (your request) */}
-        {section === "pets" && (
-          <>
-            <AdminPets />
-            <AdminAppointments />
-          </>
-        )}
+  {/* Appointments + Pets together */}
+  {section === "appointments" && (
+    <div className="admin-flex">
+      <AdminPets />
+      <AdminAppointments />
+    </div>
+  )}
 
-        {section === "appointments" && <AdminAppointments />}
+  {section === "articles" && <AdminArticles />}
 
-        {section === "articles" && <AdminArticles />}
+  {section === "shop" && <AdminShop />}
 
-        {section === "shop" && <AdminShop />}
-
-      </div>
+</div>
 
     </div>
   );

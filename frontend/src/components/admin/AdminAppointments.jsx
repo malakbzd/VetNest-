@@ -32,11 +32,11 @@ function AdminAppointments() {
 
       const today = new Date();
 
-      const filtered = res.data
-        .filter((a) => new Date(a.date) >= today)
-        .sort((a, b) => new Date(a.date) - new Date(b.date));
+      const sorted = res.data.sort(
+  (a, b) => new Date(a.date) - new Date(b.date)
+);
 
-      setAppointments(filtered);
+setAppointments(sorted);
     } catch (err) {
       console.error(err);
       setAppointments([]);

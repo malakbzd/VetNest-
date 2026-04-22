@@ -16,12 +16,15 @@ exports.createAppointment = async (req, res) => {
 // GET (user specific)
 exports.getAppointments = async (req, res) => {
   try {
-    let appointments;
-    if (req.user.role === "admin") {
-      appointments = await Appointment.find().populate("pet user");
-    } else {
-      appointments = await Appointment.find({ user: req.user.id }).populate("pet");
-    }
+   let appointments;
+
+if (req.user.role === "admin") {
+  appointments = await Appointment.find()
+    .populate("pet user");
+} else {
+  appointments = await Appointment.find({ user: req.user.id })
+    .populate("pet user");
+}
     res.json(appointments);
   } catch (err) {
     res.status(500).json({ error: err.message });

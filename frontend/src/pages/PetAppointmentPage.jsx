@@ -211,48 +211,64 @@ export default function PetAppointmentPage() {
       </form>
 
       {/* ================= APPOINTMENTS LIST ================= */}
-      <h2 className="appointments-title">Appointments</h2>
+   {/* ================= PETS LIST ================= */}
+<h2 className="appointments-title">Pets</h2>
 
-      <div className="appointment-list">
-        {appointments.length === 0 ? (
-          <div className="no-data">No appointments yet</div>
-        ) : (
-          appointments.map((a) => (
-            <div key={a._id} className="appointment-card">
-
-              <p>
-                <strong>Pet:</strong> {a.pet?.name}
-              </p>
-
-              <p>
-                <strong>Date:</strong>{" "}
-                {new Date(a.date).toLocaleDateString()}
-              </p>
-
-              <p>
-                <strong>Reason:</strong> {a.reason}
-              </p>
-
-              <div className="appointment-actions">
-               <button
-  className="edit-btn"
-  onClick={() => startEdit(a)}
->
-  ✏️
-</button>
-
-<button
-  className="delete-btn"
-  onClick={() => deleteAppointment(a._id)}
->
-  🗑️
-</button>
-              </div>
-
-            </div>
-          ))
-        )}
+<div className="appointment-list">
+  {pets.length === 0 ? (
+    <div className="no-data">No pets yet</div>
+  ) : (
+    pets.map((p) => (
+      <div key={p._id} className="appointment-card">
+        <p><strong>Name:</strong> {p.name}</p>
+        <p><strong>Type:</strong> {p.type}</p>
+        <p><strong>Age:</strong> {p.age} {p.ageUnit}</p>
       </div>
+    ))
+  )}
+</div>
+
+
+{/* ================= APPOINTMENTS LIST ================= */}
+<h2 className="appointments-title">Appointments</h2>
+
+<div className="appointment-list">
+  {appointments.length === 0 ? (
+    <div className="no-data">No appointments yet</div>
+  ) : (
+    appointments.map((a) => (
+      <div key={a._id} className="appointment-card">
+
+        <p>
+          <strong>Pet:</strong> {a.pet?.name || "Unknown"}
+        </p>
+
+        <p>
+          <strong>Date:</strong>{" "}
+          {new Date(a.date).toLocaleDateString()}
+        </p>
+
+        <p>
+          <strong>Reason:</strong> {a.reason}
+        </p>
+
+        <div className="appointment-actions">
+          <button className="edit-btn" onClick={() => startEdit(a)}>
+            ✏️
+          </button>
+
+          <button
+            className="delete-btn"
+            onClick={() => deleteAppointment(a._id)}
+          >
+            🗑️
+          </button>
+        </div>
+
+      </div>
+    ))
+  )}
+</div>
 
     </div>
   );
