@@ -4,7 +4,7 @@ import { getProducts, getCart, getFavorites } from "../api";
 import ProductCard from "./ProductCard";
 import "./Shop.css";
 import "./ProductCard.css";
-
+import { FaShoppingCart, FaTrash, FaHeart, FaCreditCard } from "react-icons/fa";
 export default function ShopPage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);

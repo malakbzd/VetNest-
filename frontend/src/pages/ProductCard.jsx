@@ -1,21 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import "./ProductCard.css";
+import { addToCart, addFavorite } from "../api";
+import {
+  FaShoppingCart,
+  FaHeart
+} from "react-icons/fa";
 
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCartSuccess }) {
+
+  const [loading, setLoading] = useState(false);
+
+  // ===== ADD TO CART =====
+  const handleAddToCart = async () => {
+    try {
+      setLoading(true);
+
+      await addToCart(product._id, 1);
+
+      if (onAddToCartSuccess) onAddToCartSuccess();
+
+      alert("Added to cart");
+
+    } catch (err) {
+      console.error("Cart error:", err);
+      alert("Failed to add to cart");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ===== ADD TO FAVORITES =====
+  const handleAddToFavorites = async () => {
+    try {
+      setLoading(true);
+
+      await addFavorite(product._id);
+
+      alert("Added to favorites");
+
+    } catch (err) {
+      console.error("Favorite error:", err);
+      alert("Failed to add to favorites");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getImage = (img) => {
-    if (!img || typeof img !== "string") {
-      return "https://via.placeholder.com/300";
-    }
-
-    if (img.startsWith("blob:")) return img;
-
+    if (!img || typeof img !== "string") return "/placeholder.png";
     if (img.startsWith("http")) return img;
-
-    if (img.includes("uploads/")) {
-      return `http://localhost:5000/${img}`;
-    }
-
+    if (img.includes("uploads/")) return `http://localhost:5000/${img}`;
     return `http://localhost:5000/uploads/${img}`;
   };
 
@@ -25,32 +59,36 @@ function ProductCard({ product }) {
       <img
         className="product-image"
         src={getImage(product?.image)}
-        alt={product?.name || "product"}
-        onError={(e) => {
-          e.target.src = "https://via.placeholder.com/300";
-        }}
+        alt={product?.name}
       />
 
       <div className="product-content">
 
-        <h3 className="product-title">
-          {product?.name || "No name"}
-        </h3>
+        <h3>{product?.name}</h3>
+        <p>{product?.description}</p>
+        <p>${product?.price}</p>
 
-        <p className="product-description">
-          {product?.description || "No description"}
-        </p>
+        <div className="product-actions">
 
-        <p className="product-price">
-          ${product?.price || 0}
-        </p>
+          <button
+            className="product-btn cart"
+            onClick={handleAddToCart}
+            disabled={loading}
+          >
+            <FaShoppingCart /> Add to Cart
+          </button>
 
-        <button className="product-btn">
-          Add to Cart
-        </button>
+          <button
+            className="product-btn fav"
+            onClick={handleAddToFavorites}
+            disabled={loading}
+          >
+            <FaHeart /> Favorite
+          </button>
+
+        </div>
 
       </div>
-
     </div>
   );
 }
