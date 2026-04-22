@@ -140,3 +140,80 @@
   color: var(--gray-600);
   padding: 48px;
 }
+/* ===== EDIT BOX ===== */
+.edit-box {
+  background: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 50px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  animation: fadeIn 0.25s ease;
+}
+
+.edit-box h3 {
+  margin-bottom: 12px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1a2a4f;
+}
+
+/* inputs inside edit box */
+.edit-box input {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  transition: 0.25s ease;
+}
+
+.edit-box input:focus {
+  outline: none;
+  border-color: #f5a3c7;
+  box-shadow: 0 0 0 4px rgba(245, 163, 199, 0.3);
+}
+
+/* buttons */
+.edit-box button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+/* save button */
+.edit-box button:first-of-type {
+  background: linear-gradient(135deg, #1a2a4f, #0f1a33);
+  color: white;
+}
+
+.edit-box button:first-of-type:hover {
+  transform: translateY(-2px);
+}
+
+/* cancel button */
+.edit-box button:last-of-type {
+  background: #adb5bd;
+  color: white;
+}
+
+.edit-box button:last-of-type:hover {
+  background: #6c757d;
+  transform: translateY(-2px);
+}
+
+/* animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

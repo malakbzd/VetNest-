@@ -9,6 +9,7 @@ export default function AdminPets() {
   const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState("");
+  const [editingPet, setEditingPet] = useState(null);
 
   const getAuthConfig = useCallback(() => ({
     headers: {
@@ -24,10 +25,11 @@ export default function AdminPets() {
         "http://localhost:5000/api/pets",
         getAuthConfig()
       );
+
       setPets(res.data);
       setFilteredPets(res.data);
     } catch (err) {
-      console.error(err);
+      console.error("Fetch pets error:", err);
       setPets([]);
     } finally {
       setLoading(false);
@@ -50,15 +52,38 @@ export default function AdminPets() {
   const deletePet = async (id) => {
     if (!window.confirm("Delete this pet?")) return;
 
-    await axios.delete(
-      `http://localhost:5000/api/pets/${id}`,
-      getAuthConfig()
-    );
-    fetchPets();
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/pets/${id}`,
+        getAuthConfig()
+      );
+
+      setPets((prev) => prev.filter((p) => p._id !== id));
+      setFilteredPets((prev) => prev.filter((p) => p._id !== id));
+    } catch (err) {
+      console.error("Delete failed:", err);
+    }
+  };
+
+  // ===== UPDATE PET =====
+  const updatePet = async () => {
+    try {
+      await axios.put(
+        `http://localhost:5000/api/pets/${editingPet._id}`,
+        editingPet,
+        getAuthConfig()
+      );
+
+      setEditingPet(null);
+      fetchPets();
+    } catch (err) {
+      console.error("Update failed:", err);
+    }
   };
 
   return (
     <div className="admin-pets-container">
+
       <h2 className="admin-title">
         <FaPaw className="title-icon" />
         Pets
@@ -75,8 +100,50 @@ export default function AdminPets() {
         />
       </div>
 
-      {/* حالات */}
+      {/* EDIT FORM */}
+      {editingPet && (
+        <div className="edit-box">
+          <h3>Edit Pet</h3>
+
+          <input
+            value={editingPet.name}
+            onChange={(e) =>
+              setEditingPet({ ...editingPet, name: e.target.value })
+            }
+            placeholder="Name"
+          />
+
+          <input
+            value={editingPet.type}
+            onChange={(e) =>
+              setEditingPet({ ...editingPet, type: e.target.value })
+            }
+            placeholder="Type"
+          />
+
+          <input
+            type="number"
+            value={editingPet.age}
+            onChange={(e) =>
+              setEditingPet({ ...editingPet, age: e.target.value })
+            }
+            placeholder="Age"
+          />
+
+          <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
+            <button onClick={updatePet}>Save</button>
+
+            <button onClick={() => setEditingPet(null)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* LOADING */}
       {loading && <p className="loading">Loading...</p>}
+
+      {/* EMPTY */}
       {!loading && filteredPets.length === 0 && (
         <p className="no-data">No pets found</p>
       )}
@@ -85,24 +152,32 @@ export default function AdminPets() {
       <div className="pets-list">
         {filteredPets.map((p) => (
           <div key={p._id} className="pet-card">
+
             <h3>{p.name}</h3>
             <p><strong>Type:</strong> {p.type}</p>
             <p><strong>Age:</strong> {p.age} {p.ageUnit}</p>
-           <p>
-  <strong>Owner:</strong> {p.owner?.name} ({p.owner?.email})
-</p>
+            <p>
+              <strong>Owner:</strong> {p.owner?.name} ({p.owner?.email})
+            </p>
 
-           <div className="pet-actions">
+            <div className="pet-actions">
 
-  <button className="action-btn edit">
-    <FaEdit />
-  </button>
+              <button
+                className="action-btn edit"
+                onClick={() => setEditingPet(p)}
+              >
+                <FaEdit />
+              </button>
 
-  <button className="action-btn delete" onClick={() => deletePet(p._id)}>
-    <FaTrash />
-  </button>
+              <button
+                className="action-btn delete"
+                onClick={() => deletePet(p._id)}
+              >
+                <FaTrash />
+              </button>
 
-</div>
+            </div>
+
           </div>
         ))}
       </div>
