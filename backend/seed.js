@@ -26,31 +26,36 @@ const articles = [
     title: "How to Treat Your Dog's Anxiety",
     category: "behavior",
     content: "Dogs can experience anxiety just like humans. Common signs include excessive barking, destructive behavior, and hiding. To help your anxious dog: 1) Create a safe space, 2) Use positive reinforcement, 3) Consider calming supplements, 4) Consult your vet for severe cases. Regular exercise and mental stimulation also help reduce anxiety levels.",
-    image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400"
+    image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400",
+    link : "https://www.vet.cornell.edu/departments-centers-and-institutes/riney-canine-health-center/canine-health-topics/anxious-behavior-how-help-your-dog-cope-unsettling-situations"
   },
   {
-    title: "Best Cat Food Brands for 2024",
+    title: "Best Cat Food Brands for 2026",
     category: "nutrition",
     content: "Choosing the right cat food is essential for your feline's health. Top brands include: 1) Royal Canin – great for breed‑specific needs, 2) Hill's Science Diet – vet recommended, 3) Blue Buffalo – natural ingredients, 4) Wellness Core – grain‑free options. Always check that the first ingredient is real meat and avoid foods with excessive fillers.",
-    image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400"
+    image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400",
+    link :"https://cats.com/best-cat-food"
   },
   {
     title: "Understanding Your Bird's Body Language",
     category: "behavior",
     content: "Birds communicate through body language. Fluffed feathers can mean relaxation or illness. Tail wagging often indicates happiness. Beak grinding means contentment. If your bird is hissing or pinning its eyes, it may feel threatened. Learning these signs helps build a stronger bond with your feathered friend.",
-    image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400"
+    image: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=400",
+    link : "https://www.scribd.com/document/168794542/Body-Language-of-Birds"
   },
   {
     title: "Fish Tank Maintenance Guide",
     category: "health",
     content: "Proper aquarium maintenance is crucial for fish health. Perform 25% water changes weekly. Test water parameters regularly (pH, ammonia, nitrite, nitrate). Clean filters monthly but never with tap water – use tank water to preserve beneficial bacteria. Avoid overfeeding, which can cause ammonia spikes.",
-    image: "https://images.unsplash.com/photo-1519125328138-6f3cd3ffd6b2?w=400"
+    image: "https://i.pinimg.com/736x/66/d1/94/66d19416670529785ffd3073aacb8d2f.jpg",
+    link : "https://aquashack.com/planted-tank-maintenance/"
   },
   {
     title: "How to Introduce a New Cat to Your Dog",
     category: "behavior",
     content: "Introducing a new cat to a resident dog requires patience. Start with separation – keep them in different rooms. Swap scents using blankets. Allow visual contact through a baby gate. Gradually increase supervised interactions. Reward calm behavior. Never force interaction. This process can take weeks to months.",
-    image: "https://images.unsplash.com/photo-1437622368342-7a3d73a34c8f?w=400"
+    image: "https://bestfriends.org/sites/default/files/styles/image_small/public/image/introducing-dogs-cats-resource_0.jpg-546948.jpg?itok=huHHsEjM",
+    link: "https://bestfriends.org/pet-care-resources/how-introduce-dog-cat"
   }
 ];
 
