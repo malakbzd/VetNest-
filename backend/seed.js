@@ -143,39 +143,48 @@ const seedDatabase = async () => {
   try {
     await connectDB();
 
-    // Clear collections
-    await User.deleteMany();
-    await Product.deleteMany();
-    await Article.deleteMany();
-    await Pet.deleteMany();
-    await Appointment.deleteMany();
+    // ✅ Check if admin exists
+    let admin = await User.findOne({ email: "admin@vetnest.com" });
 
-    // Create admin user
-    const admin = await User.create({
-      name: "Admin",
-      email: "admin@vetnest.com",
-      password: await bcrypt.hash("admin123", 10),
-      role: "admin"
-    });
+    if (!admin) {
+      admin = await User.create({
+        name: "Admin",
+        email: "admin@vetnest.com",
+        password: await bcrypt.hash("admin123", 10),
+        role: "admin"
+      });
+      console.log("✅ Admin created");
+    } else {
+      console.log("ℹ️ Admin already exists");
+    }
 
-    // Insert products
-    await Product.insertMany(products);
+    // ✅ Insert products only if not exist
+    for (let product of products) {
+      const exists = await Product.findOne({ name: product.name });
+      if (!exists) {
+        await Product.create(product);
+      }
+    }
 
-    // Insert articles with author
-    const articlesWithAuthor = articles.map(article => ({
-      ...article,
-      author: admin._id
-    }));
-    await Article.insertMany(articlesWithAuthor);
+    // ✅ Insert articles only if not exist
+    for (let article of articles) {
+      const exists = await Article.findOne({ title: article.title });
+      if (!exists) {
+        await Article.create({
+          ...article,
+          author: admin._id
+        });
+      }
+    }
 
-    console.log("✅ Database seeded!");
-    console.log("Admin created: admin@vetnest.com / admin123");
-    console.log(`Products: ${products.length}, Articles: ${articles.length}`);
+    console.log("✅ Seeding completed بدون حذف البيانات");
     process.exit();
+
   } catch (error) {
     console.error("Seeding error:", error);
     process.exit(1);
   }
 };
+
 
 seedDatabase();
