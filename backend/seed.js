@@ -59,14 +59,14 @@ const articles = [
     title: "How to Treat Your Dog's Anxiety",
     category: "behavior",
     content: "Dogs can experience anxiety just like humans. Common signs include excessive barking, destructive behavior, and hiding. To help your anxious dog: 1) Create a safe space, 2) Use positive reinforcement, 3) Consider calming supplements, 4) Consult your vet for severe cases. Regular exercise and mental stimulation also help reduce anxiety levels.",
-    image: "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?w=400",
+    image: "https://i.pinimg.com/1200x/1f/f4/c9/1ff4c91a7bafa00cc81bb1e22bfc0f92.jpg",
     link : "https://www.vet.cornell.edu/departments-centers-and-institutes/riney-canine-health-center/canine-health-topics/anxious-behavior-how-help-your-dog-cope-unsettling-situations"
   },
   {
     title: "Best Cat Food Brands for 2026",
     category: "nutrition",
     content: "Choosing the right cat food is essential for your feline's health. Top brands include: 1) Royal Canin – great for breed‑specific needs, 2) Hill's Science Diet – vet recommended, 3) Blue Buffalo – natural ingredients, 4) Wellness Core – grain‑free options. Always check that the first ingredient is real meat and avoid foods with excessive fillers.",
-    image: "https://images.unsplash.com/photo-1545249390-6bdfa286032f?w=400",
+    image: "https://i.pinimg.com/1200x/cd/b3/85/cdb385751bbe72bdb7d6542787740614.jpg",
     link :"https://cats.com/best-cat-food"
   },
   {
