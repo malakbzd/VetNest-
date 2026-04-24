@@ -4,8 +4,8 @@ const articleSchema = new mongoose.Schema({
   title: String,
   content: String,
   image: String,
-  link: String,        // ✅ جديد
-  category: String     // ✅ جديد
+  link: String,     
+  category: String     
 });
 
 module.exports = mongoose.model("Article", articleSchema);
