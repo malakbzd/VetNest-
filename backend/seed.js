@@ -177,7 +177,7 @@ const seedDatabase = async () => {
       }
     }
 
-    console.log("✅ Seeding completed بدون حذف البيانات");
+    console.log("✅ Seeding completed");
     process.exit();
 
   } catch (error) {
