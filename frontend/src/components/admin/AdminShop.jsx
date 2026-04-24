@@ -172,18 +172,26 @@ export default function AdminShop() {
         />
 
         {/* IMAGE */}
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files[0];
-            setForm({ ...form, image: file });
+      <div className="file-upload">
+  <input
+    id="fileInput"
+    type="file"
+    accept="image/*"
+    hidden
+    onChange={(e) => {
+      const file = e.target.files[0];
+      setForm({ ...form, image: file });
 
-            if (file) {
-              setPreview(URL.createObjectURL(file));
-            }
-          }}
-        />
+      if (file) {
+        setPreview(URL.createObjectURL(file));
+      }
+    }}
+  />
+
+  <label htmlFor="fileInput" className="file-btn">
+    📁 Upload Product Image
+  </label>
+</div>
 
         {/* PREVIEW */}
         {preview && (
