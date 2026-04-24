@@ -206,3 +206,50 @@
   color: var(--gray-600);
   padding: 48px;
 }
+.admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-200);
+}
+
+/* UNIVERSAL BUTTON STYLE */
+.action-btn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 14px;
+}
+
+/* EDIT */
+.action-btn.edit {
+  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
+  box-shadow: 0 2px 6px rgba(245, 163, 199, 0.3);
+}
+
+.action-btn.edit:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 6px 14px rgba(245, 163, 199, 0.4);
+}
+
+/* DELETE */
+.action-btn.delete {
+  background: linear-gradient(135deg, var(--danger), #c0392b);
+}
+
+.action-btn.delete:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 6px 14px rgba(231, 76, 60, 0.4);
+}
+html {
+  scroll-behavior: smooth;
+}

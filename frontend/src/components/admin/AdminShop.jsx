@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { FaShoppingCart, FaTrash, FaEdit } from "react-icons/fa";
+import { FaShoppingCart, FaTrash, FaEdit, FaSearch } from "react-icons/fa";
 import "./AdminShop.css";
 
 export default function AdminShop() {
+  const formRef = useRef(null);
+
   const [products, setProducts] = useState([]);
   const [preview, setPreview] = useState(null);
   const [search, setSearch] = useState("");
@@ -24,7 +26,7 @@ export default function AdminShop() {
       setProducts(res.data);
     } catch (err) {
       console.log(err);
-      toast.error("Error loading ❌");
+      toast.error("Error loading");
     }
   };
 
@@ -37,7 +39,7 @@ export default function AdminShop() {
     e.preventDefault();
 
     if (!form.name.trim()) {
-      return toast.error("Name required ❌");
+      return toast.error("Name required");
     }
 
     const data = new FormData();
@@ -52,19 +54,18 @@ export default function AdminShop() {
           `http://localhost:5000/api/products/${editingId}`,
           data
         );
-        toast.success("Updated ✅");
+        toast.success("Product updated");
       } else {
         await axios.post(
           "http://localhost:5000/api/products",
           data
         );
-        toast.success("Added ✅");
+        toast.success("Product added");
       }
 
-      // refresh
       fetchProducts();
 
-      // reset
+      // reset form
       setForm({
         name: "",
         description: "",
@@ -77,7 +78,7 @@ export default function AdminShop() {
 
     } catch (err) {
       console.log(err);
-      toast.error("Error ❌");
+      toast.error("Operation failed");
     }
   };
 
@@ -87,10 +88,10 @@ export default function AdminShop() {
 
     try {
       await axios.delete(`http://localhost:5000/api/products/${id}`);
-      toast.success("Deleted 🗑️");
-      fetchProducts();
+      setProducts((prev) => prev.filter((p) => p._id !== id));
+      toast.success("Deleted");
     } catch {
-      toast.error("Delete failed ❌");
+      toast.error("Delete failed");
     }
   };
 
@@ -105,12 +106,22 @@ export default function AdminShop() {
 
     setEditingId(p._id);
 
-    // 🔥 preview الصورة القديمة
     setPreview(
       p.image
         ? `http://localhost:5000/uploads/${p.image}`
         : null
     );
+
+    // 🔥 smooth scroll + focus
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      const input = formRef.current?.querySelector("input");
+      input?.focus();
+    });
   };
 
   // ================= SEARCH =================
@@ -121,20 +132,25 @@ export default function AdminShop() {
   return (
     <div className="admin-shop-container">
 
+      {/* TITLE */}
       <h2 className="admin-title">
-        <FaShoppingCart /> Shop
+        <FaShoppingCart className="title-icon" />
+        Shop
       </h2>
 
       {/* SEARCH */}
-      <input
-        className="admin-input"
-        placeholder="Search..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div className="search-box">
+        <FaSearch />
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
       {/* FORM */}
-      <form onSubmit={handleSubmit} className="admin-form">
+      <form ref={formRef} onSubmit={handleSubmit} className="admin-form">
 
         <input
           className="admin-input"
@@ -188,25 +204,25 @@ export default function AdminShop() {
         />
 
         <button className="admin-btn">
-          {editingId ? "Update" : "Add Product"}
+          {editingId ? "Update Product" : "Add Product"}
         </button>
 
       </form>
 
       {/* PRODUCTS */}
       <div className="shop-grid">
+
         {filtered.length === 0 ? (
-          <p className="no-data">No products</p>
+          <p className="no-data">No products found</p>
         ) : (
           filtered.map((p) => (
             <div key={p._id} className="product-card">
 
-              {/* 🔥 الصورة (المشكلة كانت هنا) */}
               <img
                 src={
                   p.image
                     ? `http://localhost:5000/uploads/${p.image}`
-                    : "https://via.placeholder.com/150"
+                    : "/placeholder.png"
                 }
                 alt={p.name}
               />
@@ -217,19 +233,31 @@ export default function AdminShop() {
                 <span className="price">${p.price}</span>
 
                 <div className="product-actions">
-                  <button onClick={() => handleEdit(p)}>
+
+                  <button
+                    type="button"
+                    className="action-btn edit"
+                    onClick={() => handleEdit(p)}
+                  >
                     <FaEdit />
                   </button>
 
-                  <button onClick={() => handleDelete(p._id)}>
+                  <button
+                    type="button"
+                    className="action-btn delete"
+                    onClick={() => handleDelete(p._id)}
+                  >
                     <FaTrash />
                   </button>
+
                 </div>
+
               </div>
 
             </div>
           ))
         )}
+
       </div>
 
     </div>
