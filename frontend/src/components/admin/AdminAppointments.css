@@ -1,38 +1,54 @@
 /* ========================================
-   PROFESSIONAL VET CLINIC STYLE - Admin Appointments
+   VET CLINIC ADMIN UI - CLEAN BIG CARDS
    ======================================== */
 
 :root {
   --primary-pink: #f5a3c7;
   --primary-pink-dark: #e88bb3;
   --primary-pink-glow: rgba(245, 163, 199, 0.3);
+
   --primary-navy: #1a2a4f;
   --primary-navy-dark: #0f1a33;
+
   --gray-100: #f8f9fa;
   --gray-200: #e9ecef;
   --gray-600: #6c757d;
+
   --white: #ffffff;
   --danger: #e74c3c;
   --warning: #f39c12;
-  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+
   --radius-lg: 16px;
   --radius-xl: 24px;
 }
 
+/* ========================================
+   GLOBAL CONTAINERS (WIDER UI)
+   ======================================== */
+
+.admin-pets-container,
+.admin-articles-container,
+.admin-shop-container,
 .admin-appointments-container {
-  max-width: 1000px;
+  max-width: 1800px;   /* 🔥 wider layout */
   margin: 0 auto;
-  padding: 24px;
+  padding: 30px;
 }
 
+/* TITLE */
 .admin-title {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  font-size: 1.75rem;
+
+  font-size: 1.8rem;
   font-weight: 800;
+
   margin-bottom: 32px;
+
   color: var(--primary-navy);
 }
 
@@ -41,88 +57,175 @@
   font-size: 2rem;
 }
 
+/* ========================================
+   LIST WRAPPERS
+   ======================================== */
+
+.pets-list,
+.admin-list,
+
 .appointments-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  gap: 20px;
+
+  max-width: 1500px;
+  margin: 0 auto;
 }
+
+/* ========================================
+   BIG CARDS (PET / ARTICLE / PRODUCT / APPOINTMENT)
+   ======================================== */
+
+.pet-card,
+.admin-card,
 
 .appointment-card {
+  width: 100%;
+  max-width: 1000px;   /* 🔥 BIGGER CARDS */
+  padding: 34px;       /* more breathing space */
+
+  border-radius: 20px;
   background: var(--white);
-  padding: 20px;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--gray-200);
-  transition: all 0.35s ease;
-  position: relative;
-  overflow: hidden;
-}
 
-.appointment-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 5px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--primary-pink), var(--primary-navy));
-}
+  font-size: 1.05rem;
 
-.appointment-card:hover {
-  transform: translateX(6px);
   box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200);
+
+  transition: all 0.3s ease;
+
+  position: relative;
 }
 
+/* hover effect */
+.pet-card:hover,
+.admin-card:hover,
+.product-card:hover,
+.appointment-card:hover {
+  transform: translateY(-3px);
+}
+
+/* left accent bar */
+.pet-card::before,
+.admin-card::before,
+.product-card::before,
+.appointment-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 6px;
+  height: 100%;
+
+  background: linear-gradient(
+    180deg,
+    var(--primary-pink),
+    var(--primary-navy)
+  );
+  border-radius: 20px 0 0 20px;
+}
+
+/* ========================================
+   APPOINTMENT STATUS COLORS
+   ======================================== */
+
+.appointment-card.today {
+  border-left: 6px solid var(--danger);
+}
+
+.appointment-card.soon {
+  border-left: 6px solid var(--warning);
+}
+
+.appointment-card.normal {
+  border-left: 6px solid var(--primary-pink);
+}
+
+/* ========================================
+   ACTION BUTTONS
+   ======================================== */
+
+.pet-actions,
+.admin-actions,
+.product-actions,
 .appointment-actions {
   display: flex;
   gap: 12px;
-  margin-top: 14px;
+  margin-top: 16px;
 }
 
-.edit-btn,
-.delete-btn {
-  width: 38px;
-  height: 38px;
-  border-radius: var(--radius-lg);
+/* base button */
+.action-btn {
+  width: 42px;
+  height: 42px;
+
   border: none;
+  border-radius: 12px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   cursor: pointer;
+
+  font-size: 14px;
+  color: var(--white);
+
   transition: all 0.25s ease;
 }
 
-.edit-btn {
-  background: linear-gradient(135deg, var(--primary-pink), var(--primary-pink-dark));
-  color: var(--white);
+/* EDIT */
+.action-btn.edit {
+  background: linear-gradient(
+    135deg,
+    var(--primary-pink),
+    var(--primary-pink-dark)
+  );
 }
 
-.delete-btn {
+.action-btn.edit:hover {
+  transform: scale(1.1);
+}
+
+/* DELETE */
+.action-btn.delete {
   background: linear-gradient(135deg, var(--danger), #c0392b);
-  color: var(--white);
 }
 
-.edit-btn:hover,
-.delete-btn:hover {
-  transform: scale(1.08);
+.action-btn.delete:hover {
+  transform: scale(1.1);
 }
+
+/* ========================================
+   FORMS (BIGGER + CLEAN)
+   ======================================== */
 
 .admin-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+
   background: var(--white);
-  padding: 24px;
+  padding: 28px;
+
   border-radius: var(--radius-xl);
   border: 1px solid var(--gray-200);
-  margin-bottom: 28px;
+
+  margin-bottom: 30px;
+
   box-shadow: var(--shadow-lg);
 }
 
 .admin-input {
-  padding: 12px 14px;
+  padding: 14px;
+
   border: 2px solid var(--gray-200);
   border-radius: var(--radius-lg);
-  font-size: 0.9rem;
+
+  font-size: 1rem;
 }
 
 .admin-input:focus {
@@ -131,57 +234,52 @@
   box-shadow: 0 0 0 4px var(--primary-pink-glow);
 }
 
-.form-actions {
-  display: flex;
-  gap: 16px;
-}
-
+/* buttons */
 .admin-btn {
-  background: linear-gradient(135deg, var(--primary-navy), var(--primary-navy-dark));
-  color: var(--white);
+  background: linear-gradient(
+    135deg,
+    var(--primary-navy),
+    var(--primary-navy-dark)
+  );
+
+  color: white;
   border: none;
-  padding: 12px 20px;
+
+  padding: 14px 22px;
   border-radius: var(--radius-lg);
-  cursor: pointer;
+
   font-weight: 700;
-  transition: all 0.3s ease;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
 }
 
 .admin-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(26, 42, 79, 0.35);
 }
 
+/* cancel */
 .cancel-btn {
   background: var(--gray-600);
-  color: var(--white);
-  border: none;
-  padding: 12px 20px;
+  color: white;
+
+  padding: 14px 22px;
+
   border-radius: var(--radius-lg);
+  border: none;
+
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
-.cancel-btn:hover {
-  background: #5c636a;
-  transform: translateY(-2px);
-}
-
-.appointment-card.today {
-  border-left: 5px solid var(--danger);
-}
-
-.appointment-card.soon {
-  border-left: 5px solid var(--warning);
-}
-
-.appointment-card.normal {
-  border-left: 5px solid var(--primary-pink);
-}
+/* ========================================
+   STATES
+   ======================================== */
 
 .loading,
 .no-data {
   text-align: center;
   color: var(--gray-600);
-  padding: 48px;
+  padding: 50px;
+  font-size: 1.1rem;
 }

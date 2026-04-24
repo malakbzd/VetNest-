@@ -1,9 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
-import { BsCalendar, BsTrash, BsPencilSquare } from "react-icons/bs";
+import { FaCalendarAlt, FaTrash, FaEdit } from "react-icons/fa";
 import "./AdminAppointments.css";
 
 function AdminAppointments() {
+  const formRef = useRef(null);
+
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -30,13 +32,11 @@ function AdminAppointments() {
         getAuthConfig()
       );
 
-      const today = new Date();
-
       const sorted = res.data.sort(
-  (a, b) => new Date(a.date) - new Date(b.date)
-);
+        (a, b) => new Date(a.date) - new Date(b.date)
+      );
 
-setAppointments(sorted);
+      setAppointments(sorted);
     } catch (err) {
       console.error(err);
       setAppointments([]);
@@ -62,12 +62,16 @@ setAppointments(sorted);
   const deleteAppointment = async (id) => {
     if (!window.confirm("Delete this appointment?")) return;
 
-    await axios.delete(
-      `http://localhost:5000/api/appointments/${id}`,
-      getAuthConfig()
-    );
+    try {
+      await axios.delete(
+        `http://localhost:5000/api/appointments/${id}`,
+        getAuthConfig()
+      );
 
-    fetchAppointments();
+      setAppointments((prev) => prev.filter((a) => a._id !== id));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   // ===== EDIT =====
@@ -77,31 +81,49 @@ setAppointments(sorted);
       reason: a.reason || "",
       status: a.status || "pending",
     });
+
     setEditingId(a._id);
+
+    // 🔥 smooth scroll + focus
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      const input = formRef.current?.querySelector("input");
+      input?.focus();
+    });
   };
 
   // ===== SUBMIT =====
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await updateAppointment();
+    try {
+      await updateAppointment();
 
-    setEditingId(null);
-    setFormData({ date: "", reason: "", status: "pending" });
+      setEditingId(null);
+      setFormData({ date: "", reason: "", status: "pending" });
 
-    fetchAppointments();
+      fetchAppointments();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
     <div className="admin-appointments-container">
+
+      {/* TITLE */}
       <h2 className="admin-title">
-        <BsCalendar className="title-icon" />
+        <FaCalendarAlt className="title-icon" />
         Appointments
       </h2>
 
       {/* FORM */}
       {editingId && (
-        <form onSubmit={handleSubmit} className="admin-form">
+        <form ref={formRef} onSubmit={handleSubmit} className="admin-form">
 
           <input
             className="admin-input"
@@ -135,7 +157,10 @@ setAppointments(sorted);
           </select>
 
           <div className="form-actions">
-            <button className="admin-btn">Update</button>
+            <button className="admin-btn" type="submit">
+              Update
+            </button>
+
             <button
               type="button"
               className="cancel-btn"
@@ -160,27 +185,35 @@ setAppointments(sorted);
           <div key={a._id} className="appointment-card">
 
             <p><strong>User:</strong> {a.user?.name}</p>
-            <p>
-  <strong>Pet:</strong> {a.pet?.name} ({a.pet?.type})
-</p>
+            <p><strong>Pet:</strong> {a.pet?.name} ({a.pet?.type})</p>
             <p><strong>Date:</strong> {new Date(a.date).toLocaleDateString()}</p>
             <p><strong>Reason:</strong> {a.reason}</p>
             <p><strong>Status:</strong> {a.status}</p>
 
             <div className="appointment-actions">
 
-              <button className="action-btn edit" onClick={() => handleEdit(a)}>
-                <BsPencilSquare />
+              <button
+                type="button"
+                className="action-btn edit"
+                onClick={() => handleEdit(a)}
+              >
+                <FaEdit />
               </button>
 
-              <button className="action-btn delete" onClick={() => deleteAppointment(a._id)}>
-                <BsTrash />
+              <button
+                type="button"
+                className="action-btn delete"
+                onClick={() => deleteAppointment(a._id)}
+              >
+                <FaTrash />
               </button>
 
             </div>
+
           </div>
         ))}
       </div>
+
     </div>
   );
 }

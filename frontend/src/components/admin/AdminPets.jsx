@@ -1,9 +1,11 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import { FaPaw, FaTrash, FaEdit, FaSearch } from "react-icons/fa";
 import "./AdminPets.css";
 
 export default function AdminPets() {
+  const formRef = useRef(null);
+
   const [pets, setPets] = useState([]);
   const [filteredPets, setFilteredPets] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -43,7 +45,7 @@ export default function AdminPets() {
   // ===== SEARCH =====
   useEffect(() => {
     const filtered = pets.filter((p) =>
-      p.name.toLowerCase().includes(search.toLowerCase())
+      (p.name || "").toLowerCase().includes(search.toLowerCase())
     );
     setFilteredPets(filtered);
   }, [search, pets]);
@@ -65,7 +67,7 @@ export default function AdminPets() {
     }
   };
 
-  // ===== UPDATE PET =====
+  // ===== UPDATE =====
   const updatePet = async () => {
     try {
       await axios.put(
@@ -81,9 +83,26 @@ export default function AdminPets() {
     }
   };
 
+  // ===== EDIT =====
+  const handleEdit = (p) => {
+    setEditingPet(p);
+
+    // 🔥 scroll to edit form + focus
+    requestAnimationFrame(() => {
+      formRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      const input = formRef.current?.querySelector("input");
+      input?.focus();
+    });
+  };
+
   return (
     <div className="admin-pets-container">
 
+      {/* TITLE */}
       <h2 className="admin-title">
         <FaPaw className="title-icon" />
         Pets
@@ -102,7 +121,7 @@ export default function AdminPets() {
 
       {/* EDIT FORM */}
       {editingPet && (
-        <div className="edit-box">
+        <div ref={formRef} className="edit-box">
           <h3>Edit Pet</h3>
 
           <input
@@ -131,9 +150,14 @@ export default function AdminPets() {
           />
 
           <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-            <button onClick={updatePet}>Save</button>
+            <button type="button" onClick={updatePet}>
+              Save
+            </button>
 
-            <button onClick={() => setEditingPet(null)}>
+            <button
+              type="button"
+              onClick={() => setEditingPet(null)}
+            >
               Cancel
             </button>
           </div>
@@ -163,13 +187,15 @@ export default function AdminPets() {
             <div className="pet-actions">
 
               <button
+                type="button"
                 className="action-btn edit"
-                onClick={() => setEditingPet(p)}
+                onClick={() => handleEdit(p)}
               >
                 <FaEdit />
               </button>
 
               <button
+                type="button"
                 className="action-btn delete"
                 onClick={() => deletePet(p._id)}
               >
@@ -181,6 +207,7 @@ export default function AdminPets() {
           </div>
         ))}
       </div>
+
     </div>
   );
 }
