@@ -195,7 +195,7 @@
 
 /* ===== READ MORE BUTTON ===== */
 .article-btn {
-  width: 100%;
+  width: 90%;
   padding: 12px;
   background: transparent;
   color: var(--primary-navy);
@@ -323,4 +323,35 @@
     padding: 10px;
     font-size: 0.8rem;
   }
+}
+/* Category filter buttons */
+.category-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.category-filters button {
+  padding: 0.5rem 1.5rem;
+  background: white;
+  border: 2px solid #f5a3c7;
+  border-radius: 40px;
+  color: #1a2a4f;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-filters button:hover {
+  background: #f5a3c7;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.category-filters button.active {
+  background: linear-gradient(135deg, #1a2a4f, #0f1a33);
+  border-color: #1a2a4f;
+  color: white;
 }
