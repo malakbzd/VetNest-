@@ -11,22 +11,22 @@ function Dashboard() {
         <p style={styles.subtitle}>Your dashboard is your command center for all things pet care.</p>
         <div style={styles.stats}>
           <div style={styles.statCard}>
-            <h3>🐶 Pets</h3>
+            <h3> Pets</h3>
             <p>Manage your furry friends</p>
             <Link to="/pets" style={styles.linkButton}>Go to Pets</Link>
           </div>
           <div style={styles.statCard}>
-            <h3>📅 Appointments</h3>
+            <h3> Appointments</h3>
             <p>Schedule vet visits</p>
             <Link to="/appointments" style={styles.linkButton}>View Appointments</Link>
           </div>
           <div style={styles.statCard}>
-            <h3>🛒 Shop</h3>
+            <h3> Shop</h3>
             <p>Find the best products</p>
             <Link to="/shop" style={styles.linkButton}>Explore Shop</Link>
           </div>
           <div style={styles.statCard}>
-            <h3>📚 Articles</h3>
+            <h3> Articles</h3>
             <p>Learn about pet care</p>
             <Link to="/articles" style={styles.linkButton}>Read Articles</Link>
           </div>
