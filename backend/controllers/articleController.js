@@ -1,39 +1,33 @@
 const Article = require("../models/Article");
 
-// ================= GET =================
+// GET
 exports.getArticles = async (req, res) => {
   try {
-    const filter = {};
-
-    if (req.query.category) {
-      filter.category = req.query.category;
-    }
-
-    const articles = await Article.find(filter);
+    const articles = await Article.find();
     res.json(articles);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// ================= CREATE =================
+// POST (ADMIN ONLY)
 exports.createArticle = async (req, res) => {
   try {
-    if (!req.user || req.user.role !== "admin") {
+    if (req.user.role !== "admin") {
       return res.status(403).json("Access denied");
     }
 
     const article = await Article.create(req.body);
-    res.status(201).json(article);
+    res.json(article);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-// ================= UPDATE =================
+// UPDATE (ADMIN ONLY)
 exports.updateArticle = async (req, res) => {
   try {
-    if (!req.user || req.user.role !== "admin") {
+    if (req.user.role !== "admin") {
       return res.status(403).json("Access denied");
     }
 
@@ -43,30 +37,21 @@ exports.updateArticle = async (req, res) => {
       { new: true }
     );
 
-    if (!article) {
-      return res.status(404).json("Article not found");
-    }
-
     res.json(article);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-// ================= DELETE =================
+// DELETE (ADMIN ONLY)
 exports.deleteArticle = async (req, res) => {
   try {
-    if (!req.user || req.user.role !== "admin") {
+    if (req.user.role !== "admin") {
       return res.status(403).json("Access denied");
     }
 
-    const article = await Article.findByIdAndDelete(req.params.id);
-
-    if (!article) {
-      return res.status(404).json("Article not found");
-    }
-
-    res.json({ message: "Deleted successfully" });
+    await Article.findByIdAndDelete(req.params.id);
+    res.json({ message: "Deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
