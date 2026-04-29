@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./main.css";
+
+// Common pet types (10 most popular)
+const PET_TYPES = [
+  "Dog",
+  "Cat",
+  "Bird",
+  "Fish",
+  "Hamster",
+  "Rabbit",
+  "Reptile",
+  "Horse",
+  "Guinea Pig",
+  "Ferret"
+];
 
 export default function PetAppointmentPage() {
   const [pets, setPets] = useState([]);
@@ -16,36 +32,34 @@ export default function PetAppointmentPage() {
 
   const [appointmentForm, setAppointmentForm] = useState({
     pet: "",
-    date: "",
+    date: null,
     reason: "",
   });
 
   const startEdit = (a) => {
-  setAppointmentForm({
-    pet: a.pet?._id,
-    date: a.date.split("T")[0],
-    reason: a.reason,
-  });
+    setAppointmentForm({
+      pet: a.pet?._id,
+      date: new Date(a.date),
+      reason: a.reason,
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
   const deleteAppointment = async (id) => {
-  if (!window.confirm("Delete this appointment?")) return;
+    if (!window.confirm("Delete this appointment?")) return;
+    await axios.delete(
+      `http://localhost:5000/api/appointments/${id}`,
+      getAuthConfig()
+    );
+    setRefresh(!refresh);
+  };
 
-  await axios.delete(
-    `http://localhost:5000/api/appointments/${id}`,
-    getAuthConfig()
-  );
-
-  setRefresh(!refresh);
-};
   const getAuthConfig = () => ({
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
     },
   });
 
-  // ===== FETCH PETS =====
   const fetchPets = async () => {
     const res = await axios.get(
       "http://localhost:5000/api/pets",
@@ -54,7 +68,6 @@ export default function PetAppointmentPage() {
     setPets(res.data);
   };
 
-  // ===== FETCH APPOINTMENTS =====
   const fetchAppointments = async () => {
     const res = await axios.get(
       "http://localhost:5000/api/appointments",
@@ -68,36 +81,43 @@ export default function PetAppointmentPage() {
     fetchAppointments();
   }, [refresh]);
 
-  // ===== CREATE PET =====
   const createPet = async (e) => {
     e.preventDefault();
-
+    // Validate age is not negative
+    if (petForm.age !== "" && Number(petForm.age) < 0) {
+      alert("Age cannot be negative.");
+      return;
+    }
     const res = await axios.post(
       "http://localhost:5000/api/pets",
       petForm,
       getAuthConfig()
     );
-
     setAppointmentForm((prev) => ({
       ...prev,
       pet: res.data._id,
     }));
-
     setPetForm({ name: "", type: "", age: "", ageUnit: "years" });
     setRefresh(!refresh);
   };
 
-  // ===== CREATE APPOINTMENT =====
   const createAppointment = async (e) => {
     e.preventDefault();
-
+    if (!appointmentForm.pet || !appointmentForm.date || !appointmentForm.reason) {
+      alert("Please fill all fields");
+      return;
+    }
+    // Format date for backend (YYYY-MM-DD)
+    const year = appointmentForm.date.getFullYear();
+    const month = String(appointmentForm.date.getMonth() + 1).padStart(2, '0');
+    const day = String(appointmentForm.date.getDate()).padStart(2, '0');
+    const dateString = `${year}-${month}-${day}`;
     await axios.post(
       "http://localhost:5000/api/appointments",
-      appointmentForm,
+      { pet: appointmentForm.pet, date: dateString, reason: appointmentForm.reason },
       getAuthConfig()
     );
-
-    setAppointmentForm({ pet: "", date: "", reason: "" });
+    setAppointmentForm({ pet: "", date: null, reason: "" });
     setRefresh(!refresh);
     alert("Appointment created ✅");
   };
@@ -111,21 +131,28 @@ export default function PetAppointmentPage() {
       <form onSubmit={createPet} className="pets-form">
 
         <div className="form-group">
-          <label>Name</label>
+          <label>Pet Name</label>
           <input
             className="form-input"
             value={petForm.name}
             onChange={(e) => setPetForm({ ...petForm, name: e.target.value })}
+            required
           />
         </div>
 
         <div className="form-group">
           <label>Type</label>
-          <input
-            className="form-input"
+          <select
+            className="form-select"
             value={petForm.type}
             onChange={(e) => setPetForm({ ...petForm, type: e.target.value })}
-          />
+            required
+          >
+            <option value="">Select type</option>
+            {PET_TYPES.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
         </div>
 
         <div className="form-group">
@@ -133,6 +160,8 @@ export default function PetAppointmentPage() {
           <input
             className="form-input"
             type="number"
+            min="0"
+            step="1"
             value={petForm.age}
             onChange={(e) => setPetForm({ ...petForm, age: e.target.value })}
           />
@@ -143,9 +172,7 @@ export default function PetAppointmentPage() {
           <select
             className="form-select"
             value={petForm.ageUnit}
-            onChange={(e) =>
-              setPetForm({ ...petForm, ageUnit: e.target.value })
-            }
+            onChange={(e) => setPetForm({ ...petForm, ageUnit: e.target.value })}
           >
             <option value="days">Days</option>
             <option value="months">Months</option>
@@ -169,6 +196,7 @@ export default function PetAppointmentPage() {
             onChange={(e) =>
               setAppointmentForm({ ...appointmentForm, pet: e.target.value })
             }
+            required
           >
             <option value="">Select Pet</option>
             {pets.map((p) => (
@@ -181,14 +209,16 @@ export default function PetAppointmentPage() {
 
         <div className="form-group">
           <label>Date</label>
-          <input
+          <DatePicker
+            selected={appointmentForm.date}
+            onChange={(date) => setAppointmentForm({ ...appointmentForm, date })}
             className="form-input"
-            type="date"
-            value={appointmentForm.date}
-            onChange={(e) =>
-              setAppointmentForm({ ...appointmentForm, date: e.target.value })
-            }
-          />
+            dateFormat="yyyy-MM-dd"
+            minDate={new Date()}
+            filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6} // blocks Sat & Sun
+            placeholderText="Select a date"
+            required
+         />
         </div>
 
         <div className="form-group full">
@@ -202,6 +232,7 @@ export default function PetAppointmentPage() {
                 reason: e.target.value,
               })
             }
+            required
           />
         </div>
 
@@ -210,66 +241,41 @@ export default function PetAppointmentPage() {
         </div>
       </form>
 
+      {/* ================= PETS LIST ================= */}
+      <h2 className="appointments-title">Pets</h2>
+      <div className="appointment-list">
+        {pets.length === 0 ? (
+          <div className="no-data">No pets yet</div>
+        ) : (
+          pets.map((p) => (
+            <div key={p._id} className="appointment-card">
+              <p><strong>Name:</strong> {p.name}</p>
+              <p><strong>Type:</strong> {p.type}</p>
+              <p><strong>Age:</strong> {p.age} {p.ageUnit}</p>
+            </div>
+          ))
+        )}
+      </div>
+
       {/* ================= APPOINTMENTS LIST ================= */}
-   {/* ================= PETS LIST ================= */}
-<h2 className="appointments-title">Pets</h2>
-
-<div className="appointment-list">
-  {pets.length === 0 ? (
-    <div className="no-data">No pets yet</div>
-  ) : (
-    pets.map((p) => (
-      <div key={p._id} className="appointment-card">
-        <p><strong>Name:</strong> {p.name}</p>
-        <p><strong>Type:</strong> {p.type}</p>
-        <p><strong>Age:</strong> {p.age} {p.ageUnit}</p>
+      <h2 className="appointments-title">Appointments</h2>
+      <div className="appointment-list">
+        {appointments.length === 0 ? (
+          <div className="no-data">No appointments yet</div>
+        ) : (
+          appointments.map((a) => (
+            <div key={a._id} className="appointment-card">
+              <p><strong>Pet:</strong> {a.pet?.name || "Unknown"}</p>
+              <p><strong>Date:</strong> {new Date(a.date).toLocaleDateString()}</p>
+              <p><strong>Reason:</strong> {a.reason}</p>
+              <div className="appointment-actions">
+                <button className="edit-btn" onClick={() => startEdit(a)}>✏️</button>
+                <button className="delete-btn" onClick={() => deleteAppointment(a._id)}>🗑️</button>
+              </div>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
-
-
-{/* ================= APPOINTMENTS LIST ================= */}
-<h2 className="appointments-title">Appointments</h2>
-
-<div className="appointment-list">
-  {appointments.length === 0 ? (
-    <div className="no-data">No appointments yet</div>
-  ) : (
-    appointments.map((a) => (
-      <div key={a._id} className="appointment-card">
-
-        <p>
-          <strong>Pet:</strong> {a.pet?.name || "Unknown"}
-        </p>
-
-        <p>
-          <strong>Date:</strong>{" "}
-          {new Date(a.date).toLocaleDateString()}
-        </p>
-
-        <p>
-          <strong>Reason:</strong> {a.reason}
-        </p>
-
-        <div className="appointment-actions">
-          <button className="edit-btn" onClick={() => startEdit(a)}>
-            ✏️
-          </button>
-
-          <button
-            className="delete-btn"
-            onClick={() => deleteAppointment(a._id)}
-          >
-            🗑️
-          </button>
-        </div>
-
-      </div>
-    ))
-  )}
-</div>
-
     </div>
   );
 }

@@ -641,3 +641,79 @@
     grid-template-columns: 1fr;
   }
 }
+/* react-datepicker custom pink theme */
+.react-datepicker {
+  font-family: inherit;
+  border: 2px solid var(--primary-pink);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+}
+.react-datepicker__header {
+  background: linear-gradient(135deg, var(--primary-navy), var(--primary-navy-dark));
+  border-bottom: none;
+}
+.react-datepicker__current-month,
+.react-datepicker__day-name {
+  color: white;
+}
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+  background-color: var(--primary-pink);
+  color: var(--primary-navy);
+  border-radius: 50%;
+}
+.react-datepicker__day:hover {
+  background-color: var(--primary-pink-glow);
+  border-radius: 50%;
+}
+.react-datepicker-wrapper {
+  width: 100%;
+}
+.react-datepicker__input-container input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+}
+/* Ensure all form controls have the same height */
+.pets-form .form-input,
+.pets-form .form-select,
+.appointment-form .form-input,
+.appointment-form .form-select,
+.react-datepicker__input-container input {
+  height: 46px !important;
+  box-sizing: border-box;
+}
+
+/* Make pet cards and appointment cards use the same style */
+.pet-card,
+.appointment-card {
+  background: var(--white);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--gray-200);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Both have the same left accent bar */
+.pet-card::before,
+.appointment-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary-pink), var(--primary-navy));
+}
+
+/* Hover effect same for both */
+.pet-card:hover,
+.appointment-card:hover {
+  transform: translateX(6px);
+  box-shadow: var(--shadow-lg);
+  border-color: transparent;
+}
