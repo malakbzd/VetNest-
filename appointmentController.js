@@ -1,11 +1,25 @@
 const Appointment = require("../models/Appointment");
 
+// Helper: check if a datetime string is a weekend (local, no timezone issues)
+const isWeekend = (dateTimeString) => {
+  if (!dateTimeString) return false;
+  const [datePart] = dateTimeString.split('T');
+  const [year, month, day] = datePart.split('-').map(Number);
+  const localDate = new Date(year, month - 1, day);
+  const weekday = localDate.getDay(); // 0 = Sunday, 6 = Saturday
+  return weekday === 0 || weekday === 6;
+};
+
 // CREATE
 exports.createAppointment = async (req, res) => {
   try {
+    if (isWeekend(req.body.date)) {
+      return res.status(200).json({ success: false, error: "We are closed on weekends (Saturday and Sunday). Please choose a weekday." });
+    }
+
     const appointment = await Appointment.create({
       ...req.body,
-      user: req.user.id,   // ← fixed: use req.user.id
+      user: req.user.id,
     });
     res.status(201).json(appointment);
   } catch (err) {
@@ -20,7 +34,7 @@ exports.getAppointments = async (req, res) => {
     if (req.user.role === "admin") {
       appointments = await Appointment.find().populate("pet user");
     } else {
-      appointments = await Appointment.find({ user: req.user.id }).populate("pet");
+      appointments = await Appointment.find({ user: req.user.id }).populate("pet user");
     }
     res.json(appointments);
   } catch (err) {

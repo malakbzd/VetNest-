@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { addAppointment } from "../api";
 import { getPets } from "../api";
+
 export default function AppointmentForm({ refresh }) {
   const [pets, setPets] = useState([]);
-  const [form, setForm] = useState({ pet: "", date: "", reason: "" });
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedTime, setSelectedTime] = useState("10:00");
+  const [reason, setReason] = useState("");
+  const [petId, setPetId] = useState("");
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -17,20 +23,44 @@ export default function AppointmentForm({ refresh }) {
     fetchPets();
   }, []);
 
+  // Disable weekends (Saturday = 6, Sunday = 0)
+  const isWeekday = (date) => {
+    const day = date.getDay();
+    return day !== 0 && day !== 6;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.pet || !form.date || !form.reason) {
+    if (!petId || !selectedDate || !selectedTime || !reason) {
       alert("Please fill all fields");
       return;
     }
+
+    const year = selectedDate.getFullYear();
+    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+    const day = String(selectedDate.getDate()).padStart(2, '0');
+    const dateTimeString = `${year}-${month}-${day}T${selectedTime}`;
+
     try {
-      await addAppointment(form);
-      setForm({ pet: "", date: "", reason: "" });
+      await addAppointment({ pet: petId, date: dateTimeString, reason });
+      setPetId("");
+      setSelectedDate(null);
+      setSelectedTime("10:00");
+      setReason("");
       refresh();
     } catch (err) {
-      alert("Failed to book appointment");
+      const msg = err.response?.data?.error || err.response?.data?.message || "Failed to book appointment.";
+      alert(msg);
+      console.error("Booking error:", err);
     }
   };
+
+  const timeOptions = [];
+  for (let h = 8; h <= 18; h++) {
+    const hour = String(h).padStart(2, '0');
+    timeOptions.push(`${hour}:00`);
+    timeOptions.push(`${hour}:30`);
+  }
 
   return (
     <form onSubmit={handleSubmit} className="appointment-form">
@@ -38,8 +68,8 @@ export default function AppointmentForm({ refresh }) {
         <label>Select Pet</label>
         <select
           className="form-select"
-          value={form.pet}
-          onChange={(e) => setForm({ ...form, pet: e.target.value })}
+          value={petId}
+          onChange={(e) => setPetId(e.target.value)}
           required
         >
           <option value="">Choose a pet</option>
@@ -52,14 +82,31 @@ export default function AppointmentForm({ refresh }) {
       </div>
 
       <div className="form-group">
-        <label>Date & Time</label>
-        <input
-          type="datetime-local"
+        <label>Date</label>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => setSelectedDate(date)}
+          filterDate={isWeekday}
+          placeholderText="Select a weekday (Mon-Fri)"
           className="form-input"
-          value={form.date}
-          onChange={(e) => setForm({ ...form, date: e.target.value })}
+          dateFormat="yyyy-MM-dd"
+          minDate={new Date()}
           required
         />
+      </div>
+
+      <div className="form-group">
+        <label>Time</label>
+        <select
+          className="form-select"
+          value={selectedTime}
+          onChange={(e) => setSelectedTime(e.target.value)}
+          required
+        >
+          {timeOptions.map((t) => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
       </div>
 
       <div className="form-group full">
@@ -67,8 +114,8 @@ export default function AppointmentForm({ refresh }) {
         <textarea
           className="form-textarea"
           placeholder="Describe the reason for visit"
-          value={form.reason}
-          onChange={(e) => setForm({ ...form, reason: e.target.value })}
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
           required
         />
       </div>

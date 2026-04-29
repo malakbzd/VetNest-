@@ -131,7 +131,7 @@ export default function PetAppointmentPage() {
       <form onSubmit={createPet} className="pets-form">
 
         <div className="form-group">
-          <label>Name</label>
+          <label>Pet Name</label>
           <input
             className="form-input"
             value={petForm.name}
@@ -215,9 +215,10 @@ export default function PetAppointmentPage() {
             className="form-input"
             dateFormat="yyyy-MM-dd"
             minDate={new Date()}
+            filterDate={(date) => date.getDay() !== 0 && date.getDay() !== 6} // blocks Sat & Sun
             placeholderText="Select a date"
             required
-          />
+         />
         </div>
 
         <div className="form-group full">

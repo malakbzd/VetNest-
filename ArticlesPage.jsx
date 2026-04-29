@@ -46,44 +46,14 @@ function ArticlesPage() {
         Pet Care Articles
       </h1>
 
-      {/* Category filter buttons */}
+    
       <div className="category-filters">
-        <button
-          className={category === "" ? "active" : ""}
-          onClick={() => setCategory("")}
-        >
-          All
-        </button>
-        <button
-          className={category === "nutrition" ? "active" : ""}
-          onClick={() => setCategory("nutrition")}
-        >
-          Nutrition
-        </button>
-        <button
-          className={category === "behavior" ? "active" : ""}
-          onClick={() => setCategory("behavior")}
-        >
-          Behavior
-        </button>
-        <button
-          className={category === "health" ? "active" : ""}
-          onClick={() => setCategory("health")}
-        >
-          Health
-        </button>
-        <button
-          className={category === "training" ? "active" : ""}
-          onClick={() => setCategory("training")}
-        >
-          Training
-        </button>
-        <button
-          className={category === "general" ? "active" : ""}
-          onClick={() => setCategory("general")}
-        >
-          General
-        </button>
+        <button className={category === "" ? "active" : ""} onClick={() => setCategory("")}>All</button>
+        <button className={category === "nutrition" ? "active" : ""} onClick={() => setCategory("nutrition")}>Nutrition</button>
+        <button className={category === "behavior" ? "active" : ""} onClick={() => setCategory("behavior")}>Behavior</button>
+        <button className={category === "health" ? "active" : ""} onClick={() => setCategory("health")}>Health</button>
+        <button className={category === "training" ? "active" : ""} onClick={() => setCategory("training")}>Training</button>
+  
       </div>
 
       {articles.length === 0 ? (

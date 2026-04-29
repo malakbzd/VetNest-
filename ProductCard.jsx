@@ -1,106 +1,96 @@
-import React from "react";
+import React, { useState } from "react";
+import "./ProductCard.css";
+import { addToCart, addFavorite } from "../api";
+import {
+  FaShoppingCart,
+  FaHeart
+} from "react-icons/fa";
 
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCartSuccess }) {
+
+  const [loading, setLoading] = useState(false);
+
+  // ===== ADD TO CART =====
+  const handleAddToCart = async () => {
+    try {
+      setLoading(true);
+
+      await addToCart(product._id, 1);
+
+      if (onAddToCartSuccess) onAddToCartSuccess();
+
+      alert("Added to cart");
+
+    } catch (err) {
+      console.error("Cart error:", err);
+      alert("Failed to add to cart");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ===== ADD TO FAVORITES =====
+  const handleAddToFavorites = async () => {
+    try {
+      setLoading(true);
+
+      await addFavorite(product._id);
+
+      alert("Added to favorites");
+
+    } catch (err) {
+      console.error("Favorite error:", err);
+      alert("Failed to add to favorites");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getImage = (img) => {
-    // ❌ إذا ماكانش img
-    if (!img || typeof img !== "string") {
-      return "https://via.placeholder.com/300";
-    }
-
-    // ✅ preview (upload من الجهاز)
-    if (img.startsWith("blob:")) {
-      return img;
-    }
-
-    // ✅ إذا URL جاهز
-    if (img.startsWith("http")) {
-      return img;
-    }
-
-    // ⚠️ إذا فيها uploads/ من قبل
-    if (img.includes("uploads/")) {
-      return `http://localhost:5000/${img}`;
-    }
-
-    // ✅ الحالة العادية (اسم الصورة فقط)
+    if (!img || typeof img !== "string") return "/placeholder.png";
+    if (img.startsWith("http")) return img;
+    if (img.includes("uploads/")) return `http://localhost:5000/${img}`;
     return `http://localhost:5000/uploads/${img}`;
   };
 
   return (
-    <div style={styles.card}>
+    <div className="product-card">
 
-      {/* 🖼️ IMAGE */}
       <img
+        className="product-image"
         src={getImage(product?.image)}
-        alt={product?.name || "product"}
-        style={styles.image}
-        onError={(e) => {
-          e.target.src = "https://via.placeholder.com/300";
-        }}
+        alt={product?.name}
       />
 
-      {/* 📦 CONTENT */}
-      <div style={styles.content}>
-        <h3 style={styles.title}>
-          {product?.name || "No name"}
-        </h3>
+      <div className="product-content">
 
-        <p style={styles.description}>
-          {product?.description || "No description"}
-        </p>
+        <h3>{product?.name}</h3>
+        <p>{product?.description}</p>
+        <p>${product?.price}</p>
 
-        <p style={styles.price}>
-          ${product?.price || 0}
-        </p>
+        <div className="product-actions">
 
-        <button style={styles.button}>
-          Add to Cart
-        </button>
+          <button
+            className="product-btn cart"
+            onClick={handleAddToCart}
+            disabled={loading}
+          >
+            <FaShoppingCart /> Add to Cart
+          </button>
+
+          <button
+            className="product-btn fav"
+            onClick={handleAddToFavorites}
+            disabled={loading}
+          >
+            <FaHeart /> Favorite
+          </button>
+
+        </div>
+
       </div>
-
     </div>
   );
 }
-
-const styles = {
-  card: {
-    background: "white",
-    borderRadius: "16px",
-    overflow: "hidden",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-  },
-  image: {
-    width: "100%",
-    height: "200px",
-    objectFit: "cover",
-  },
-  content: {
-    padding: "1rem",
-  },
-  title: {
-    fontSize: "1.2rem",
-    marginBottom: "0.5rem",
-  },
-  description: {
-    color: "#666",
-    fontSize: "0.9rem",
-  },
-  price: {
-    color: "#e67e22",
-    fontWeight: "bold",
-    marginTop: "0.5rem",
-  },
-  button: {
-    marginTop: "1rem",
-    padding: "0.6rem",
-    background: "#3498db",
-    color: "white",
-    border: "none",
-    borderRadius: "8px",
-    width: "100%",
-    cursor: "pointer",
-  },
-};
 
 export default ProductCard;
